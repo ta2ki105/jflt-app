@@ -1,5 +1,10 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { READING, LISTENING, VOCAB, GRAMMAR } from './data.js';
+import {
+  emptyStats,
+  migrateStats,
+  recordAnswer,
+} from './scoring.js';
 import QuestionCard from './components/QuestionCard.jsx';
 import Statistics from './components/Statistics.jsx';
 import SettingsPanel from './components/SettingsPanel.jsx';
@@ -23,10 +28,9 @@ function flattenByLevel(dataset, level) {
   return (dataset[level] || []).map((q) => ({ ...q, _level: level }));
 }
 
-const STATS_KEY = 'jflt_stats';
+const STATS_KEY = 'jflt_stats_v2';
+const LEGACY_STATS_KEY = 'jflt_stats';
 const API_KEY_STORAGE = 'gcloud_api_key';
-
-const DEFAULT_STATS = { correct: 0, total: 0, streak: 0, bestStreak: 0 };
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState('questions');
@@ -35,14 +39,19 @@ export default function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [answered, setAnswered] = useState(false);
-  const [stats, setStats] = useState(DEFAULT_STATS);
+  const [stats, setStats] = useState(emptyStats);
   const [apiKey, setApiKey] = useState('');
 
-  // Load persisted state
+  // Load persisted state (with migration from legacy v1 stats)
   useEffect(() => {
     try {
-      const savedStats = localStorage.getItem(STATS_KEY);
-      if (savedStats) setStats({ ...DEFAULT_STATS, ...JSON.parse(savedStats) });
+      const saved = localStorage.getItem(STATS_KEY);
+      if (saved) {
+        setStats(migrateStats(JSON.parse(saved)));
+      } else {
+        const legacy = localStorage.getItem(LEGACY_STATS_KEY);
+        if (legacy) setStats(migrateStats(JSON.parse(legacy)));
+      }
     } catch (e) {
       console.warn('Failed to load stats', e);
     }
@@ -50,7 +59,7 @@ export default function App() {
     if (savedKey) setApiKey(savedKey);
   }, []);
 
-  // Reset question position whenever category or level changes
+  // Reset position when category/level changes
   useEffect(() => {
     setCurrentIndex(0);
     setSelectedAnswer(null);
@@ -63,7 +72,8 @@ export default function App() {
   );
 
   const totalQuestions = questions.length;
-  const safeIndex = totalQuestions === 0 ? 0 : Math.min(currentIndex, totalQuestions - 1);
+  const safeIndex =
+    totalQuestions === 0 ? 0 : Math.min(currentIndex, totalQuestions - 1);
   const currentQuestion = questions[safeIndex];
 
   const persistStats = useCallback((newStats) => {
@@ -82,21 +92,23 @@ export default function App() {
       setAnswered(true);
 
       const isCorrect = idx === currentQuestion.answer;
-      const newStreak = isCorrect ? stats.streak + 1 : 0;
-      persistStats({
-        correct: stats.correct + (isCorrect ? 1 : 0),
-        total: stats.total + 1,
-        streak: newStreak,
-        bestStreak: Math.max(stats.bestStreak || 0, newStreak),
-      });
+      const next = recordAnswer(
+        stats,
+        category,
+        currentQuestion._level,
+        isCorrect
+      );
+      persistStats(next);
     },
-    [answered, currentQuestion, stats, persistStats]
+    [answered, currentQuestion, stats, persistStats, category]
   );
 
   const goNext = useCallback(() => {
     setSelectedAnswer(null);
     setAnswered(false);
-    setCurrentIndex((i) => (totalQuestions === 0 ? 0 : (i + 1) % totalQuestions));
+    setCurrentIndex((i) =>
+      totalQuestions === 0 ? 0 : (i + 1) % totalQuestions
+    );
   }, [totalQuestions]);
 
   const goPrev = useCallback(() => {
@@ -109,8 +121,25 @@ export default function App() {
 
   const handleResetStats = () => {
     if (window.confirm('統計をリセットしますか？')) {
-      persistStats(DEFAULT_STATS);
+      persistStats(emptyStats());
     }
+  };
+
+  const handleResetCategory = (cat) => {
+    if (!window.confirm(`${DATASETS[cat].label} の記録をリセットしますか？`)) return;
+    const next = {
+      ...stats,
+      perCategory: {
+        ...stats.perCategory,
+        [cat]: {
+          1: { correct: 0, total: 0 },
+          2: { correct: 0, total: 0 },
+          3: { correct: 0, total: 0 },
+          4: { correct: 0, total: 0 },
+        },
+      },
+    };
+    persistStats(next);
   };
 
   const handleSaveApiKey = (key) => {
@@ -131,8 +160,15 @@ export default function App() {
               J
             </div>
             <div>
-              <h1 className="text-lg font-bold text-slate-900 leading-tight">JFLT Training</h1>
-              <p className="text-xs text-slate-500 leading-tight">240 questions · NATO English</p>
+              <h1 className="text-lg font-bold text-slate-900 leading-tight">
+                JFLT Training
+                <span className="ml-1.5 text-xs font-normal text-slate-400 italic">
+                  by Oshibe
+                </span>
+              </h1>
+              <p className="text-xs text-slate-500 leading-tight">
+                280 questions · NATO English
+              </p>
             </div>
           </div>
           <nav className="flex items-center gap-1 bg-slate-100 rounded-xl p-1">
@@ -222,7 +258,12 @@ export default function App() {
         )}
 
         {currentTab === 'stats' && (
-          <Statistics stats={stats} onReset={handleResetStats} />
+          <Statistics
+            stats={stats}
+            datasets={DATASETS}
+            onResetAll={handleResetStats}
+            onResetCategory={handleResetCategory}
+          />
         )}
 
         {currentTab === 'settings' && (

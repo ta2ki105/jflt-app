@@ -1,6 +1,6 @@
 # JFLT Training
 
-NATO英語能力試験 (JFLT) 対策アプリ — Reading / Listening / Vocabulary / Grammar の240問。
+NATO英語能力試験 (JFLT) 対策アプリ — Reading / Listening / Vocabulary / Grammar の **280問**。
 
 ## 技術スタック
 
@@ -32,9 +32,32 @@ npm run preview
 
 | タブ | 内容 |
 |------|------|
-| 📝 問題 | カテゴリ × レベルで240問から出題。クリックで自動採点・解説表示。 |
-| 📊 統計 | 正解数、正解率、連続正解、最高記録。LocalStorageで保存。 |
+| 📝 問題 | カテゴリ × レベルで280問から出題。クリックで自動採点・解説表示。 |
+| 📊 統計 | JFLT 採点基準に基づく総合スコア + セクション別 + レベル別の進捗。 |
 | ⚙️ 設定 | Google Cloud APIキーの登録、テスト再生、セットアップガイド。 |
+
+## 問題セット (280問)
+
+| Skill | L1 | L2 | L3 | L4 | 合計 | ファイル |
+|---|---:|---:|---:|---:|---:|---|
+| Reading | 10 | 35 | 25 | 10 | **80** | `src/reading-complete.js` |
+| Listening | 10 | 35 | 25 | 10 | **80** | `src/listening-complete.js` |
+| Vocab | 15 | 15 | 15 | 15 | **60** | `src/vocab-data.js` |
+| Grammar | 15 | 15 | 15 | 15 | **60** | `src/grammar-data.js` |
+
+`src/data.js` は上記4ファイルから再エクスポートするバレルファイルです。
+
+## JFLT 採点基準
+
+| 1レベルあたり正解数 | 評価 | スコア例 |
+|---:|---|---|
+| **10 問以上** | そのレベル合格 → 上位レベルへ | L1 で10+正解 → `1` |
+| **7〜9 問** | 前のレベル + `+` | L2 で 7-9 正解 → `1+` |
+| **0〜6 問** | 前のレベル | L2 で 6 以下 → `1` |
+
+総合 JFLT スコアは **4セクションの最低値** で算出されます。
+
+ロジック実装: `src/scoring.js`
 
 ## 音声機能
 
@@ -47,6 +70,10 @@ Reading / Listening 問題の本文を Google Cloud TTS (en-GB-Neural2-A) で読
 
 > APIキーはブラウザの LocalStorage にのみ保存され、外部サーバーには送信されません。
 
+## 問題追加
+
+新しい問題を追加する手順は [QUESTION_FLOW.md](./QUESTION_FLOW.md) を参照してください。
+
 ## ファイル構成
 
 ```
@@ -56,12 +83,19 @@ jflt-app/
 ├── vite.config.js
 ├── tailwind.config.js
 ├── postcss.config.js
+├── README.md
+├── QUESTION_FLOW.md         問題追加フロー
 └── src/
     ├── main.jsx
     ├── App.jsx
     ├── App.css
     ├── index.css
-    ├── data.js              # 240問データ
+    ├── data.js              バレル (4ファイルを再エクスポート)
+    ├── scoring.js           JFLT スコア計算ロジック
+    ├── reading-complete.js  Reading 80問
+    ├── listening-complete.js Listening 80問
+    ├── vocab-data.js        Vocab 60問
+    ├── grammar-data.js      Grammar 60問
     └── components/
         ├── QuestionCard.jsx
         ├── AudioPlayer.jsx
@@ -71,5 +105,6 @@ jflt-app/
 
 ## 注意
 
-- `data.js` は em-dash (—) などのUnicode文字を含むためUTF-8で扱ってください
+- データファイルは UTF-8 (BOMなし) で保存してください (em-dash 等の文字化け防止)
 - APIキーをコミットしないでください (`.gitignore` 済み)
+- 旧バージョンの統計 (`jflt_stats`) は新版 (`jflt_stats_v2`) に自動マイグレーションされます (詳細別記録は引き継がれません)
