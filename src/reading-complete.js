@@ -11,6 +11,7 @@
 
 export const READING = {
   1: [
+
 { topic: "Checkpoint procedures", passage: "Corporal Davies is on duty at Checkpoint Alpha. He stops a civilian vehicle and asks the driver to show identification. The driver presents a passport. The corporal checks the document and records the entry time as 0820. He then waves the vehicle through.", question: "What time did the vehicle pass through the checkpoint?", options: ["0800", "0820", "0830", "0840"], answer: 1, ex: "The entry time is explicitly stated as 0820. Level 1 Reading tests ability to find specific facts in short texts (~50 words)." },
 { topic: "Daily military routine", passage: "The morning briefing begins at 0700. All officers must be present. Sergeant Major Rodriguez will present the daily schedule. After the briefing, personnel will proceed to their assigned posts. Breakfast is available in the mess hall until 0630.", question: "When does the morning briefing start?", options: ["0600", "0630", "0700", "0800"], answer: 2, ex: "'The morning briefing begins at 0700.' Note that breakfast ends BEFORE the briefing — a common Level 1 trap testing careful reading." },
 { topic: "Equipment and supplies", passage: "The supply depot received a shipment of 200 ration packs, 50 first aid kits, and 30 radio batteries. The items were checked and stored. The depot commander signed the delivery receipt at 1400.", question: "How many first aid kits were received?", options: ["200", "50", "30", "100"], answer: 1, ex: "'50 first aid kits' — Level 1 tests precise number retrieval. Don't confuse with 200 (ration packs) or 30 (batteries)." },
@@ -20,10 +21,211 @@ export const READING = {
 { topic: "Training schedule", passage: "The new recruits will begin physical training at 0500 daily. The training session lasts two hours. Breakfast follows at 0730. Weapon training starts at 0900 and continues until lunch.", question: "How long is the morning physical training session?", options: ["One hour", "Two hours", "Three hours", "Half an hour"], answer: 1, ex: "'The training session lasts two hours' — direct fact retrieval. Note that 0500–0700 = 2 hours, then breakfast at 0730." },
 { topic: "Vehicle inspection", passage: "All military vehicles must undergo daily inspection before use. Drivers check fuel levels, tyre pressure, oil, and lights. Any faults must be reported to the motor sergeant immediately. Inspection takes about ten minutes.", question: "Who must drivers report faults to?", options: ["The platoon commander", "The motor sergeant", "The duty officer", "The base commander"], answer: 1, ex: "'Any faults must be reported to the motor sergeant immediately' — specific role identification at Level 1." },
 { topic: "Mess hall information", passage: "The mess hall serves three meals per day. Breakfast is from 0600 to 0700. Lunch is from 1200 to 1330. Dinner is from 1800 to 1900. Hot drinks are available all day from the coffee machine.", question: "Until what time is lunch served?", options: ["1200", "1300", "1330", "1400"], answer: 2, ex: "'Lunch is from 1200 to 1330' — pay attention to start vs end time. 1330 is the closing time." },
-{ topic: "Guard duty roster", passage: "Private Williams is assigned to guard duty tonight. His shift begins at 2200 and ends at 0200. He will be at Gate Two. Corporal Brown will relieve him. Williams must arrive ten minutes early.", question: "Where will Private Williams be on guard duty?", options: ["Gate One", "Gate Two", "Gate Three", "The main entrance"], answer: 1, ex: "'He will be at Gate Two' — location retrieval. Don't confuse with the relieving guard (Corporal Brown)." }
+{ topic: "Guard duty roster", passage: "Private Williams is assigned to guard duty tonight. His shift begins at 2200 and ends at 0200. He will be at Gate Two. Corporal Brown will relieve him. Williams must arrive ten minutes early.", question: "Where will Private Williams be on guard duty?", options: ["Gate One", "Gate Two", "Gate Three", "The main entrance"], answer: 1, ex: "'He will be at Gate Two' — location retrieval. Don't confuse with the relieving guard (Corporal Brown)." },
+{
+      topic: "Checkpoint Procedure",
+      passage: "All personnel approaching Checkpoint Bravo must present identification cards to the guard on duty. Vehicles must stop ten meters before the barrier. The guard will inspect the vehicle and verify the driver's ID. Only after clearance will the barrier be raised. The checkpoint operates 24 hours.",
+      question: "How far before the barrier must vehicles stop?",
+      options: ["Five meters", "Ten meters", "Fifteen meters", "Twenty meters"],
+      answer: 1,
+      ex: "本文に 'Vehicles must stop ten meters before the barrier' と明記されている。L1 は事実検索レベルで、本文の数値をそのまま照合する。"
+    },
+    {
+      topic: "Supply List",
+      passage: "The unit received the following supplies this morning: 200 rations, 50 blankets, 30 medical kits, and 100 liters of fresh water. The commanding officer signed for delivery at 0800 hours. All items were stored in Warehouse C under Sergeant Miller.",
+      question: "How many medical kits were delivered?",
+      options: ["20", "30", "50", "100"],
+      answer: 1,
+      ex: "本文に '30 medical kits' とあり、数値を直接抽出する典型的な L1 問題。他の数値はそれぞれ別のアイテムに対応している distractor。"
+    },
+    {
+      topic: "Daily Training Plan",
+      passage: "Tomorrow's training schedule is as follows: 0600 physical training, 0800 weapons handling, 1000 first aid, 1300 map reading, and 1500 radio communications. Lunch is served between 1200 and 1300 in the main mess hall.",
+      question: "What activity takes place at 1000?",
+      options: ["Weapons handling", "First aid", "Map reading", "Radio communications"],
+      answer: 1,
+      ex: "'1000 first aid' という直接記載から答えを抽出。時刻と活動内容の対応を問う基本的な事実検索問題。"
+    },
+    {
+      topic: "Weekly Duty Assignment",
+      passage: "The guard duty roster for this week is posted on the bulletin board. Corporal Smith will be on duty Monday, Private Jones on Tuesday, Sergeant Brown on Wednesday, and Lieutenant Davis on Thursday. Friday's duty is shared between two soldiers.",
+      question: "Who is on guard duty on Wednesday?",
+      options: ["Corporal Smith", "Private Jones", "Sergeant Brown", "Lieutenant Davis"],
+      answer: 2,
+      ex: "'Sergeant Brown on Wednesday' という直接記述から答えを特定する。曜日と人名の対応を問う L1 レベルの問題。"
+    },
+    {
+      topic: "Quartermaster Stores Hours",
+      passage: "The quartermaster stores are open Monday through Friday from 0900 to 1500. They are closed for stocktaking between 1200 and 1300. Items must be requested using form Q-7. The stores manager is Sergeant Hill, and emergency requests outside opening hours require approval from the duty officer.",
+      question: "When are the stores closed during the day?",
+      options: ["0900 to 1200", "1200 to 1300", "1300 to 1500", "All afternoon"],
+      answer: 1,
+      ex: "本文 'closed for stocktaking between 1200 and 1300' から、お昼の1時間が休止時間。L1 の時刻範囲読み取り問題で、開店時間 (0900-1500) と中断時間を区別する。"
+    },
+    {
+      topic: "Vehicle Maintenance",
+      passage: "Vehicle 47 requires maintenance every 5,000 kilometers. The last service was performed at 32,000 km. The vehicle is currently at 36,500 km. Maintenance includes oil change, filter replacement, and tire inspection. The maintenance log is kept in the motor pool office.",
+      question: "At what mileage was the last service performed?",
+      options: ["5,000 km", "32,000 km", "36,500 km", "37,000 km"],
+      answer: 1,
+      ex: "'The last service was performed at 32,000 km' という直接記述から数値を抽出する事実検索問題。"
+    },
+    {
+      topic: "Radio Frequencies",
+      passage: "The primary frequency for company communications is 145.500 MHz. The secondary frequency is 146.200 MHz. The emergency frequency is 121.500 MHz. All radio operators must memorize these three frequencies before deployment to the field.",
+      question: "What is the emergency frequency?",
+      options: ["121.500 MHz", "145.500 MHz", "146.200 MHz", "150.000 MHz"],
+      answer: 0,
+      ex: "本文に 'The emergency frequency is 121.500 MHz' と明記。複数の数値情報の中から特定のものを抽出する基本問題。"
+    },
+    {
+      topic: "Unit Strength",
+      passage: "Alpha Company currently has 120 soldiers on active duty. There are 4 officers, 16 non-commissioned officers, and 100 enlisted personnel. Five soldiers are on medical leave and three are attending courses abroad.",
+      question: "How many non-commissioned officers are in Alpha Company?",
+      options: ["4", "16", "100", "120"],
+      answer: 1,
+      ex: "'16 non-commissioned officers' という直接記述から数値を抽出する。複数の数値の中から正しい区分を選ぶ L1 問題。"
+    },
+    {
+      topic: "Field Exercise Location",
+      passage: "The annual field exercise will take place at Camp Eagle, located 80 kilometers north of headquarters. Units will deploy by road convoy on Monday at 0500 hours. The exercise will last seven days and involve three battalions.",
+      question: "Where will the field exercise take place?",
+      options: ["Camp Bravo", "Camp Eagle", "Camp Falcon", "Headquarters"],
+      answer: 1,
+      ex: "'The annual field exercise will take place at Camp Eagle' という直接記述から場所を特定する。L1 の典型的な固有名詞検索問題。"
+    },
+    {
+      topic: "Medical Inventory",
+      passage: "The field hospital reports the following inventory: 500 bandages, 200 syringes, 150 doses of antibiotics, and 80 units of blood plasma. Additional supplies are expected next Tuesday. All items must be checked against the master list every Monday.",
+      question: "How many doses of antibiotics are in the inventory?",
+      options: ["80", "150", "200", "500"],
+      answer: 1,
+      ex: "'150 doses of antibiotics' という直接記述から数値を抽出。複数の数値情報の中から特定品目を識別する L1 問題。"
+    },
+    {
+      topic: "Ammunition Storage",
+      passage: "The ammunition depot stores four types of ordnance: small arms ammunition in Building A, grenades in Building B, mortar rounds in Building C, and anti-tank missiles in Building D. Each building has its own security officer. Access to Building D requires special authorization from the battalion commander.",
+      question: "Where are the grenades stored?",
+      options: ["Building A", "Building B", "Building C", "Building D"],
+      answer: 1,
+      ex: "'grenades in Building B' という直接対応から答えを特定する。L1 は複数の対応関係から正しいペアを識別する能力を問う。"
+    },
+    {
+      topic: "Communication Protocol",
+      passage: "Radio callsigns are assigned as follows: Command post is Alpha One, first platoon is Bravo Two, second platoon is Charlie Three, and support element is Delta Four. All transmissions must begin with the recipient's callsign followed by the sender's callsign.",
+      question: "What is the callsign for the command post?",
+      options: ["Alpha One", "Bravo Two", "Charlie Three", "Delta Four"],
+      answer: 0,
+      ex: "'Command post is Alpha One' という直接記述から答えを抽出。コールサインと部隊の対応を問う典型的な L1 問題。"
+    },
+    {
+      topic: "Equipment Issue",
+      passage: "Each soldier is issued the following items: one helmet, two uniforms, one pair of boots, three pairs of socks, and one sleeping bag. Damaged items can be exchanged at the supply room on weekdays between 0900 and 1600. Lost items must be reported to the company clerk.",
+      question: "How many uniforms is each soldier issued?",
+      options: ["One", "Two", "Three", "Four"],
+      answer: 1,
+      ex: "'two uniforms' という数値の直接抽出。複数のアイテムと数量の中から正しい対応を識別する L1 問題。"
+    },
+    {
+      topic: "Patrol Route",
+      passage: "Today's patrol route begins at the main gate, proceeds north to the bridge, turns east along the river, continues south to the market, and returns west to the main gate. The patrol departs at 0700 and is expected to return by 1100. Three soldiers will conduct the patrol.",
+      question: "In which direction does the patrol turn after reaching the bridge?",
+      options: ["North", "East", "South", "West"],
+      answer: 1,
+      ex: "'turns east along the river' という記述から方向を特定。経路の方向転換を問う L1 の地理的理解問題。"
+    },
+    {
+      topic: "Inspection Schedule",
+      passage: "Weekly inspections are conducted as follows: weapons on Monday, vehicles on Tuesday, barracks on Wednesday, equipment on Thursday, and uniforms on Friday. All inspections begin at 0900 sharp. Personnel must be present at their assigned locations ten minutes early.",
+      question: "On which day are vehicles inspected?",
+      options: ["Monday", "Tuesday", "Wednesday", "Thursday"],
+      answer: 1,
+      ex: "'vehicles on Tuesday' という直接対応から答えを抽出。曜日と活動の対応を問う典型的な L1 問題。"
+    },
+    {
+      topic: "Range Safety Rules",
+      passage: "The firing range has three safety zones marked by colored flags. The red zone extends 50 meters from the firing line, the yellow zone extends from 50 to 100 meters, and the green zone is beyond 100 meters. Only personnel with hearing protection may enter the red zone when firing is in progress.",
+      question: "How far does the red zone extend from the firing line?",
+      options: ["25 meters", "50 meters", "75 meters", "100 meters"],
+      answer: 1,
+      ex: "'red zone extends 50 meters from the firing line' という数値の直接抽出。距離と安全ゾーンの対応を問う L1 問題。"
+    },
+    {
+      topic: "Duty Hours",
+      passage: "The operations center is staffed in three shifts. The day shift works from 0800 to 1600, the evening shift from 1600 to 2400, and the night shift from 2400 to 0800. Each shift has four personnel on duty. The shift supervisor prepares a handover report at the end of each shift.",
+      question: "When does the evening shift begin?",
+      options: ["0800", "1200", "1600", "2400"],
+      answer: 2,
+      ex: "'evening shift from 1600 to 2400' という時刻の直接抽出。シフト時間を問う基本的な L1 問題。"
+    },
+    {
+      topic: "Personnel Count",
+      passage: "The convoy consists of five vehicles. Vehicle One carries the commander and three staff officers. Vehicle Two carries eight infantry soldiers. Vehicle Three carries six engineers. Vehicle Four carries medical personnel and supplies. Vehicle Five carries communications equipment and two operators.",
+      question: "How many engineers are in the convoy?",
+      options: ["Three", "Six", "Eight", "Ten"],
+      answer: 1,
+      ex: "'Vehicle Three carries six engineers' という直接記述から数を抽出。複数の車両と人員数の中から正しい対応を識別する L1 問題。"
+    },
+    {
+      topic: "Storage Temperature",
+      passage: "Different types of supplies require different storage conditions. Food rations must be stored at room temperature, vaccines at 2 to 8 degrees Celsius, blood products at minus 20 degrees Celsius, and explosives in a cool dry place below 25 degrees Celsius. Temperature is monitored continuously.",
+      question: "At what temperature should vaccines be stored?",
+      options: ["Room temperature", "2 to 8 degrees Celsius", "Below 25 degrees Celsius", "Minus 20 degrees Celsius"],
+      answer: 1,
+      ex: "'vaccines at 2 to 8 degrees Celsius' という直接対応から答えを特定。品目と保管温度の対応を問う L1 問題。"
+    },
+    {
+      topic: "Meeting Location",
+      passage: "This week's briefings will be held in different locations. Monday's briefing is in Conference Room A on the second floor. Tuesday's briefing is in the main auditorium. Wednesday's briefing is in the training hall. Thursday and Friday briefings return to Conference Room A.",
+      question: "Where is Tuesday's briefing held?",
+      options: ["Conference Room A", "Main auditorium", "Training hall", "Second floor"],
+      answer: 1,
+      ex: "'Tuesday's briefing is in the main auditorium' という直接記述から場所を特定。曜日と場所の対応を問う典型的な L1 問題。"
+    },
+    {
+      topic: "Library opening notice",
+      passage: "The unit library is open Monday to Friday from 0900 to 1800. Saturday opening hours are 0900 to 1300. The library is closed on Sundays and public holidays. Books may be borrowed for two weeks. Late returns incur a small fine.",
+      question: "How long can books be borrowed for?",
+      options: ["One week", "Two weeks", "One month", "Until the next holiday"],
+      answer: 1,
+      ex: "本文 'Books may be borrowed for two weeks' を直接抽出。L1 の事実検索問題で、開館時間 (0900-1800) などの distractor に惑わされず貸出期間を見つける。"
+    },
+    {
+      topic: "Vehicle parking notice",
+      passage: "Parking on Camp Bravo is restricted to authorised vehicles only. Visitors must park in Visitor Lot A near the main gate. Long-term parking is in Lot B behind the headquarters building. Vehicles parked in unauthorised areas will be towed at the owner's expense.",
+      question: "Where should visitors park?",
+      options: ["Visitor Lot A", "Lot B", "Behind the headquarters", "Anywhere on the camp"],
+      answer: 0,
+      ex: "本文 'Visitors must park in Visitor Lot A near the main gate' から訪問者用駐車場を識別。Lot B は long-term 用なので distractor。L1 の場所識別問題。"
+    },
+    {
+      topic: "Lost and found notice",
+      passage: "Notice. A black wallet was found in the gymnasium yesterday. The owner can collect it from the security desk between 0800 and 1700. Identification is required. Unclaimed items will be held for 30 days before disposal.",
+      question: "What was found?",
+      options: ["A black wallet", "A blue wallet", "A wallet and keys", "A small bag"],
+      answer: 0,
+      ex: "本文 'A black wallet was found' から色とアイテム種別を抽出。distractor は色違いや別アイテムを混入する典型的な L1 事実検索問題。"
+    },
+    {
+      topic: "Station ticket office hours",
+      passage: "The station ticket office is open from 0530 to 2200 daily. Tickets to nearby cities can be purchased here. For long-distance journeys, please use the automated machines or the online booking system. Cash and credit cards are accepted at the counter.",
+      question: "How can passengers buy long-distance tickets?",
+      options: ["At the ticket counter", "Using machines or online", "Only with cash", "On the train itself"],
+      answer: 1,
+      ex: "本文 'For long-distance journeys, please use the automated machines or the online booking system' から、長距離チケットは機械かオンラインで購入。窓口は近距離用。L1 の用途別案内識別問題。"
+    },
+    {
+      topic: "Annual health check notice",
+      passage: "Notice from the medical centre. Annual health checks for personnel born in March will be conducted next week. Please report to the medical centre at your assigned time. Bring your military ID and medical record book. Fasting for 12 hours before the appointment is required.",
+      question: "What must personnel bring to the appointment?",
+      options: ["Only their ID card", "ID and medical record book", "Just the record book", "Nothing is required"],
+      answer: 1,
+      ex: "本文 'Bring your military ID and medical record book' から両方が必要。fasting (絶食) の指示に注意を逸らされないよう、'bring' の対象だけを抽出する L1 持参物識別問題。"
+    }
   ],
   
   2: [
+
 { topic: "Rules of engagement — Kosovo", passage: "KFOR troops deployed in Kosovo operate under strict rules of engagement. Soldiers are authorised to use force only in self-defence or to protect civilians under imminent threat. Any use of force must be reported immediately to the commanding officer and documented in the duty log. Troops are reminded that all actions must comply with international humanitarian law.", question: "Under what circumstances may KFOR soldiers use force?", options: ["At any time they consider necessary", "Only in self-defence or to protect civilians under imminent threat", "After receiving written authorisation", "Only when ordered by a superior officer"], answer: 1, ex: "'Authorised to use force only in self-defence or to protect civilians under imminent threat' — Level 2 tests understanding of conditions and restrictions, not just isolated facts." },
     { topic: "Convoy logistics", passage: "The logistics convoy departed Camp Bravo at 0530 and was scheduled to arrive at Forward Operating Base Delta by 1100. Due to a road obstruction caused by a landslide, the convoy was forced to take an alternative route, adding approximately 45 minutes to the journey. The convoy commander reported the delay to headquarters and requested updated arrival time confirmation.", question: "What caused the convoy's delay?", options: ["A vehicle breakdown", "Enemy activity on the main road", "A landslide blocking the road", "Bad weather conditions"], answer: 2, ex: "'A road obstruction caused by a landslide' — paraphrase comprehension: the question asks for the cause, not the route change." },
     { topic: "Humanitarian medical support", passage: "NATO medical teams established a field hospital near the town of Brcko to support the local civilian population affected by flooding. The facility treated over 300 patients in the first 48 hours. Medical staff worked in 12-hour shifts to maintain continuous coverage. Supplies were replenished daily by helicopter, as road access remained limited due to flood damage.", question: "Why were supplies delivered by helicopter?", options: ["It was faster than road transport", "Road access was limited due to flood damage", "The roads were controlled by hostile forces", "Helicopter transport was cheaper"], answer: 1, ex: "'Supplies were replenished daily by helicopter, as road access remained limited due to flood damage' — 'as' = because." },
@@ -316,9 +518,270 @@ export const READING = {
     answer: 1,
     ex: "'The purpose is to facilitate learning rather than to assign blame' — option B paraphrases 'facilitate learning' and 'both successful actions and mistakes'. A directly contradicts 'rather than to assign blame'. C is plausible but overstates (documentation is mentioned for future training, not specifically for remediation). D confuses unit-level progression with individual-level feedback. Level 2 inference: distinguishing stated purpose from potential side effects."
   },
+{
+      topic: "Rules of Engagement",
+      passage: "Under the current rules of engagement, soldiers may use lethal force only when their lives or the lives of civilians are in immediate danger. Warning shots are permitted but must be fired into the ground at a safe angle. Before engaging any target, soldiers must positively identify the threat and ensure no civilians are in the line of fire. Commanders may authorize deviation from these rules only in exceptional circumstances and must report such authorization within 24 hours to the higher command. Any violation of these rules will result in disciplinary action and possible criminal proceedings under military law.",
+      question: "According to the passage, when can commanders allow exceptions to the ROE?",
+      options: [
+        "Whenever they believe it is tactically necessary",
+        "Only in unusual situations, with mandatory reporting afterwards",
+        "Only with prior approval from international observers",
+        "Never, regardless of the circumstances"
+      ],
+      answer: 1,
+      ex: "本文の 'in exceptional circumstances and must report such authorization within 24 hours' をパラフレーズした選択肢が正解。選択肢 A は権限を過大評価し、C は本文にない情報、D は本文と矛盾する。L2 は条件と制限の理解を問う。"
+    },
+    {
+      topic: "Humanitarian Aid Distribution",
+      passage: "The distribution of humanitarian aid in conflict zones must follow strict neutrality principles. Aid workers are required to distribute supplies based on need rather than political affiliation, ethnicity, or religion. Local leaders may assist in identifying beneficiaries, but final distribution decisions remain with the international organization. Recipients must be registered, and each family receives a ration card. Attempts by armed groups to control distribution must be reported immediately to the mission commander. Aid convoys travel with clearly visible markings and operate only during daylight hours unless security conditions require otherwise.",
+      question: "Why must local leaders not make final distribution decisions?",
+      options: [
+        "They lack the training to handle logistics",
+        "They cannot read the ration cards",
+        "To preserve impartiality of the aid effort",
+        "Because international law explicitly forbids it"
+      ],
+      answer: 2,
+      ex: "本文の 'strict neutrality principles' と 'final distribution decisions remain with the international organization' から、中立性確保のためと理解できる。impartiality は neutrality のパラフレーズ。他の選択肢は本文に根拠がない。"
+    },
+    {
+      topic: "Logistics Resupply",
+      passage: "Forward operating bases receive resupply every 72 hours under normal conditions. Each resupply convoy carries food, ammunition, fuel, and medical supplies in standardized quantities calculated for a 100-person base. If casualties or increased operational tempo occur, the base commander may request an emergency resupply, which can be delivered within 12 hours by helicopter. However, helicopter delivery is restricted during periods of poor visibility or high winds, in which case ground convoys must be used despite the longer transit time. All requests must include detailed justification and current stock levels.",
+      question: "What is implied about ground convoys compared to helicopter delivery?",
+      options: [
+        "They carry larger quantities of supplies",
+        "They are safer in all weather conditions",
+        "They take more time to reach the destination",
+        "They require fewer personnel to operate"
+      ],
+      answer: 2,
+      ex: "本文の 'helicopter delivery... within 12 hours' と 'ground convoys must be used despite the longer transit time' の対比から、地上輸送の方が時間がかかると推論できる。他の選択肢は本文に言及がない。"
+    },
+    {
+      topic: "Peacekeeping Situation Report",
+      passage: "Sector East reports a tense but stable situation. Patrols observed increased movement of armed elements near the southern boundary, although no direct confrontations occurred. Local civilian leaders requested additional patrols after reports of nighttime intimidation. The medical team treated 15 civilians for minor injuries from a market explosion of unclear origin. Liaison with the local police has been re-established after a two-week suspension following allegations of corruption. The sector commander recommends maintaining current force levels while increasing intelligence collection in the southern area before considering any troop adjustments.",
+      question: "What does the sector commander suggest as the next step?",
+      options: [
+        "Immediately reinforce troops in the southern zone",
+        "Withdraw forces until the situation becomes clearer",
+        "Keep forces at present strength while gathering more information",
+        "Transfer responsibility for the area to local police"
+      ],
+      answer: 2,
+      ex: "本文の 'maintaining current force levels while increasing intelligence collection' を 'Keep forces at present strength while gathering more information' とパラフレーズ。A は本文と矛盾、B/D は本文に言及なし。"
+    },
+    {
+      topic: "Counter-IED Operations",
+      passage: "Improvised explosive devices remain the leading cause of casualties in current operations. Convoys must vary their routes and timing to prevent enemy planning. Lead vehicles are equipped with electronic countermeasures that disrupt remote detonation signals, but these devices are ineffective against pressure-plate triggers. Engineer teams precede high-value convoys to identify and clear suspicious areas. When an IED is suspected, the convoy halts at a safe distance while specialists assess the threat. Detonation is preferred to manual disposal whenever the surrounding area permits. Civilian movement in the vicinity must be controlled but not prevented entirely.",
+      question: "What is a limitation of the electronic countermeasures mentioned?",
+      options: [
+        "They consume excessive power",
+        "They cannot detect pressure-activated devices",
+        "They interfere with friendly radio communications",
+        "They only work at night"
+      ],
+      answer: 1,
+      ex: "本文の 'these devices are ineffective against pressure-plate triggers' を 'cannot detect pressure-activated devices' とパラフレーズ。L2 では装備の限界という条件の理解を問う。他の選択肢は本文に言及がない。"
+    },
+    {
+      topic: "Border Patrol Coordination",
+      passage: "Joint border patrols between allied forces have proven effective in reducing illegal crossings. Each patrol consists of soldiers from both nations who share information in real time using a common radio frequency. Language barriers are addressed by requiring at least one bilingual member per patrol. Detained individuals are processed by personnel from the country whose territory they entered, regardless of which patrol made the apprehension. Disputes regarding jurisdiction are resolved by the joint command center, which operates continuously. Equipment standardization remains incomplete, occasionally causing compatibility issues during nighttime operations.",
+      question: "Who handles the processing of detained persons?",
+      options: [
+        "The nation that operates the joint command center",
+        "The patrol member who first spotted the individual",
+        "Personnel from the country whose territory was entered",
+        "A neutral third-party observer organization"
+      ],
+      answer: 2,
+      ex: "本文の 'Detained individuals are processed by personnel from the country whose territory they entered' を直接的だがパラフレーズして問う。L2 では責任関係と条件の対応を問う。"
+    },
+    {
+      topic: "Cyber Incident Response",
+      passage: "When a suspicious network event is detected, the duty operator must first determine whether it represents a genuine threat or a false alarm. Automated systems flag many routine activities as anomalies, and only about ten percent require human intervention. Confirmed incidents are categorized by severity from Level 1 (minor) to Level 4 (critical infrastructure threat). Level 3 and 4 incidents require immediate notification of the national cyber command, while lower levels are handled locally with a summary report sent at the end of the shift. Disconnecting affected systems is a last resort, used only when containment cannot be achieved otherwise.",
+      question: "When must the national cyber command be informed without delay?",
+      options: [
+        "After every detected network anomaly",
+        "When incidents reach the two highest severity categories",
+        "Only when systems must be disconnected",
+        "At the end of each duty shift"
+      ],
+      answer: 1,
+      ex: "本文の 'Level 3 and 4 incidents require immediate notification' を 'two highest severity categories' とパラフレーズ。A は対象範囲が広すぎ、D は L1/L2 についての記述。"
+    },
+    {
+      topic: "Civil-Military Cooperation",
+      passage: "Civil-military cooperation officers serve as the interface between military forces and the civilian population in operational areas. Their role is not to deliver aid directly but to coordinate with humanitarian organizations and local authorities. By understanding local needs, they help commanders avoid actions that might alienate the population. CIMIC officers attend community meetings, although they wear uniforms and remain identifiable as military personnel. They are unarmed during civilian engagements whenever the security situation allows, projecting an image of partnership rather than force. Reports from CIMIC officers inform both operational planning and reconstruction efforts.",
+      question: "What is the primary function of CIMIC officers?",
+      options: [
+        "Distributing food and medical supplies to local people",
+        "Serving as a link between troops and the civilian community",
+        "Replacing civilian government officials in conflict zones",
+        "Conducting intelligence operations against insurgents"
+      ],
+      answer: 1,
+      ex: "本文の 'interface between military forces and the civilian population' を 'link between troops and the civilian community' とパラフレーズ。A は本文で明確に否定されている ('not to deliver aid directly')。"
+    },
+    {
+      topic: "Maritime Interdiction",
+      passage: "Maritime interdiction operations aim to enforce embargoes and prevent the movement of prohibited goods. When a suspect vessel is identified, the boarding team approaches in a smaller craft and requests permission to come aboard. If permission is denied or the vessel attempts to flee, the team may use non-lethal means to compel cooperation. Lethal force is reserved for cases of armed resistance. Once aboard, the team inspects cargo against the manifest and may detain crew members if violations are confirmed. The detained vessel is escorted to the nearest friendly port, where civilian authorities take over proceedings.",
+      question: "What happens after a vessel is detained?",
+      options: [
+        "It is sunk to prevent the cargo from reaching its destination",
+        "The crew is transferred to a military prison facility",
+        "It is taken to a nearby allied port for civilian processing",
+        "It is released after the cargo is confiscated at sea"
+      ],
+      answer: 2,
+      ex: "本文の 'escorted to the nearest friendly port, where civilian authorities take over' を 'taken to a nearby allied port for civilian processing' とパラフレーズ。L2 では手続きの流れを問う。"
+    },
+    {
+      topic: "Air Support Coordination",
+      passage: "Close air support requires precise coordination between ground forces and aircraft to avoid friendly fire. A forward air controller on the ground identifies the target and communicates its position to the pilot using standardized procedures. Both must confirm the target description before any weapon release. If the ground commander loses radio contact with the controller, the mission is aborted regardless of how close the aircraft is to engagement. Visual identification by the pilot is required in addition to radio confirmation when civilians are believed to be in the area. These layered safeguards significantly reduce, though they do not eliminate, the risk of mistaken targeting.",
+      question: "What is implied about the safety procedures described?",
+      options: [
+        "They make accidental targeting impossible",
+        "They are required only during night operations",
+        "They reduce but cannot completely prevent errors",
+        "They apply only when civilians are confirmed present"
+      ],
+      answer: 2,
+      ex: "本文の 'significantly reduce, though they do not eliminate, the risk' を 'reduce but cannot completely prevent errors' とパラフレーズ。A は本文と矛盾、B/D は対象範囲を不当に狭めている。"
+    },
+    {
+      topic: "Medical Evacuation",
+      passage: "Medical evacuation procedures are categorized by urgency level. Priority One patients require evacuation within one hour and include those with life-threatening injuries. Priority Two patients must be evacuated within four hours and have serious but not immediately life-threatening conditions. Priority Three patients can wait up to 24 hours and have minor injuries. Helicopters are used for Priority One and Two cases when weather permits, while ground ambulances handle Priority Three or serve as backup when air assets are unavailable. The medical officer at the collection point determines the priority level based on triage assessment.",
+      question: "What determines which patients are evacuated by helicopter?",
+      options: [
+        "The patient's military rank",
+        "The urgency level and weather conditions",
+        "The distance to the nearest hospital",
+        "The availability of ground ambulances"
+      ],
+      answer: 1,
+      ex: "本文の 'Helicopters are used for Priority One and Two cases when weather permits' から、緊急度と天候の両方が条件。他の選択肢は本文に根拠なし。"
+    },
+    {
+      topic: "Military Justice",
+      passage: "Disciplinary proceedings in the military follow a different procedure than civilian courts. Minor infractions are handled at the unit level through non-judicial punishment, which may include extra duties, restriction to base, or reduction in rank. More serious offenses are referred to courts-martial, which come in three types: summary, special, and general. A summary court-martial handles the least serious cases and can impose limited punishments. Special and general courts-martial deal with more severe offenses and operate with full legal representation and formal procedures. The accused has the right to decline a summary court-martial and demand trial by special or general court-martial instead.",
+      question: "What option does an accused person have regarding a summary court-martial?",
+      options: [
+        "They must accept it if ordered by their commander",
+        "They can refuse it and request a more formal trial",
+        "They can appeal directly to civilian courts",
+        "They must wait for automatic promotion to special court-martial"
+      ],
+      answer: 1,
+      ex: "本文の 'The accused has the right to decline a summary court-martial and demand trial by special or general court-martial' を選択肢 B がパラフレーズ。L2 は権利と手続きの関係を問う。"
+    },
+    {
+      topic: "Intelligence Gathering",
+      passage: "Human intelligence collection requires building relationships with sources over time. Intelligence officers must establish trust while maintaining operational security. Sources are categorized by reliability and access, with ratings assigned based on past reporting accuracy and their position to obtain information. Single-source intelligence is rarely acted upon without corroboration from technical or other human sources. The identity of sources must be protected even within intelligence organizations through compartmentalization. When intelligence is shared with operational units, it is sanitized to remove identifying details that could compromise sources if captured or leaked.",
+      question: "Why is intelligence information modified before sharing with operational units?",
+      options: [
+        "To make it easier for soldiers to understand",
+        "To protect the identity of information sources",
+        "To reduce the file size for transmission",
+        "To comply with international humanitarian law"
+      ],
+      answer: 1,
+      ex: "本文の 'it is sanitized to remove identifying details that could compromise sources' を 'protect the identity of information sources' とパラフレーズ。他の選択肢は本文に根拠なし。"
+    },
+    {
+      topic: "Operational Security",
+      passage: "Operational security measures are designed to prevent adversaries from piecing together information about planned operations. Even innocuous details like increased fuel deliveries, changes in communication patterns, or the movement of specialized units can reveal intentions to a careful observer. Personnel are instructed to avoid discussing operations outside secure areas and to limit knowledge of plans to those with a genuine need to know. Social media use is particularly problematic, as location data, timestamps, and casual comments can be aggregated to form an intelligence picture. Security breaches are often unintentional, resulting from a failure to recognize the cumulative value of small pieces of information rather than from deliberate disclosure of classified material.",
+      question: "What does the passage suggest about most security breaches?",
+      options: [
+        "They result from sophisticated hacking operations",
+        "They occur because people deliberately sell secrets",
+        "They happen when individuals fail to see how small details combine",
+        "They are primarily caused by foreign intelligence agents"
+      ],
+      answer: 2,
+      ex: "本文の 'Security breaches are often unintentional, resulting from a failure to recognize the cumulative value of small pieces of information' を選択肢 C がパラフレーズ。A/B/D は本文と異なる原因を示している。"
+    },
+    {
+      topic: "Multinational Exercises",
+      passage: "Large-scale multinational exercises serve multiple purposes beyond training individual units. They test command structures, communications systems, and logistics networks under realistic conditions. Participating nations use different equipment, follow different procedures, and often speak different languages, requiring extensive pre-exercise coordination. The exercise scenario typically involves a fictional conflict to avoid political sensitivities, though the geographic setting and operational challenges often reflect real-world concerns. Observers from non-participating nations are sometimes invited to enhance transparency and build confidence. After-action reviews identify interoperability problems that must be addressed before the next exercise cycle.",
+      question: "Why do exercise scenarios use fictional conflicts?",
+      options: [
+        "To make them more interesting for participants",
+        "To reduce costs by simplifying planning",
+        "To prevent political complications with real nations",
+        "To allow testing of experimental weapons systems"
+      ],
+      answer: 2,
+      ex: "本文の 'fictional conflict to avoid political sensitivities' を 'prevent political complications' とパラフレーズ。L2 では理由と結果の因果関係を問う。"
+    },
+    {
+      topic: "Force Protection",
+      passage: "Force protection measures balance security needs against operational effectiveness. Excessive defensive measures can isolate units from the local population, undermining the relationship-building that many missions require. Conversely, inadequate protection exposes personnel to unnecessary risk. Threat assessments determine the appropriate level of protection, which can range from minimal measures during low-threat operations to full fortification in high-threat environments. Measures include physical barriers, armed guards, access control, surveillance systems, and patrol patterns. Protection levels must be reviewed regularly as threat conditions change. Units that fail to adjust to deteriorating conditions may suffer preventable casualties, while those that maintain excessive security after threats diminish waste resources and limit their effectiveness.",
+      question: "What trade-off does the passage identify regarding force protection?",
+      options: [
+        "Between cost and effectiveness of security equipment",
+        "Between security requirements and mission accomplishment",
+        "Between domestic and international protection standards",
+        "Between officer safety and enlisted safety"
+      ],
+      answer: 1,
+      ex: "本文の 'balance security needs against operational effectiveness' と 'Excessive defensive measures can isolate units... undermining relationship-building' が security と mission の trade-off を示す。"
+    },
+    {
+      topic: "Contract Management",
+      passage: "Military operations increasingly rely on civilian contractors for services ranging from food preparation to equipment maintenance. Contracting officers must ensure that agreements include clear performance standards, accountability mechanisms, and appropriate oversight. In operational environments, contractors operate under different legal frameworks than military personnel, which can create complications when contractors are accused of misconduct. Some host nations object to the presence of armed contractors, viewing them as mercenaries, while others accept them as a practical necessity. Contract terms must address what happens if security conditions deteriorate to the point where contractors cannot safely perform their duties. Dependency on contractors has grown to the extent that some military capabilities cannot be sustained without them.",
+      question: "What concern does the passage raise about contractor dependency?",
+      options: [
+        "Contractors cost more than military personnel",
+        "Some military functions now cannot operate without contractor support",
+        "Contractors always refuse to work in dangerous areas",
+        "Contractors are better trained than regular soldiers"
+      ],
+      answer: 1,
+      ex: "本文最終文 'Dependency on contractors has grown to the extent that some military capabilities cannot be sustained without them' を選択肢 B がパラフレーズ。他の選択肢は本文に根拠なし。"
+    },
+    {
+      topic: "Environmental Impact",
+      passage: "Military training and operations can have significant environmental impacts that must be managed. Live-fire exercises leave unexploded ordnance that poses long-term hazards to civilians and wildlife. Vehicle maneuvers can damage sensitive ecosystems and accelerate soil erosion. Noise from aircraft and artillery affects both human communities and animal populations. Environmental regulations in many countries now require impact assessments before training areas can be established or expanded. Some ranges have been closed or restricted due to contamination from decades of use. Remediation of former military sites is expensive and technically challenging, particularly when heavy metals or other persistent contaminants are present. Balancing training realism with environmental responsibility requires careful planning and sometimes acceptance of training limitations.",
+      question: "What does the passage suggest about environmental regulations and military training?",
+      options: [
+        "They have been completely eliminated for national security reasons",
+        "They now impose requirements that affect training site decisions",
+        "They apply only to naval operations",
+        "They are enforced only during peacetime"
+      ],
+      answer: 1,
+      ex: "本文の 'Environmental regulations... now require impact assessments before training areas can be established or expanded' を選択肢 B がパラフレーズ。"
+    },
+    {
+      topic: "Cultural Awareness",
+      passage: "Cultural awareness training has become a standard component of pre-deployment preparation for forces operating in unfamiliar regions. Understanding local customs, religious practices, and social structures helps prevent misunderstandings that could escalate into confrontations. Simple gestures that are innocuous in one culture may be deeply offensive in another. Language training beyond basic phrases enhances effectiveness but requires time that operational schedules do not always permit. Cultural advisors, often recruited from diaspora communities or academic institutions, accompany units to provide real-time guidance. However, cultural knowledge alone cannot overcome policy decisions that locals perceive as unjust or operations that cause civilian casualties. Even culturally informed operations may fail if the underlying mission lacks legitimacy in the eyes of the affected population.",
+      question: "What limitation of cultural awareness training does the passage mention?",
+      options: [
+        "It is too expensive to provide to all personnel",
+        "It cannot compensate for policies the population views as illegitimate",
+        "It requires learning languages that are too difficult",
+        "It is opposed by military commanders"
+      ],
+      answer: 1,
+      ex: "本文の 'cultural knowledge alone cannot overcome policy decisions that locals perceive as unjust' と 'Even culturally informed operations may fail if the underlying mission lacks legitimacy' を選択肢 B がパラフレーズ。"
+    },
+    {
+      topic: "Mental Health Support",
+      passage: "Recognition of combat stress and post-traumatic stress disorder has led to expanded mental health support for military personnel. Early intervention programs aim to identify psychological problems before they become severe. Peer support networks encourage soldiers to discuss difficulties with trusted colleagues rather than suppressing them. However, stigma around mental health issues persists in many military cultures, where seeking help may be seen as weakness. Anonymous counseling services partially address this concern but cannot replace unit-level awareness. Commanders play a critical role by creating an environment where personnel feel safe reporting psychological distress. Untreated mental health conditions can lead to substance abuse, relationship breakdowns, and in extreme cases, suicide or violence.",
+      question: "What barrier to effective mental health care does the passage identify?",
+      options: [
+        "Insufficient funding for counseling programs",
+        "A lack of qualified mental health professionals",
+        "Cultural attitudes that discourage seeking help",
+        "The geographic isolation of military bases"
+      ],
+      answer: 2,
+      ex: "本文の 'stigma around mental health issues persists in many military cultures, where seeking help may be seen as weakness' を選択肢 C がパラフレーズ。L2 は障壁の識別を問う。"
+    }
   ],
   
   3: [
+
 {
     topic: "Collective defence — Article 5",
     passage: "Article 5 of the North Atlantic Treaty constitutes the cornerstone of NATO's collective defence framework. It stipulates that an armed attack against one or more member nations shall be considered an attack against the alliance as a whole. Member states are obligated to take such action as they deem necessary, including the use of armed force, to restore and maintain the security of the North Atlantic area. The article has been invoked only once in the alliance's history, following the terrorist attacks of 11 September 2001 in the United States. The decision was unanimous among the then nineteen members. The practical response included the deployment of airborne early warning aircraft to patrol American airspace and the launch of maritime counter-terrorism operations in the Mediterranean. The episode demonstrated that the mutual defence commitment was not merely declaratory.",
@@ -644,6 +1107,136 @@ export const READING = {
     answer: 1,
     ex: "'Success depends less on eliminating caveats... than on ensuring they are clearly understood by all participants and incorporated into planning from the outset' — option B paraphrases 'clearly understood' as 'transparent communication' and 'incorporated into planning' as 'integration into operational planning'. A contradicts 'eliminating caveats... is unrealistic'. C contradicts 'political leaders... insist on retaining authority'. D is desirable but not presented as the essential element. Level 3: identifying what the author treats as the practical solution vs. the ideal but unattainable."
   },
+{
+      topic: "Hybrid Warfare Doctrine",
+      passage: "Hybrid warfare blurs the traditional distinction between war and peace by combining conventional military operations, irregular tactics, cyber operations, economic pressure, and information manipulation. Unlike classical conflicts, where the adversary is clearly identified and the threshold of armed attack is relatively unambiguous, hybrid campaigns deliberately operate below this threshold to deny defenders a clear pretext for response. The targeted state often finds itself reacting to a series of incidents that, taken individually, appear ambiguous or attributable to non-state actors, yet collectively pursue a coherent strategic objective. This ambiguity is itself a weapon. By the time the pattern becomes undeniable, the aggressor may have achieved significant political or territorial gains while preserving plausible deniability. Defending against such campaigns requires not only military readiness but also resilience across civilian sectors, including critical infrastructure, financial systems, and media institutions. Effective response demands inter-agency coordination, robust attribution capabilities, and political willingness to act on incomplete intelligence. Many democracies struggle with the latter, as their decision-making processes prioritize legal certainty and public support, both of which the hybrid actor systematically undermines. Alliance frameworks must therefore develop response protocols that do not require unanimous attribution before action can be taken, balancing the risk of escalation against the cost of strategic paralysis. The challenge is fundamentally one of governance as much as of military capability, and addressing it requires rethinking how peacetime institutions interact with security imperatives.",
+      question: "According to the passage, what is the central strategic advantage exploited by hybrid actors?",
+      options: [
+        "Their superior military technology compared to defenders",
+        "The deliberate uncertainty surrounding their actions",
+        "Their willingness to engage in open warfare earlier than expected",
+        "Their stronger economic position relative to target states"
+      ],
+      answer: 1,
+      ex: "本文の 'This ambiguity is itself a weapon' と 'deliberately operate below this threshold to deny defenders a clear pretext for response' から、曖昧性そのものが戦略的利点であると読み取れる。A は本文で論じられておらず、C はハイブリッド戦の本質と逆。L3 は論証構造の理解を問う。"
+    },
+    {
+      topic: "Multinational Interoperability",
+      passage: "The success of multinational military operations depends heavily on interoperability, a concept that extends far beyond technical compatibility of equipment. While standardized communications protocols and ammunition calibers receive considerable attention, the more elusive dimensions of interoperability are procedural and cultural. Different national doctrines reflect distinct historical experiences and political constraints, and these differences manifest in how commanders interpret orders, manage risk, and engage with local populations. A unit that operates under restrictive national caveats may decline missions that another contingent would readily accept, creating friction at the operational level and undermining unity of effort. Language remains a persistent challenge despite the formal adoption of English as the alliance working language; the precision required in tactical communications often exceeds the proficiency of personnel who function adequately in routine staff work. Training exercises help mitigate these issues by exposing participants to allied procedures before deployment, but the brief duration of most exercises cannot replicate the trust built over months of shared operations. Rotation policies, which return personnel to national assignments after relatively short deployments, further constrain the development of deep working relationships. Some analysts argue that genuine interoperability requires institutional investment that few nations are willing to make, since the benefits accrue to the alliance rather than to any single contributor. Without such investment, multinational forces risk being merely additive rather than truly integrated, with cumulative capability falling short of what the sum of contributing units might theoretically deliver.",
+      question: "What does the author suggest is the most underappreciated obstacle to multinational interoperability?",
+      options: [
+        "The lack of standardized weapons and equipment across allies",
+        "Differences in procedural approaches and underlying institutional cultures",
+        "Insufficient funding for joint training facilities",
+        "The reluctance of smaller nations to participate fully"
+      ],
+      answer: 1,
+      ex: "本文の 'the more elusive dimensions of interoperability are procedural and cultural' と 'these differences manifest in how commanders interpret orders' から、手続き・文化の差が見落とされていると論じている。A は技術的側面で 'considerable attention' を受けているとされる。"
+    },
+    {
+      topic: "Cyber Deterrence",
+      passage: "Deterrence in the cyber domain operates under conditions fundamentally different from those of nuclear deterrence, which has shaped strategic thinking for decades. Nuclear deterrence relies on the credible threat of overwhelming retaliation against a clearly identified adversary, with weapons whose effects are catastrophic, observable, and largely impossible to defend against once launched. Cyber operations, by contrast, are often anonymous, reversible, and graduated in effect. The attacker may exfiltrate data, degrade systems temporarily, or position malware for future activation, with each action carrying its own threshold of significance. Attribution, when achievable, often takes weeks or months and rarely provides the kind of unambiguous evidence that justifies retaliation under domestic or international law. Furthermore, the defender's options for retaliation are themselves complicated by the interconnected nature of digital infrastructure, where a counterstrike may produce unintended effects on third parties or even on the responder's own systems. Some theorists have proposed that deterrence should be replaced or supplemented by concepts of resilience and persistent engagement, in which states accept that intrusions will occur and focus on minimizing their consequences while continuously contesting adversary operations in cyberspace. This shift implies a far more active peacetime posture than traditional deterrence requires and raises questions about escalation management. If states routinely operate inside one another's networks, the line between intelligence gathering and preparation of the battlefield becomes blurred, and miscalculation becomes more likely. The resulting strategic landscape demands frameworks that classical deterrence theory was not designed to provide.",
+      question: "What is the principal argument the passage makes about traditional deterrence theory and cyberspace?",
+      options: [
+        "It applies effectively if attribution capabilities are improved",
+        "It is well suited to cyber operations because of their reversibility",
+        "It is poorly adapted to the conditions that characterize cyber operations",
+        "It should be entirely abandoned in favor of offensive cyber action"
+      ],
+      answer: 2,
+      ex: "本文の 'Deterrence in the cyber domain operates under conditions fundamentally different' と 'classical deterrence theory was not designed to provide' から、伝統的抑止論は適合しないという主張。D は 'replaced or supplemented' を 'entirely abandoned' と誇張、A は本文の論調と逆。"
+    },
+    {
+      topic: "Information Warfare",
+      passage: "Information warfare in the contemporary environment exploits the fragmentation of media consumption and the algorithmic amplification of emotionally charged content. Whereas earlier propaganda campaigns required broadcast infrastructure or sympathetic newspapers, today's information operations can reach targeted audiences through social media platforms whose own commercial logic rewards engagement over accuracy. Adversaries do not need to invent false narratives wholesale; instead, they identify existing social cleavages and amplify the voices on each side, deepening polarization without necessarily promoting any specific outcome. The objective is often not to convince audiences of a particular truth but to erode their confidence in the possibility of any shared truth. This is a strategic asymmetry that favors authoritarian actors, whose own populations have limited capacity to push back, while democratic societies face the difficult task of defending their information space without imposing restrictions that would themselves undermine democratic norms. Some governments have responded by funding media literacy programs and supporting independent fact-checking organizations, but these efforts struggle to keep pace with the volume and sophistication of hostile content. Legal remedies pose their own dilemmas, as definitions of disinformation can be weaponized against legitimate dissent. The most promising approaches appear to combine resilience-building at the societal level with targeted, transparent attribution of hostile campaigns, though both require sustained investment and political consensus that are themselves vulnerable to the very information operations being countered.",
+      question: "According to the passage, what does the author identify as a common goal of modern information operations?",
+      options: [
+        "Promoting a specific political candidate in target nations",
+        "Undermining the audience's belief that any objective truth is achievable",
+        "Replacing existing media outlets with state-controlled alternatives",
+        "Encouraging direct violence against government institutions"
+      ],
+      answer: 1,
+      ex: "本文の 'not to convince audiences of a particular truth but to erode their confidence in the possibility of any shared truth' を 'undermining the audience's belief that any objective truth is achievable' とパラフレーズ。A は本文で 'not... particular outcome' と否定されている。"
+    },
+    {
+      topic: "Strategic Logistics",
+      passage: "Strategic logistics has reemerged as a central concern of military planning after a period during which expeditionary operations against technologically inferior adversaries created an illusion of secure supply lines. The prospect of large-scale conflict against a peer competitor has reminded planners that sustaining forces over thousands of kilometers requires not only sufficient stockpiles but also resilient transportation networks, host-nation support agreements, and industrial capacity that cannot be rapidly improvised. Decades of just-in-time inventory practices, adopted from commercial supply chain management, have left many militaries with limited reserves of munitions, spare parts, and even basic consumables. Replenishment depends on industrial bases that have shrunk through consolidation and offshoring, with critical components often sourced from countries whose alignment in a future conflict cannot be assumed. The vulnerability of sea lanes and air corridors to long-range precision weapons further complicates the picture, requiring either dispersed positioning of stockpiles closer to potential operational areas or acceptance that early phases of conflict may be conducted with whatever is on hand. Allied nations have begun to address these issues through agreements on stockpile sharing and coordinated industrial investment, but progress remains uneven and is often constrained by national procurement preferences that prioritize domestic employment over coalition coherence. The challenge is compounded by the long lead times required to expand production of complex munitions, which means that strategic logistics decisions made today shape force capabilities a decade or more into the future.",
+      question: "What is the author's main concern regarding contemporary military logistics?",
+      options: [
+        "The cost of maintaining excessive stockpiles in peacetime",
+        "The inability of allies to agree on procurement standards",
+        "The combined effect of lean inventories and weakened production capacity",
+        "The increasing reliance on automated logistics systems"
+      ],
+      answer: 2,
+      ex: "本文の 'just-in-time inventory practices... limited reserves' と 'industrial bases that have shrunk through consolidation' の両方が問題として並列されており、これらの結合効果が中心的懸念。A は逆方向の懸念、D は本文に言及なし。"
+    },
+    {
+      topic: "Space Domain Security",
+      passage: "Space has transitioned from a domain of strategic stability, where mutual reliance on satellites discouraged interference, to one of active contestation. The proliferation of anti-satellite capabilities, ranging from kinetic interceptors to directed-energy weapons and cyber intrusions, has eroded the implicit norms that previously governed behavior in orbit. The consequences of kinetic engagement are particularly severe, as the debris generated by a single intercept can threaten satellites at similar altitudes for decades, creating a tragedy-of-the-commons dynamic that even adversaries should rationally seek to avoid. Yet rational calculation does not always prevail, and demonstration tests have repeatedly added to the orbital debris population despite international concern. Commercial proliferation of small satellites further complicates the strategic environment by making the space population larger, more diverse, and more difficult to monitor. Military forces increasingly depend on commercial space services for communications, imagery, and navigation, blurring the distinction between civilian and military assets and raising questions about the legitimacy of targeting commercial infrastructure during conflict. Treaty frameworks designed for the early space age have not kept pace with these developments, and efforts to negotiate new agreements have been hampered by disagreements over which capabilities should be restricted and how compliance might be verified in an environment where dual-use technology is the norm rather than the exception.",
+      question: "What does the passage suggest is paradoxical about anti-satellite testing?",
+      options: [
+        "The tests are conducted by nations that publicly oppose them",
+        "The resulting debris can endanger the testing nation's own satellites",
+        "The tests require more resources than the satellites are worth",
+        "The tests are prohibited by treaties that have been universally signed"
+      ],
+      answer: 1,
+      ex: "本文の 'tragedy-of-the-commons dynamic that even adversaries should rationally seek to avoid' と 'debris generated by a single intercept can threaten satellites at similar altitudes for decades' から、自国の衛星も危険にさらすという逆説。D は本文と矛盾、A/C は言及なし。"
+    },
+    {
+      topic: "Counter-Insurgency Strategy",
+      passage: "Counter-insurgency operations have evolved through repeated cycles of doctrinal refinement, each generation drawing lessons from preceding campaigns while imperfectly anticipating the conditions of the next. The population-centric approach that dominated thinking in the early 2000s emphasized the protection of civilians and the legitimacy of host-nation governance as the decisive factors in defeating insurgent movements. This framework produced significant tactical successes but also revealed important limitations. Where host-nation governance was systematically corrupt or perceived as serving the interests of one community over others, the protection of civilians did not translate into political consolidation. External forces could secure terrain but could not, ultimately, manufacture legitimacy on behalf of governments whose own decisions undermined it. More recent analyses have stressed the importance of understanding the specific political grievances that fuel each insurgency, recognizing that what appears uniformly as armed opposition may comprise factions with different objectives and varying degrees of receptiveness to negotiation. This understanding implies that military operations alone, however skillfully conducted, cannot resolve conflicts whose origins lie in unaddressed political questions. The role of external forces, in this revised conception, becomes less about defeating insurgents directly and more about creating conditions under which political processes can proceed. Whether such conditions can be created without first achieving a meaningful degree of military dominance remains a matter of doctrinal debate, and the answer likely varies considerably from one conflict to another.",
+      question: "What is the principal limitation of the population-centric approach as described in the passage?",
+      options: [
+        "Its excessive cost in personnel and equipment",
+        "Its inability to compensate for failures in host-nation politics",
+        "Its incompatibility with conventional military training",
+        "Its reliance on technologies that are easily countered"
+      ],
+      answer: 1,
+      ex: "本文の 'External forces could secure terrain but could not... manufacture legitimacy on behalf of governments whose own decisions undermined it' から、ホスト国政治の失敗を埋め合わせられない点が限界。他の選択肢は本文に根拠がない。"
+    },
+    {
+      topic: "Defence Industrial Base",
+      passage: "The health of a nation's defence industrial base has direct strategic implications that extend well beyond peacetime budgetary concerns. A diversified and technologically advanced industrial base enables rapid adaptation to emerging threats, sustains domestic expertise across critical technologies, and reduces dependencies that adversaries might exploit during crisis. Yet the economic logic that has shaped industrial policy over recent decades has often pulled in the opposite direction, favoring concentration among a small number of prime contractors, reliance on globally distributed supply chains, and the migration of specialized manufacturing to countries offering lower costs. The result, in many allied nations, is an industrial base capable of producing sophisticated platforms in small numbers but ill-suited to rapid mobilization. Recent conflicts have illustrated the consequences, with consumption rates for certain munitions exceeding production by an order of magnitude and lead times for replacement stretching across years rather than months. Restoring depth to the industrial base requires sustained government commitment, including multi-year procurement contracts that give manufacturers confidence to invest in capacity, and policies that address workforce shortages in specialized trades. International cooperation can help by spreading risk and pooling demand, but it also introduces dependencies that, while acceptable among trusted partners, require careful management. The fundamental challenge is to reconcile the efficiency that markets reward in peacetime with the redundancy that strategic prudence demands.",
+      question: "What tension does the passage identify at the heart of defence industrial policy?",
+      options: [
+        "Between national security secrecy and the need for international cooperation",
+        "Between the cost efficiency of markets and the redundancy required for security",
+        "Between domestic employment goals and the technical quality of products",
+        "Between civilian oversight and military operational requirements"
+      ],
+      answer: 1,
+      ex: "本文の最終文 'reconcile the efficiency that markets reward in peacetime with the redundancy that strategic prudence demands' を直接パラフレーズ。これは本文全体の論証の核心であり、L3 では中心的論点の把握が問われる。"
+    },
+    {
+      topic: "Alliance Burden Sharing",
+      passage: "Disputes over burden sharing within alliances are as old as alliances themselves, but they have taken particular prominence in recent decades as relative economic positions have shifted and threat perceptions have diverged among member states. The simplest metric—defence spending as a percentage of gross domestic product—captures only one dimension of contribution and can mislead in both directions. A nation spending the agreed threshold may allocate funds inefficiently, with the bulk consumed by personnel costs that leave little for capability investment. Conversely, a nation falling short of the threshold may field forces of exceptional quality, host critical infrastructure, or contribute disproportionately to specific missions. Geography, historical experience, and domestic political constraints all shape what individual members can plausibly offer and what their publics will sustain over time. Treating the issue as a simple matter of compliance with a numerical target risks generating resentment without addressing underlying capability gaps. At the same time, refusing to apply any metric leaves the alliance vulnerable to free-riding, where members benefit from collective security while shifting costs to others. The more productive debate centers on outcomes rather than inputs: whether the alliance can collectively meet identified operational requirements, and whether each member is contributing in ways proportionate to its capacity and to the alliance's needs. Reaching agreement on those requirements, however, requires a degree of strategic alignment that itself has become harder to sustain.",
+      question: "What does the author imply about using defence spending percentages as the main measure of contribution?",
+      options: [
+        "It is the only objective standard available to alliances",
+        "It is reliable when applied consistently across all members",
+        "It oversimplifies what is actually a multidimensional question",
+        "It should be replaced entirely by personnel deployment numbers"
+      ],
+      answer: 2,
+      ex: "本文の 'The simplest metric... captures only one dimension of contribution and can mislead in both directions' から、単純化しすぎているという主張。D は 'productive debate centers on outcomes' で代替案として示されているが、'entirely' 置き換えとまでは述べていない。"
+    },
+    {
+      topic: "Climate Security",
+      passage: "The relationship between climate change and security is mediated through a chain of effects that complicates simple causal claims yet does not justify treating the connection as speculative. Direct effects, such as the impact of rising sea levels on coastal naval installations or the disruption of training cycles by extreme weather, are increasingly evident and can be costed with reasonable confidence. Indirect effects are more consequential but also more difficult to attribute. Prolonged drought may contribute to agricultural failure, displacement, and competition over resources, all of which can interact with pre-existing political tensions to produce or intensify conflict. Whether climate change is the dominant cause in any particular case is rarely the right question; more useful is to recognize climate as a stress multiplier that shifts the probability distribution of adverse outcomes across many regions simultaneously. Military forces are affected in several ways: they may be called on to respond to disasters with greater frequency and scale, they may operate in environments transformed by changing conditions, and they themselves are significant consumers of energy whose own emissions intersect with national mitigation commitments. Planning for these realities requires integration across previously separate domains—operational, infrastructure, procurement, and policy—and a willingness to act on probabilistic assessments rather than waiting for certainty that the timescales of climate change do not permit.",
+      question: "What does the author suggest is a more useful framing of the climate-security relationship?",
+      options: [
+        "Establishing climate as the primary cause of contemporary conflicts",
+        "Treating climate as a factor that increases the likelihood of adverse outcomes",
+        "Setting aside climate considerations until causation can be definitively proven",
+        "Limiting analysis to direct physical effects on military installations"
+      ],
+      answer: 1,
+      ex: "本文の 'climate as a stress multiplier that shifts the probability distribution of adverse outcomes' を 'a factor that increases the likelihood of adverse outcomes' とパラフレーズ。A は 'rarely the right question' と否定された見方、C は 'waiting for certainty' を本文が拒否している。"
+    }
   ],
   
   4: [
@@ -674,7 +1267,7 @@ export const READING = {
     ex: "'These accessions, undertaken in response to aggression rather than despite it, fundamentally complicate the narrative that enlargement constitutes a primarily provocative act' — the accessions undermine the opponents' argument. Option B paraphrases 'fundamentally complicate the narrative' as 'weaken a key claim'. A inverts the meaning. C overstates ('consensus' is not claimed). D contradicts 'capacity to adapt'. The Level 4 skill: tracking which argument is strengthened or weakened by a given event."
   },
 {
-    topic: "Strategic communications",
+    topic: "Alliance narrative coordination",
     passage: "The strategic communications framework adopted by the alliance sought to address information asymmetries that had hitherto undermined cohesion among member states. By establishing a centralised narrative management protocol, the alliance aimed to preclude adversarial exploitation of internal disagreements while simultaneously reinforcing the credibility of its deterrence posture vis-à-vis potential aggressors. Implementation has proved more challenging than anticipated. Member states retain divergent national narratives shaped by distinct historical experiences and contemporary political imperatives. The proliferation of communication channels, including platforms outside traditional regulatory frameworks, has further complicated efforts to maintain consistent messaging. Notwithstanding these obstacles, recent initiatives suggest that incremental progress is achievable, particularly when coordinated responses to specific incidents demonstrate the practical value of collective action. The challenge remains balancing the operational requirements of effective communications with the democratic imperative of free expression.",
     question: "What fundamental tension does the passage identify as constraining the framework's success?",
     options: [
@@ -776,6 +1369,71 @@ export const READING = {
     ],
     answer: 2,
     ex: "'The simplicity of the spending metric ensures its continued political prominence' — option C paraphrases 'simplicity' and 'political prominence' as 'accessibility as a single number' and 'useful in political discourse'. A is contradicted. B is contradicted ('more sophisticated assessments' exist). D is fabricated. Level 4: recognising that 'political prominence' implies utility for political actors, not analytical merit."
+  },
+  {
+    topic: "Maritime domain awareness in contested waters",
+    passage: "The proliferation of grey-zone activities in maritime contested waters has substantially complicated the practice of maritime domain awareness. Traditional surveillance frameworks, predicated upon binary distinctions between military and civilian vessels, prove inadequate against actors who deliberately employ ostensibly civilian platforms for purposes that are functionally military in character. Fishing fleets operating under state direction, research vessels conducting ambiguous activities near sensitive infrastructure, and commercial shipping deployed in patterns suggesting reconnaissance all defy categorical responses. Effective awareness now requires fusion of automatic identification system data, satellite imagery, behavioural pattern analysis, and contextual intelligence. Yet the resulting analytical product carries irreducible uncertainty, since intent cannot be reliably inferred from observable behaviour alone. Decision-makers must consequently act on probabilistic assessments rather than definitive determinations. The temptation to demand greater certainty before acting frequently proves counterproductive, since the operational tempo of grey-zone activities exploits precisely such hesitation. Conversely, acting on insufficient evidence risks both diplomatic costs and the erosion of analytical credibility upon which future warnings depend.",
+    question: "What does the passage identify as a fundamental analytical limitation in contemporary maritime domain awareness?",
+    options: [
+      "Insufficient satellite coverage of contested waters",
+      "Inability to reliably infer intent from observable behaviour",
+      "Lack of cooperation between civilian and military authorities",
+      "Outdated automatic identification system technology"
+    ],
+    answer: 1,
+    ex: "'intent cannot be reliably inferred from observable behaviour alone' — option B paraphrases this directly. A は技術的問題として誤認させる distractor。C は組織的問題、D は機材の老朽化として誤誘導。Level 4 では「観察可能な行動」と「内在する意図」の認識論的ギャップを理解できるかが問われる。"
+  },
+  {
+    topic: "Quantum technology strategic implications",
+    passage: "The strategic implications of quantum technology development extend well beyond the much-discussed prospect of cryptographic vulnerability. Quantum sensing offers detection capabilities for objects and phenomena previously beyond observational reach, with potentially transformative consequences for submarine warfare, underground facility detection, and inertial navigation independent of satellite signals. Quantum communications promise theoretically secure channels resistant to interception by any technological means. The maturation timelines for these capabilities remain genuinely uncertain, with serious experts offering estimates differing by decades. This uncertainty itself carries strategic significance, since planning assumptions calibrated to optimistic timelines risk wasted investment, while assumptions calibrated to pessimistic ones risk strategic surprise. The tendency to focus public discussion on cryptographic threats reflects partly their conceptual accessibility relative to other quantum applications. Yet the cryptographic challenge admits relatively well-understood mitigation pathways through algorithmic transition, whereas the operational implications of quantum sensing in particular may prove more disruptive precisely because countermeasures remain conceptually undefined.",
+    question: "What does the passage suggest about quantum sensing relative to cryptographic threats?",
+    options: [
+      "Quantum sensing has been adequately addressed by current research",
+      "Cryptographic threats are more strategically significant",
+      "Quantum sensing may prove more disruptive due to undefined countermeasures",
+      "Both threats can be addressed through similar mitigation pathways"
+    ],
+    answer: 2,
+    ex: "'the operational implications of quantum sensing in particular may prove more disruptive precisely because countermeasures remain conceptually undefined' — option C はこの主張を直接反映。A は「対処済み」として正反対、B は cryptographic を過大評価する誤誘導 (passage は逆を示唆)、D は両者を同列に扱う誤り。Level 4 はこのような「公開議論の焦点」と「実際の戦略的重要度」の差異を読み解く力を試す。"
+  },
+  {
+    topic: "Climate-induced migration security challenges",
+    passage: "The securitisation of climate-induced migration represents both an analytical advance and a conceptual hazard. Recognition that environmental disruption generates population movements with potential security implications has appropriately broadened the scope of contingency planning. Yet framing migration primarily through a security lens carries risks that frequently go unacknowledged in operational discourse. Such framing can transform vulnerable populations into objects of suspicion rather than subjects of protection, shape institutional responses toward containment rather than support, and obscure the political and economic factors that interact with environmental drivers to produce displacement. Empirical evidence suggests that climate variables seldom act as monocausal drivers of large-scale migration, instead interacting with governance failures, economic conditions, and social networks in ways that resist deterministic prediction. Security planning calibrated to alarmist projections risks misallocating resources toward improbable mass movements while underinvesting in the more probable patterns of incremental, localised displacement that nonetheless aggregate to significant cumulative effects.",
+    question: "What does the passage identify as a risk of viewing climate-induced migration primarily through a security lens?",
+    options: [
+      "It overestimates the role of climate as a single cause",
+      "It transforms vulnerable populations into objects of suspicion rather than protection",
+      "It diverts attention from cryptographic vulnerabilities",
+      "It encourages excessive cooperation with humanitarian agencies"
+    ],
+    answer: 1,
+    ex: "'Such framing can transform vulnerable populations into objects of suspicion rather than subjects of protection' — option B はこの記述を直接反映。A は別の主張 (climate as monocausal driver) で混同を狙う。C は他テーマからの distractor、D は本文と矛盾。Level 4 は「安全保障の枠組み化」がもたらす道徳的・実務的副作用を識別する力を試す。"
+  },
+  {
+    topic: "Artificial intelligence ethics in military targeting",
+    passage: "The integration of artificial intelligence into military targeting decisions raises ethical questions whose practical resolution lags substantially behind technical capabilities. Proponents emphasise potential improvements in discrimination and proportionality through enhanced data integration and reduced human cognitive limitations under stress. Critics counter that automation introduces new failure modes whose consequences fall disproportionately upon those least able to contest them. Both positions contain merit, and resolution requires neither uncritical adoption nor categorical prohibition but rather the cultivation of meaningful human control across decision sequences whose distributed character resists simple human-in-the-loop characterisations. The challenge is not principally technological but institutional, requiring procedures that preserve genuine human agency rather than ritualistic confirmation of algorithmic recommendations. Existing accountability frameworks, designed for clearly attributable individual decisions, prove inadequate for distributed sociotechnical systems where outcomes emerge from interactions between human judgement, algorithmic processing, and operational pressures. Developing accountability mechanisms suited to these realities represents a more pressing requirement than continued technical refinement of underlying capabilities.",
+    question: "What does the passage identify as a more pressing requirement than continued technical refinement?",
+    options: [
+      "Categorical prohibition of military AI applications",
+      "Faster algorithmic processing of targeting data",
+      "Developing accountability mechanisms suited to distributed sociotechnical systems",
+      "Reducing human involvement in targeting decisions"
+    ],
+    answer: 2,
+    ex: "'Developing accountability mechanisms suited to these realities represents a more pressing requirement than continued technical refinement' — option C はこの主張を直接反映。A は批判者の極端版として誤誘導、B は技術改善という passage が拒否する優先順位、D は人間統制の弱体化として本文と正反対。Level 4 では「技術 vs 制度」の優先順位判断を読み取る力を試す。"
+  },
+  {
+    topic: "Critical mineral supply chain vulnerabilities",
+    passage: "Critical mineral supply chains constitute a strategic vulnerability whose mitigation has proved unexpectedly difficult despite sustained policy attention. The geographic concentration of extraction and, more acutely, of intermediate processing reflects decades of investment patterns that cannot be readily reversed. Substitution research has produced incremental rather than transformative results, since the properties of certain elements prove difficult to replicate through alternative materials. Recycling offers genuine but bounded contributions, since current end-of-life flows for many critical minerals remain modest relative to demand growth. Stockpiling provides operational reassurance but at significant fiscal cost and without addressing structural dependence. Diversification of supply requires sustained capital investment under conditions of price volatility that discourage precisely such investment from market actors operating on commercial timeframes. Resolution accordingly requires sustained governmental engagement that runs counter to prevailing assumptions about appropriate boundaries between public and private economic activity, generating political controversies that further complicate already difficult technical and commercial challenges.",
+    question: "What does the passage identify as discouraging private market investment in supply diversification?",
+    options: [
+      "Insufficient consumer demand for diversified supplies",
+      "Price volatility under commercial timeframes",
+      "Government overregulation of mineral markets",
+      "Excessive recycling capacity in current systems"
+    ],
+    answer: 1,
+    ex: "'sustained capital investment under conditions of price volatility that discourage precisely such investment from market actors operating on commercial timeframes' — option B はこの理由を直接反映。A は需要要因として誤誘導、C は規制過多として正反対 (passage は政府関与不足を示唆)、D は recycling との混同。Level 4 では「市場の論理」と「戦略的必要性」の構造的ミスマッチを読み解く力を試す。"
   }
   ],
 };

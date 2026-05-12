@@ -8,6 +8,7 @@ import {
 import QuestionCard from './components/QuestionCard.jsx';
 import Statistics from './components/Statistics.jsx';
 import SettingsPanel from './components/SettingsPanel.jsx';
+import GradingMode from './components/GradingMode.jsx';
 import './App.css';
 
 const DATASETS = {
@@ -167,13 +168,14 @@ export default function App() {
                 </span>
               </h1>
               <p className="text-xs text-slate-500 leading-tight">
-                280 questions · NATO English
+                350 questions · NATO English
               </p>
             </div>
           </div>
           <nav className="flex items-center gap-1 bg-slate-100 rounded-xl p-1">
             {[
               { id: 'questions', label: '問題', icon: '📝' },
+              { id: 'grading', label: '採点', icon: '🎖️' },
               { id: 'stats', label: '統計', icon: '📊' },
               { id: 'settings', label: '設定', icon: '⚙️' },
             ].map((t) => (
@@ -255,6 +257,10 @@ export default function App() {
               </div>
             )}
           </div>
+        )}
+
+        {currentTab === 'grading' && (
+          <GradingMode datasets={DATASETS} apiKey={apiKey} />
         )}
 
         {currentTab === 'stats' && (

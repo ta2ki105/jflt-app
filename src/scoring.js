@@ -90,6 +90,41 @@ export function emptyPerLevel() {
 
 export const CATEGORIES = ['reading', 'listening', 'vocab', 'grammar'];
 
+/**
+ * Adaptive grading-mode scoring.
+ *
+ * The official JFLT format runs sections sequentially L1 → L4 (15 questions
+ * each). If a section scores fail (≤6) the test ends right there, and only
+ * the previously-passed levels (plus optional "+") count.
+ *
+ * Input: `sectionResults` is an array indexed 0..3 corresponding to L1..L4.
+ *        Each entry is either { correct, total, completed: true } if the
+ *        section was attempted, or null/undefined if the test stopped earlier.
+ *
+ * Returns the same `{ label, baseLevel, suffix, breakdown }` shape as
+ * calculateScore so the UI can render it identically.
+ */
+export function calculateAdaptiveScore(sectionResults) {
+  const perLevel = emptyPerLevel();
+  for (let lv = 1; lv <= MAX_LEVEL; lv++) {
+    const r = sectionResults[lv - 1];
+    if (r && typeof r.correct === 'number') {
+      perLevel[lv] = { correct: r.correct, total: r.total || 0 };
+    }
+  }
+  return calculateScore(perLevel);
+}
+
+/**
+ * Decide whether the grading test should continue to the next section after
+ * the just-completed section's result.
+ */
+export function shouldContinueAdaptive(currentLevel, correctInSection) {
+  if (currentLevel >= MAX_LEVEL) return false;
+  // pass → continue; half / fail → stop
+  return levelStatus(correctInSection) === 'pass';
+}
+
 export function emptyStats() {
   const perCategory = {};
   for (const c of CATEGORIES) perCategory[c] = emptyPerLevel();

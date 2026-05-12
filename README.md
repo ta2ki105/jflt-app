@@ -1,6 +1,6 @@
 # JFLT Training
 
-NATO英語能力試験 (JFLT) 対策アプリ — Reading / Listening / Vocabulary / Grammar の **280問**。
+NATO英語能力試験 (JFLT) 対策アプリ — Reading / Listening / Vocabulary / Grammar の **350問** + JFLT 公式形式の採点モード。
 
 ## 技術スタック
 
@@ -32,20 +32,23 @@ npm run preview
 
 | タブ | 内容 |
 |------|------|
-| 📝 問題 | カテゴリ × レベルで280問から出題。クリックで自動採点・解説表示。 |
+| 📝 問題 | カテゴリ × レベルで自由に練習。クリックで自動採点・解説表示。 |
+| 🎖️ 採点 | JFLT 公式形式 (15問×4セクション、適応進行) で実力測定 → SLPスコア表示。履歴保存。 |
 | 📊 統計 | JFLT 採点基準に基づく総合スコア + セクション別 + レベル別の進捗。 |
 | ⚙️ 設定 | Google Cloud APIキーの登録、テスト再生、セットアップガイド。 |
 
-## 問題セット (280問)
+## 問題セット (350問)
 
 | Skill | L1 | L2 | L3 | L4 | 合計 | ファイル |
 |---|---:|---:|---:|---:|---:|---|
-| Reading | 10 | 35 | 25 | 10 | **80** | `src/reading-complete.js` |
-| Listening | 10 | 35 | 25 | 10 | **80** | `src/listening-complete.js` |
+| Reading | 35 | 55 | 35 | 15 | **140** | `src/reading-complete.js` |
+| Listening | 15 | 35 | 25 | 15 | **90** | `src/listening-complete.js` |
 | Vocab | 15 | 15 | 15 | 15 | **60** | `src/vocab-data.js` |
 | Grammar | 15 | 15 | 15 | 15 | **60** | `src/grammar-data.js` |
 
 `src/data.js` は上記4ファイルから再エクスポートするバレルファイルです。
+全レベル 15 問以上を確保しているため、JFLT 公式形式 (15問×4セクション) の採点モードが
+全スキルで実施可能です。
 
 ## JFLT 採点基準
 
@@ -85,22 +88,30 @@ jflt-app/
 ├── postcss.config.js
 ├── README.md
 ├── QUESTION_FLOW.md         問題追加フロー
+├── PROMPTS.md               問題生成プロンプト集
+├── scripts/
+│   ├── dedup.ps1            重複検出ヘルパー
+│   └── merge-questions.ps1  自動マージスクリプト
 └── src/
     ├── main.jsx
     ├── App.jsx
     ├── App.css
     ├── index.css
     ├── data.js              バレル (4ファイルを再エクスポート)
-    ├── scoring.js           JFLT スコア計算ロジック
-    ├── reading-complete.js  Reading 80問
-    ├── listening-complete.js Listening 80問
+    ├── scoring.js           JFLT スコア計算 + 採点モード対応
+    ├── gradingMode.js       採点モード実行ロジック
+    ├── reading-complete.js  Reading 140問
+    ├── listening-complete.js Listening 90問
     ├── vocab-data.js        Vocab 60問
     ├── grammar-data.js      Grammar 60問
     └── components/
         ├── QuestionCard.jsx
         ├── AudioPlayer.jsx
         ├── Statistics.jsx
-        └── SettingsPanel.jsx
+        ├── SettingsPanel.jsx
+        ├── GradingMode.jsx           採点モードのオーケストレーター
+        ├── PracticeQuestionView.jsx  採点モード中の単問表示
+        └── PracticeResult.jsx        SLPスコア + レビュー画面
 ```
 
 ## 注意

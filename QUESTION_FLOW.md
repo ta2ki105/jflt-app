@@ -226,3 +226,159 @@ grep -c "topic:" src/reading-complete.js
 | **0〜6 問** | 前のレベル | `1` |
 
 総合 JFLT は 4セクション (Reading/Listening/Vocab/Grammar) の **最低値**。
+
+---
+
+## 実践: 新しい問題を追加する具体的手順
+
+ここでは Reading L2 を 10問追加するシナリオを例に、実際のコマンドと操作を順
+を追って示します。他のスキル・他の数も応用可能。
+
+### Step 1. 既存トピックの抽出 (重複防止)
+
+PowerShell で:
+
+```powershell
+cd C:\Users\USER\.claude\work\jflt-app
+. .\scripts\dedup.ps1
+Copy-TopicsToClipboard src\reading-complete.js
+```
+
+→ クリップボードに `- Topic Name` 形式で全 80 問のトピック名が入ります。
+
+### Step 2. 既存トピック分布の確認 (新規テーマ選定)
+
+```powershell
+Show-TopicHistogram src\reading-complete.js -Top 20
+```
+
+頻出キーワードが見えたら、それ以外の領域を新規テーマに選びます。
+
+### Step 3. プロンプト作成
+
+`PROMPTS.md` の §1 (Reading) のテンプレを開き、以下を埋めて Claude Chat へ:
+
+1. 「【今回の生成内容】」を `Reading L2 を 10問追加。テーマ: 海洋安全保障・サイバー作戦` のように埋める
+2. プロンプト末尾に **§9.1 の【既存トピック一覧】ブロック** を追加し、
+   Step 1 でクリップボードにコピーした内容を貼り付ける
+3. プロンプト末尾に **§9.4 の【多様性要件】ブロック** を追加
+
+### Step 4. Claude Chat から受領 → 一時保存
+
+Claude が出力した `.js` を、まず **既存ファイルとは別名** で保存:
+
+```
+C:\Users\USER\Downloads\new-questions.js
+```
+
+→ プロジェクトの `src/` にコピー (検証用、まだマージしない):
+
+```powershell
+Copy-Item "$HOME\Downloads\new-questions.js" "src\new-questions.js"
+```
+
+### Step 5. 構文クリーニング (余分カンマ除去)
+
+```powershell
+$path = "src\new-questions.js"
+$bytes = [System.IO.File]::ReadAllBytes($path)
+$text = [System.Text.Encoding]::UTF8.GetString($bytes)
+$lines = $text -split "`r?`n"
+$cleaned = $lines | Where-Object { $_ -notmatch "^\s*,\s*$" }
+[System.IO.File]::WriteAllText(
+  $path, ($cleaned -join "`n"),
+  (New-Object System.Text.UTF8Encoding $false)
+)
+Write-Host "削除行数: $($lines.Count - $cleaned.Count)"
+```
+
+### Step 6. 重複監査 (一括チェック)
+
+```powershell
+. .\scripts\dedup.ps1
+Invoke-DedupAudit `
+  -NewFile src\new-questions.js `
+  -ExistingFile src\reading-complete.js
+```
+
+出力例の見方:
+- ✅ すべて緑 → そのまま Step 7 へ
+- ⚠️ Yellow (大文字違い・類似質問) → 内容を確認、問題なければ続行 / リネーム検討
+- ❌ Red (完全一致・内部重複) → §9.5 の差し替えプロンプトで該当問題を再生成依頼、Step 4 から繰り返し
+
+### Step 7. 問題数の最終確認
+
+```powershell
+# 新ファイルの問題数
+(Select-String -Path src\new-questions.js -Pattern 'topic:' -AllMatches).Matches.Count
+```
+
+想定数と一致していることを確認。
+
+### Step 8. マージ
+
+新ファイルの問題本体だけ抜き出して既存ファイルの該当レベル末尾に挿入:
+
+**手動マージ (簡単な方法)**:
+1. `src\new-questions.js` を VSCode 等で開く
+2. 追加したいレベルの問題オブジェクト (`{ topic: ... }, { ... }`) をコピー
+3. `src\reading-complete.js` の該当レベル `]` の直前に貼り付け
+4. 直前のオブジェクトの末尾に `,` がついていることを確認
+5. 保存
+
+**自動マージ (PowerShell)** — 別ファイルにレベルごと配列が入っている場合:
+
+```powershell
+# 例: new-questions.js から L2 配列だけ抽出して reading-complete.js の L2 末尾に追加
+# (構造が単純な場合のみ。複雑な場合は手動推奨)
+```
+
+### Step 9. ブラウザで動作確認
+
+```powershell
+npm run dev
+```
+
+確認項目:
+- [ ] 問題タブで Reading L2 を選択
+- [ ] 新しい問題が表示される (進捗表示で問題数が増えている)
+- [ ] 採点 → ✅/❌ の反応確認
+- [ ] 統計タブで Reading L2 の合計問題数が増えている
+
+### Step 10. 一時ファイル削除
+
+確認できたら:
+
+```powershell
+Remove-Item src\new-questions.js
+```
+
+---
+
+## ワンライナー版 (慣れてきたら)
+
+毎回同じ流れなので、簡略化版:
+
+```powershell
+cd C:\Users\USER\.claude\work\jflt-app
+. .\scripts\dedup.ps1
+
+# 1. プロンプト用のトピック一覧
+Copy-TopicsToClipboard src\reading-complete.js
+
+# (Claude Chat で生成 → Downloads に保存)
+
+# 2. 取り込み + クリーン + 監査を一気に
+$f = "src\new-questions.js"
+Copy-Item "$HOME\Downloads\new-questions.js" $f
+$lines = [System.IO.File]::ReadAllBytes($f) | ForEach-Object { [char]$_ } | Join-String
+$cleaned = ($lines -split "`r?`n" | Where-Object { $_ -notmatch "^\s*,\s*$" }) -join "`n"
+[System.IO.File]::WriteAllText($f, $cleaned, (New-Object System.Text.UTF8Encoding $false))
+Invoke-DedupAudit -NewFile $f -ExistingFile src\reading-complete.js
+
+# (問題なければ手動で reading-complete.js にマージ)
+# (npm run dev で確認)
+
+# 3. 一時ファイル削除
+Remove-Item $f
+```

@@ -327,3 +327,107 @@ $cleaned = $lines | Where-Object { $_ -notmatch "^\s*,\s*$" }
 | 弱点補強 | `Vocab L4 を 8問。テーマ: ハイブリッド脅威関連語彙` |
 | 単問追加 | `Listening L3 を 1問。テーマ: 多国籍演習ブリーフィング` |
 | カテゴリ刷新 | `Grammar L3 全 15問を、より時事的な軍事文脈で再生成` |
+
+---
+
+## 9. 重複生成の防止 ★ 最重要 ★
+
+新しい問題を追加していくと、**Claude が無意識に同じトピック・同じ構造を再生成
+する** ことがよくあります。3 層で防御します。
+
+### 9.1 防御層 1: 既存トピックをプロンプトに渡す (事前防止)
+
+最も効果的。生成前に「使用済みトピック一覧」を Claude に見せる。
+
+```powershell
+# scripts/dedup.ps1 を読み込んでクリップボードへ
+. .\scripts\dedup.ps1
+Copy-TopicsToClipboard src\reading-complete.js
+```
+
+→ クリップボードに「- Topic Name」形式で全トピックが入る。
+プロンプトの末尾に下記ブロックを足してから貼り付け:
+
+```
+【既存トピック一覧 (重複禁止)】
+以下は既に使用済みのトピック名です。同じトピック名、および同じ事例・登場
+人物・状況設定 を扱う問題を生成しないでください。類似トピックでも視点・
+登場人物・数値・地名を変えること。
+
+[ ここにクリップボードの内容を貼り付け ]
+
+トピックの新規性が乏しい場合は、別の NATO 27 領域から選んでください。
+```
+
+### 9.2 防御層 2: テーマギャップを明示 (積極的多様化)
+
+「使うな」より「これを使え」のほうが Claude は従順。
+既存トピックの分布を可視化して未使用領域を見つける:
+
+```powershell
+. .\scripts\dedup.ps1
+Show-TopicHistogram src\reading-complete.js -Top 20
+```
+
+→ 頻出キーワード (例: "patrol", "convoy", "briefing") が見える。
+プロンプトで未使用領域を指定:
+
+```
+【今回の生成テーマ】
+以下の領域 *のみ* から問題を生成してください (既出が少ない領域):
+- Cyber operations / electronic warfare
+- Maritime interdiction
+- Civil affairs / humanitarian liaison
+- Arctic operations
+- Air defence integration
+- Counter-UAS (drone defence)
+- Climate-induced operations
+- Space domain situational awareness
+```
+
+### 9.3 防御層 3: 受領後の自動検出 (事後検証)
+
+Claude が指示を無視した場合の最終チェック:
+
+```powershell
+. .\scripts\dedup.ps1
+Invoke-DedupAudit `
+  -NewFile src\new-questions.js `
+  -ExistingFile src\reading-complete.js
+```
+
+実行内容:
+1. **Find-DuplicateTopics**: トピック名の完全一致 / 大文字違い / 内部重複
+2. **Find-SimilarQuestions**: 質問文の出だし 5 単語が一致するもの
+3. **Find-DuplicateOptions**: 選択肢セットが完全一致するもの
+
+### 9.4 効果的な「多様性プロンプト」追加文
+
+各プロンプトの末尾にこれを入れると重複率が大幅に下がります:
+
+```
+【多様性要件】
+- 全問題でユニークな登場人物名・部隊名・地名・コールサインを使用すること
+  (Captain Smith, Bravo Two, Camp Delta などを連続使用しない)
+- 同じ動詞/構文パターンを 2 問以上で繰り返さないこと
+- 質問の出だし ("What time...", "Why...", "How many...") を分散すること
+- 同じ数値・時刻 (例: 0800, 14:00) を 2 問以上で使わないこと
+- グリッド座標 (e.g. "grid 447 Echo") も毎回変えること
+```
+
+### 9.5 重複が見つかった場合の差し替えプロンプト
+
+検出された重複問題だけを再生成させる:
+
+```
+あなたが先ほど生成した以下の Reading 問題は、既存のものと重複しています:
+
+[ Find-DuplicateTopics の出力をそのまま貼り付け ]
+
+これらの問題を、以下の未使用テーマで全く新しい状況設定に差し替えて再生成
+してください:
+- (テーマ A)
+- (テーマ B)
+
+スキーマ・スタイルは前回と同じ。差し替え分のみ出力すれば良い。
+```
