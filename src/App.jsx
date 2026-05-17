@@ -192,9 +192,6 @@ export default function App() {
             <div className="min-w-0">
               <h1 className="text-lg font-bold text-slate-900 leading-tight truncate">
                 {t('header.brand')}
-                <span className="ml-1.5 text-xs font-normal text-slate-400 italic">
-                  {t('header.author')}
-                </span>
               </h1>
               <p className="text-xs text-slate-500 leading-tight truncate">
                 {t('header.tagline')}
@@ -353,8 +350,11 @@ export default function App() {
         )}
       </main>
 
-      <footer className="max-w-3xl mx-auto px-4 py-6 text-center text-xs text-slate-400">
-        {t('header.footer')}
+      <footer className="max-w-3xl mx-auto px-4 py-6 text-center">
+        <p className="text-xs text-slate-400">{t('header.footer')}</p>
+        <p className="mt-1 text-[10px] text-slate-300 italic tracking-wide">
+          {t('header.author')}
+        </p>
       </footer>
     </div>
   );
