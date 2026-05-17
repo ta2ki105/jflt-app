@@ -5,6 +5,7 @@ import {
   migrateStats,
   recordAnswer,
 } from './scoring.js';
+import { useI18n } from './i18n/useI18n.js';
 import QuestionCard from './components/QuestionCard.jsx';
 import Statistics from './components/Statistics.jsx';
 import SettingsPanel from './components/SettingsPanel.jsx';
@@ -35,6 +36,8 @@ const LEGACY_STATS_KEY = 'jflt_stats';
 const API_KEY_STORAGE = 'gcloud_api_key';
 
 export default function App() {
+  const { t, lang, setLang } = useI18n();
+
   const [currentTab, setCurrentTab] = useState('questions');
   const [category, setCategory] = useState('reading');
   const [level, setLevel] = useState('all');
@@ -122,13 +125,18 @@ export default function App() {
   }, [totalQuestions]);
 
   const handleResetStats = () => {
-    if (window.confirm('統計をリセットしますか？')) {
+    if (window.confirm(t('alerts.confirm_reset_stats'))) {
       persistStats(emptyStats());
     }
   };
 
   const handleResetCategory = (cat) => {
-    if (!window.confirm(`${DATASETS[cat].label} の記録をリセットしますか？`)) return;
+    if (
+      !window.confirm(
+        t('alerts.confirm_reset_category', { label: DATASETS[cat].label })
+      )
+    )
+      return;
     const next = {
       ...stats,
       perCategory: {
@@ -152,49 +160,84 @@ export default function App() {
 
   const datasetMeta = DATASETS[category];
 
+  const TABS = [
+    { id: 'questions', label: t('tabs.questions'), icon: '📝' },
+    { id: 'grading', label: t('tabs.grading'), icon: '🎖️' },
+    { id: 'writing', label: t('tabs.writing'), icon: '✍️' },
+    { id: 'stats', label: t('tabs.stats'), icon: '📊' },
+    { id: 'settings', label: t('tabs.settings'), icon: '⚙️' },
+  ];
+
   return (
     <div className="min-h-full">
       {/* Header */}
       <header className="sticky top-0 z-10 backdrop-blur bg-white/80 border-b border-slate-200">
-        <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-sm">
+        <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-sm flex-none">
               J
             </div>
-            <div>
-              <h1 className="text-lg font-bold text-slate-900 leading-tight">
-                JFLT Training
+            <div className="min-w-0">
+              <h1 className="text-lg font-bold text-slate-900 leading-tight truncate">
+                {t('header.brand')}
                 <span className="ml-1.5 text-xs font-normal text-slate-400 italic">
-                  by Oshibe
+                  {t('header.author')}
                 </span>
               </h1>
-              <p className="text-xs text-slate-500 leading-tight">
-                350 questions · NATO English
+              <p className="text-xs text-slate-500 leading-tight truncate">
+                {t('header.tagline')}
               </p>
             </div>
           </div>
-          <nav className="flex items-center gap-1 bg-slate-100 rounded-xl p-1">
-            {[
-              { id: 'questions', label: '問題', icon: '📝' },
-              { id: 'grading', label: '採点', icon: '🎖️' },
-              { id: 'writing', label: 'Writing', icon: '✍️' },
-              { id: 'stats', label: '統計', icon: '📊' },
-              { id: 'settings', label: '設定', icon: '⚙️' },
-            ].map((t) => (
+          <div className="flex items-center gap-2 flex-none">
+            <nav className="flex items-center gap-1 bg-slate-100 rounded-xl p-1">
+              {TABS.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setCurrentTab(tab.id)}
+                  className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
+                    currentTab === tab.id
+                      ? 'bg-white text-blue-700 shadow-sm font-medium'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <span className="mr-1">{tab.icon}</span>
+                  <span className="hidden sm:inline">{tab.label}</span>
+                </button>
+              ))}
+            </nav>
+            {/* Language toggle */}
+            <div
+              className="flex items-center bg-slate-100 rounded-lg p-0.5 text-xs font-semibold"
+              role="group"
+              aria-label={t('header.langSwitch')}
+            >
               <button
-                key={t.id}
-                onClick={() => setCurrentTab(t.id)}
-                className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
-                  currentTab === t.id
-                    ? 'bg-white text-blue-700 shadow-sm font-medium'
-                    : 'text-slate-600 hover:text-slate-900'
+                type="button"
+                onClick={() => setLang('ja')}
+                className={`px-2 py-1 rounded-md transition-colors ${
+                  lang === 'ja'
+                    ? 'bg-white text-blue-700 shadow-sm'
+                    : 'text-slate-500 hover:text-slate-900'
                 }`}
+                aria-pressed={lang === 'ja'}
               >
-                <span className="mr-1">{t.icon}</span>
-                <span className="hidden sm:inline">{t.label}</span>
+                {t('header.langJA')}
               </button>
-            ))}
-          </nav>
+              <button
+                type="button"
+                onClick={() => setLang('en')}
+                className={`px-2 py-1 rounded-md transition-colors ${
+                  lang === 'en'
+                    ? 'bg-white text-blue-700 shadow-sm'
+                    : 'text-slate-500 hover:text-slate-900'
+                }`}
+                aria-pressed={lang === 'en'}
+              >
+                {t('header.langEN')}
+              </button>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -221,7 +264,9 @@ export default function App() {
 
             {/* Level filter */}
             <div className="flex flex-wrap gap-2 items-center">
-              <span className="text-sm text-slate-500 mr-1">Level:</span>
+              <span className="text-sm text-slate-500 mr-1">
+                {t('levels.label')}
+              </span>
               {LEVELS.map((lv) => (
                 <button
                   key={lv}
@@ -232,11 +277,14 @@ export default function App() {
                       : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
                   }`}
                 >
-                  {lv === 'all' ? 'ALL' : `L${lv}`}
+                  {lv === 'all' ? t('levels.all') : `L${lv}`}
                 </button>
               ))}
               <div className="ml-auto text-sm text-slate-500">
-                Q{totalQuestions === 0 ? 0 : safeIndex + 1} / {totalQuestions}
+                {t('levels.progress', {
+                  current: totalQuestions === 0 ? 0 : safeIndex + 1,
+                  total: totalQuestions,
+                })}
               </div>
             </div>
 
@@ -255,7 +303,7 @@ export default function App() {
               />
             ) : (
               <div className="bg-white rounded-2xl p-8 text-center text-slate-500 border border-slate-200">
-                このレベルには問題がありません。
+                {t('levels.noQuestions')}
               </div>
             )}
           </div>
@@ -282,7 +330,7 @@ export default function App() {
       </main>
 
       <footer className="max-w-3xl mx-auto px-4 py-6 text-center text-xs text-slate-400">
-        JFLT Training · React + Vite + Tailwind · Powered by Google Cloud TTS
+        {t('header.footer')}
       </footer>
     </div>
   );

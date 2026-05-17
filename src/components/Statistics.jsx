@@ -1,9 +1,9 @@
+import { useI18n } from '../i18n/useI18n.js';
 import {
   calculateScore,
   categoryTotals,
   PASS_THRESHOLD,
   HALF_THRESHOLD,
-  MAX_LEVEL,
 } from '../scoring.js';
 
 const SCORE_COLORS = {
@@ -14,14 +14,14 @@ const SCORE_COLORS = {
   4: 'from-rose-500 to-fuchsia-600',
 };
 
-const STATUS_LABEL = {
-  pass: { text: '合格', cls: 'bg-emerald-100 text-emerald-800 border-emerald-300' },
-  half: { text: '+', cls: 'bg-amber-100 text-amber-800 border-amber-300' },
-  fail: { text: '未到達', cls: 'bg-rose-100 text-rose-700 border-rose-300' },
-  untested: { text: '未挑戦', cls: 'bg-slate-100 text-slate-500 border-slate-200' },
+const STATUS_CLS = {
+  pass: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+  half: 'bg-amber-100 text-amber-800 border-amber-300',
+  fail: 'bg-rose-100 text-rose-700 border-rose-300',
+  untested: 'bg-slate-100 text-slate-500 border-slate-200',
 };
 
-function CategoryCard({ name, label, icon, perLevel, onReset }) {
+function CategoryCard({ name, label, icon, perLevel, onReset, t }) {
   const score = calculateScore(perLevel);
   const totals = categoryTotals(perLevel);
   const accuracy = totals.total > 0 ? Math.round((totals.correct / totals.total) * 100) : 0;
@@ -38,11 +38,13 @@ function CategoryCard({ name, label, icon, perLevel, onReset }) {
         <div className="flex-1 min-w-0">
           <div className="text-sm text-slate-500">{label}</div>
           <div className="text-xs text-slate-400">
-            {totals.correct} / {totals.total} 正解 ({accuracy}%)
+            {t('stats.score_progress', { correct: totals.correct, total: totals.total })} ({accuracy}%)
           </div>
         </div>
         <div className="text-right">
-          <div className="text-xs uppercase text-slate-400 tracking-wide">JFLT</div>
+          <div className="text-xs uppercase text-slate-400 tracking-wide">
+            {t('stats.jflt_label')}
+          </div>
           <div className="text-3xl font-bold text-slate-900 tabular-nums leading-none">
             {score.label}
           </div>
@@ -52,7 +54,8 @@ function CategoryCard({ name, label, icon, perLevel, onReset }) {
       {/* Per-level breakdown */}
       <div className="px-5 py-3 space-y-2">
         {score.breakdown.map((b) => {
-          const status = STATUS_LABEL[b.status];
+          const statusCls = STATUS_CLS[b.status];
+          const statusText = t(`pr.status.${b.status}`);
           const remaining = Math.max(0, PASS_THRESHOLD - b.correct);
           const widthPct = Math.min(
             100,
@@ -61,7 +64,9 @@ function CategoryCard({ name, label, icon, perLevel, onReset }) {
           return (
             <div key={b.level} className="text-sm">
               <div className="flex items-center gap-2">
-                <span className="font-mono text-xs text-slate-500 w-7">L{b.level}</span>
+                <span className="font-mono text-xs text-slate-500 w-7">
+                  {t('stats.level', { lv: b.level })}
+                </span>
                 <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
                   <div
                     className={`h-full ${
@@ -75,17 +80,19 @@ function CategoryCard({ name, label, icon, perLevel, onReset }) {
                   />
                 </div>
                 <span className="tabular-nums text-xs text-slate-600 w-14 text-right">
-                  {b.correct} / {b.total}
+                  {t('stats.score_progress', { correct: b.correct, total: b.total })}
                 </span>
-                <span
-                  className={`text-[11px] px-2 py-0.5 rounded-md border ${status.cls}`}
-                >
-                  {status.text}
+                <span className={`text-[11px] px-2 py-0.5 rounded-md border ${statusCls}`}>
+                  {statusText}
                 </span>
               </div>
               {b.status !== 'pass' && b.total > 0 && (
                 <div className="text-[11px] text-slate-400 ml-9 mt-0.5">
-                  あと {remaining} 問正解で合格 (基準 {PASS_THRESHOLD} / +付 {HALF_THRESHOLD})
+                  {t('stats.remaining', {
+                    remaining,
+                    pass: PASS_THRESHOLD,
+                    half: HALF_THRESHOLD,
+                  })}
                 </div>
               )}
             </div>
@@ -99,7 +106,7 @@ function CategoryCard({ name, label, icon, perLevel, onReset }) {
           onClick={() => onReset(name)}
           className="text-xs text-slate-500 hover:text-rose-700"
         >
-          このセクションをリセット
+          {t('stats.reset_section')}
         </button>
       </div>
     </div>
@@ -107,24 +114,23 @@ function CategoryCard({ name, label, icon, perLevel, onReset }) {
 }
 
 export default function Statistics({ stats, datasets, onResetAll, onResetCategory }) {
+  const { t } = useI18n();
   // Aggregate top-line metrics
   let totalCorrect = 0;
   let totalAttempted = 0;
   for (const c of Object.keys(stats.perCategory)) {
-    const t = categoryTotals(stats.perCategory[c]);
-    totalCorrect += t.correct;
-    totalAttempted += t.total;
+    const tot = categoryTotals(stats.perCategory[c]);
+    totalCorrect += tot.correct;
+    totalAttempted += tot.total;
   }
   const overallAccuracy =
     totalAttempted > 0 ? Math.round((totalCorrect / totalAttempted) * 100) : 0;
 
-  // Overall score: minimum across the four sections (the JFLT pass requires
-  // hitting the level in every section)
+  // Overall score: minimum across the four sections
   const sectionScores = Object.entries(stats.perCategory).map(([k, pl]) => ({
     key: k,
     score: calculateScore(pl),
   }));
-  // Encode level for comparison: "2+" → 2.5, "3" → 3
   const numeric = (s) => {
     if (s.label === '—') return -1;
     return s.baseLevel + (s.suffix === '+' ? 0.5 : 0);
@@ -133,30 +139,29 @@ export default function Statistics({ stats, datasets, onResetAll, onResetCategor
     (acc, s) => (numeric(s.score) < numeric(acc.score) ? s : acc),
     sectionScores[0]
   );
-  const overallLabel =
-    sectionScores.every((s) => s.score.label === '—')
-      ? '—'
-      : minScore.score.label;
+  const overallLabel = sectionScores.every((s) => s.score.label === '—')
+    ? '—'
+    : minScore.score.label;
 
   const summaryCards = [
     {
-      label: '総合 JFLT',
+      label: t('stats.summary.overall_jflt'),
       value: overallLabel,
-      sub: '4セクションの最低値',
+      sub: t('stats.summary.overall_sub'),
       accent: SCORE_COLORS[minScore.score.baseLevel] || SCORE_COLORS[0],
       icon: '🎖️',
     },
     {
-      label: '正解 / 全問',
+      label: t('stats.summary.correct_total'),
       value: `${totalCorrect} / ${totalAttempted}`,
-      sub: `正解率 ${overallAccuracy}%`,
+      sub: t('stats.summary.correct_total_sub', { pct: overallAccuracy }),
       accent: 'from-blue-500 to-indigo-600',
       icon: '🎯',
     },
     {
-      label: '連続正解',
+      label: t('stats.summary.streak'),
       value: `${stats.streak}`,
-      sub: `最高 ${stats.bestStreak || 0}`,
+      sub: t('stats.summary.streak_sub', { best: stats.bestStreak || 0 }),
       accent: 'from-amber-500 to-orange-600',
       icon: '🔥',
     },
@@ -187,23 +192,25 @@ export default function Statistics({ stats, datasets, onResetAll, onResetCategor
 
       {/* Scoring rules legend */}
       <div className="bg-white rounded-2xl border border-slate-200 p-4 text-sm">
-        <h3 className="font-semibold text-slate-900 mb-2">📐 採点基準</h3>
+        <h3 className="font-semibold text-slate-900 mb-2">
+          {t('stats.rules_title')}
+        </h3>
         <ul className="text-xs text-slate-600 space-y-1">
           <li>
-            <strong className="text-emerald-700">10問以上正解</strong>
-            ：そのレベルの評価が付与され、上位レベルへ進む
+            <strong className="text-emerald-700">≥ {PASS_THRESHOLD}</strong>
+            {t('stats.rule_pass')}
           </li>
           <li>
-            <strong className="text-amber-700">7〜9問正解</strong>
-            ：前のレベルに「+」が付く（例: L2で7-9問→<code className="font-mono">1+</code>）
+            <strong className="text-amber-700">
+              {HALF_THRESHOLD}–{PASS_THRESHOLD - 1}
+            </strong>
+            {t('stats.rule_half')}
           </li>
           <li>
-            <strong className="text-rose-700">0〜6問正解</strong>
-            ：前のレベルが付与される（例: L2で6問以下→<code className="font-mono">1</code>）
+            <strong className="text-rose-700">0–{HALF_THRESHOLD - 1}</strong>
+            {t('stats.rule_fail')}
           </li>
-          <li className="pt-1 text-slate-500">
-            総合 JFLT は 4セクションの最低値です（全セクションで一定レベルを満たす必要あり）。
-          </li>
+          <li className="pt-1 text-slate-500">{t('stats.rules_note')}</li>
         </ul>
       </div>
 
@@ -217,22 +224,23 @@ export default function Statistics({ stats, datasets, onResetAll, onResetCategor
             icon={datasets[key].icon}
             perLevel={perLevel}
             onReset={onResetCategory}
+            t={t}
           />
         ))}
       </div>
 
       {/* Reset all */}
       <div className="bg-white rounded-2xl border border-slate-200 p-5">
-        <h3 className="font-semibold text-slate-900 mb-1">統計のリセット</h3>
-        <p className="text-sm text-slate-600 mb-3">
-          全セクションの記録を削除して、最初から学習し直すことができます。
-        </p>
+        <h3 className="font-semibold text-slate-900 mb-1">
+          {t('stats.reset_title')}
+        </h3>
+        <p className="text-sm text-slate-600 mb-3">{t('stats.reset_body')}</p>
         <button
           type="button"
           onClick={onResetAll}
           className="px-4 py-2 text-sm rounded-lg bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100"
         >
-          🗑️ 全統計をリセット
+          {t('stats.reset_btn')}
         </button>
       </div>
     </div>

@@ -9,6 +9,7 @@ import {
   clearHistory,
 } from '../gradingMode.js';
 import { MAX_LEVEL } from '../scoring.js';
+import { useI18n } from '../i18n/useI18n.js';
 import PracticeQuestionView from './PracticeQuestionView.jsx';
 import PracticeResult from './PracticeResult.jsx';
 
@@ -18,20 +19,23 @@ const PHASE = {
   RESULT: 'result',
 };
 
+// Section has 15 questions (per official JFLT spec)
+const QUESTIONS_PER_SECTION = 15;
+
 export default function GradingMode({ datasets, apiKey }) {
+  const { t, lang } = useI18n();
   const [phase, setPhase] = useState(PHASE.SETUP);
   const [skill, setSkill] = useState('reading');
   const [session, setSession] = useState(null);
-  const [currentLevel, setCurrentLevel] = useState(1); // 1..4
-  const [currentIdx, setCurrentIdx] = useState(0); // index within section
+  const [currentLevel, setCurrentLevel] = useState(1);
+  const [currentIdx, setCurrentIdx] = useState(0);
   const [currentSelected, setCurrentSelected] = useState(null);
-  const [sectionAnswers, setSectionAnswers] = useState([]); // for current section
-  const [answeredSections, setAnsweredSections] = useState([]); // completed sections
-  const [historyTick, setHistoryTick] = useState(0); // re-render trigger after history change
+  const [sectionAnswers, setSectionAnswers] = useState([]);
+  const [answeredSections, setAnsweredSections] = useState([]);
+  const [historyTick, setHistoryTick] = useState(0);
 
   const history = useMemo(() => loadHistory(), [historyTick]);
 
-  // ---- Setup phase ----
   const startTest = useCallback(() => {
     const s = createSession(skill, datasets[skill].data);
     setSession(s);
@@ -44,12 +48,11 @@ export default function GradingMode({ datasets, apiKey }) {
   }, [skill, datasets]);
 
   const handleClearHistory = () => {
-    if (!window.confirm('採点履歴をすべて削除しますか？')) return;
+    if (!window.confirm(t('grading.confirm_clear_history'))) return;
     clearHistory();
-    setHistoryTick((t) => t + 1);
+    setHistoryTick((tick) => tick + 1);
   };
 
-  // ---- Testing phase ----
   const currentSection = session?.sections[currentLevel - 1] || [];
   const currentQuestion = currentSection[currentIdx];
 
@@ -73,7 +76,6 @@ export default function GradingMode({ datasets, apiKey }) {
       return;
     }
 
-    // Section complete
     const result = tallySection(nextAnswers);
     const completedSection = {
       level: currentLevel,
@@ -84,20 +86,18 @@ export default function GradingMode({ datasets, apiKey }) {
     setAnsweredSections(allSections);
 
     if (currentLevel < MAX_LEVEL && decideAdvance(currentLevel, result)) {
-      // Advance to next level
       setCurrentLevel((lv) => lv + 1);
       setCurrentIdx(0);
       setSectionAnswers([]);
       setCurrentSelected(null);
     } else {
-      // Test ends
       const entry = buildHistoryEntry({
         skill: session.skill,
         startedAt: session.startedAt,
         answeredSections: allSections,
       });
       appendHistory(entry);
-      setHistoryTick((t) => t + 1);
+      setHistoryTick((tick) => tick + 1);
       setPhase(PHASE.RESULT);
     }
   }, [
@@ -112,7 +112,7 @@ export default function GradingMode({ datasets, apiKey }) {
   ]);
 
   const handleAbort = () => {
-    if (!window.confirm('テストを中断します。記録は保存されません。')) return;
+    if (!window.confirm(t('grading.confirm_abort'))) return;
     setPhase(PHASE.SETUP);
     setSession(null);
   };
@@ -122,34 +122,42 @@ export default function GradingMode({ datasets, apiKey }) {
     setSession(null);
   };
 
-  // ---- Render ----
-
   if (phase === PHASE.SETUP) {
     return (
       <div className="space-y-4 fade-in">
         <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
           <h2 className="text-lg font-semibold text-slate-900 mb-2">
-            🎖️ 採点モード — JFLT 公式形式
+            {t('grading.title')}
           </h2>
           <p className="text-sm text-slate-600 mb-4 leading-relaxed">
-            実際の JFLT と同じ形式で実力を測定します。
-            <strong className="text-slate-900">15問×4セクション</strong>
-            を Level 1 から順に出題し、6問以下の正答でテスト終了。
-            最終的に <strong>SLP スコア (例: 2+)</strong> を算出します。
+            {t('grading.intro_p1')}
+            <strong className="text-slate-900">
+              {t('grading.intro_p2', {
+                questionsPerSection: QUESTIONS_PER_SECTION,
+                sections: MAX_LEVEL,
+              })}
+            </strong>
+            {t('grading.intro_p3')}
+            <strong>{t('grading.intro_p4')}</strong>
+            {t('grading.intro_p5')}
           </p>
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-900 mb-4">
-            <strong>注意:</strong>
+            <strong>{t('grading.note_label')}</strong>
             <ul className="mt-1 space-y-0.5 list-disc list-inside">
-              <li>採点モード中は前の問題に戻れません</li>
-              <li>Listening は音声が <strong>1 度だけ自動再生</strong> されます</li>
-              <li>Reading の本文はテスト中に表示されます (公式形式と同じ)</li>
-              <li>結果はテスト終了時に表示・履歴保存されます</li>
+              <li>{t('grading.note_no_back')}</li>
+              <li>
+                {t('grading.note_audio_once_a')}
+                <strong>{t('grading.note_audio_once_b')}</strong>
+                {t('grading.note_audio_once_c')}
+              </li>
+              <li>{t('grading.note_reading_visible')}</li>
+              <li>{t('grading.note_history')}</li>
             </ul>
           </div>
 
           <label className="block text-sm font-medium text-slate-700 mb-2">
-            受験スキルを選択
+            {t('grading.select_skill')}
           </label>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
             {Object.entries(datasets).map(([key, info]) => (
@@ -171,8 +179,7 @@ export default function GradingMode({ datasets, apiKey }) {
 
           {skill === 'listening' && !apiKey && (
             <div className="text-xs text-rose-700 bg-rose-50 border border-rose-200 rounded-lg p-2 mb-3">
-              ⚠️ Listening は API キー未設定でも受験可能ですが、音声は再生されません。
-              先に「設定」タブで Google Cloud TTS の API キーを登録することを推奨します。
+              {t('grading.api_warn')}
             </div>
           )}
 
@@ -181,31 +188,34 @@ export default function GradingMode({ datasets, apiKey }) {
             onClick={startTest}
             className="w-full px-4 py-3 text-sm font-semibold rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-sm"
           >
-            ▶️ 採点モードを開始
+            {t('grading.start')}
           </button>
         </div>
 
         {/* History */}
         <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-semibold text-slate-900">📜 受験履歴</h3>
+            <h3 className="font-semibold text-slate-900">
+              {t('grading.history_title')}
+            </h3>
             {history.length > 0 && (
               <button
                 type="button"
                 onClick={handleClearHistory}
                 className="text-xs text-rose-700 hover:underline"
               >
-                履歴を削除
+                {t('grading.history_clear')}
               </button>
             )}
           </div>
           {history.length === 0 ? (
-            <p className="text-sm text-slate-500">まだ受験履歴がありません。</p>
+            <p className="text-sm text-slate-500">{t('grading.history_empty')}</p>
           ) : (
             <ul className="space-y-2 max-h-80 overflow-y-auto">
               {history.map((h) => {
                 const date = new Date(h.startedAt);
-                const dateStr = date.toLocaleString('ja-JP', {
+                const locale = lang === 'ja' ? 'ja-JP' : 'en-GB';
+                const dateStr = date.toLocaleString(locale, {
                   year: '2-digit',
                   month: '2-digit',
                   day: '2-digit',
@@ -242,13 +252,13 @@ export default function GradingMode({ datasets, apiKey }) {
     if (!currentQuestion) {
       return (
         <div className="bg-white rounded-2xl p-8 text-center text-slate-500 border border-slate-200">
-          問題の読み込みに失敗しました。トップに戻ってください。
+          {t('grading.load_failed')}
           <button
             type="button"
             onClick={handleAbort}
             className="block mx-auto mt-4 px-4 py-2 text-sm rounded-lg bg-slate-100 text-slate-700"
           >
-            戻る
+            {t('grading.go_back')}
           </button>
         </div>
       );
@@ -258,23 +268,28 @@ export default function GradingMode({ datasets, apiKey }) {
         {/* Progress strip */}
         <div className="bg-white rounded-xl border border-slate-200 px-4 py-2 flex items-center gap-3 text-xs">
           <span className="font-semibold text-slate-700">
-            Section {currentLevel} / {MAX_LEVEL}
+            {t('grading.section_label', { current: currentLevel, total: MAX_LEVEL })}
           </span>
           <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
             <div
               className="h-full bg-blue-500 transition-all"
-              style={{ width: `${((currentIdx + 1) / currentSection.length) * 100}%` }}
+              style={{
+                width: `${((currentIdx + 1) / currentSection.length) * 100}%`,
+              }}
             />
           </div>
           <span className="text-slate-600 tabular-nums">
-            {currentIdx + 1} / {currentSection.length}
+            {t('grading.progress_count', {
+              current: currentIdx + 1,
+              total: currentSection.length,
+            })}
           </span>
           <button
             type="button"
             onClick={handleAbort}
             className="text-xs text-slate-500 hover:text-rose-700 ml-2"
           >
-            中断
+            {t('grading.abort')}
           </button>
         </div>
 

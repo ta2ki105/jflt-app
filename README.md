@@ -1,13 +1,18 @@
 # JFLT Training
 
-NATO英語能力試験 (JFLT) 対策アプリ — Reading / Listening / Vocabulary / Grammar の **350問** + JFLT 公式形式の採点モード + Writing 添削スクリプト。
+🇬🇧 **English UI now available** — switch language with the **EN / JA** toggle in the header.
 
-## 🚀 アプリを使う
+NATO 英語能力試験 (JFLT) 対策アプリ — Reading / Listening / Vocabulary / Grammar の **350問** + JFLT 公式形式の採点モード + Writing 添削スクリプト。
+JFLT exam prep with 350 questions, official-format adaptive test, and an AI writing-coach prompt. UI in **English / 日本語**.
+
+## 🚀 アプリを使う / Try the app
 
 ### 👉 **[https://jflt-app.vercel.app/](https://jflt-app.vercel.app/)**
 
-インストール不要。上記の URL をブラウザで開けばすぐに使えます。
-スマートフォン・PC どちらにも対応。
+インストール不要。上記の URL をブラウザで開けばすぐに使えます。スマートフォン・PC どちらにも対応。
+No install required — open the URL in any browser. Works on desktop and mobile.
+
+🌐 **Language**: The UI auto-detects your browser language (JA for Japanese, EN for everyone else) and remembers your choice via LocalStorage. Switch any time with the JA/EN toggle in the top-right.
 
 ---
 
@@ -112,6 +117,10 @@ jflt-app/
     ├── data.js              バレル (4ファイルを再エクスポート)
     ├── scoring.js           JFLT スコア計算 + 採点モード対応
     ├── gradingMode.js       採点モード実行ロジック
+    ├── i18n/                EN / JA 国際化
+    │   ├── messages.js      翻訳辞書 (160+ keys × 2 languages)
+    │   ├── LanguageContext.jsx  React Context + Provider
+    │   └── useI18n.js       t() フック
     ├── writingScript.js     Writing 添削コーチ用プロンプト
     ├── reading-complete.js  Reading 140問
     ├── listening-complete.js Listening 90問

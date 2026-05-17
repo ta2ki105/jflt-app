@@ -1,3 +1,4 @@
+import { useI18n } from '../i18n/useI18n.js';
 import AudioPlayer from './AudioPlayer.jsx';
 
 const LEVEL_BADGE = {
@@ -18,14 +19,10 @@ export default function QuestionCard({
   onPrev,
   apiKey,
 }) {
+  const { t } = useI18n();
   const correctIndex = question.answer;
   const isCorrect = answered && selectedAnswer === correctIndex;
-
-  // Determine which text to read aloud
-  // Listening: read the passage (the audio script)
-  // Reading: also allow listening to the passage
   const speakable = question.passage || '';
-
   const optionLabels = ['A', 'B', 'C', 'D'];
 
   return (
@@ -47,7 +44,7 @@ export default function QuestionCard({
             <AudioPlayer
               text={speakable}
               apiKey={apiKey}
-              label={category === 'listening' ? '音声を再生' : '読み上げ'}
+              label={category === 'listening' ? t('card.playAudio') : t('card.readAloud')}
             />
           </div>
         )}
@@ -59,7 +56,7 @@ export default function QuestionCard({
           <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-[15px] leading-relaxed text-slate-800 whitespace-pre-wrap">
             {category === 'listening' && !answered ? (
               <span className="text-slate-400 italic">
-                🔊 上の「音声を再生」ボタンで聴き取ってください。（採点後にスクリプトが表示されます）
+                {t('card.listenInstruction')}
               </span>
             ) : (
               question.passage
@@ -143,8 +140,8 @@ export default function QuestionCard({
               <span className="text-lg">{isCorrect ? '✅' : '❌'}</span>
               <span className="font-semibold text-slate-900">
                 {isCorrect
-                  ? '正解！'
-                  : `不正解 — 正解は ${optionLabels[correctIndex]}`}
+                  ? t('card.correct')
+                  : t('card.incorrect', { label: optionLabels[correctIndex] })}
               </span>
             </div>
             {question.ex && (
@@ -161,14 +158,14 @@ export default function QuestionCard({
           onClick={onPrev}
           className="px-4 py-2 text-sm rounded-lg bg-white border border-slate-200 text-slate-700 hover:border-slate-400"
         >
-          ← 前へ
+          {t('card.back')}
         </button>
         <button
           type="button"
           onClick={onNext}
           className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
         >
-          {answered ? '次へ →' : 'スキップ →'}
+          {answered ? t('card.next') : t('card.skip')}
         </button>
       </div>
     </article>

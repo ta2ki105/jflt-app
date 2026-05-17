@@ -270,59 +270,7 @@ If structure or formality needs major improvement, rewrite one paragraph as a mo
 - Focus on universal military writing contexts (any country's military, any rank, any role) — do not assume or reference a specific nation, unit, or background.
 `;
 
-/**
- * Convenience metadata for the Writing tab UI.
- */
-export const WRITING_TASKS = [
-  {
-    id: 'email',
-    icon: '✉️',
-    label: 'E-Mail',
-    formality: 'Informal',
-    words: '50–150 words',
-    description:
-      '友人宛のカジュアルなメール。新しい仕事、休暇、出来事の報告など。短縮形 (I\'m, don\'t) OK。',
-    structure: 'Greeting → Main message → Closing',
-  },
-  {
-    id: 'report',
-    icon: '📋',
-    label: 'Report',
-    formality: 'Very Formal',
-    words: '150–250 words',
-    description:
-      '上官への正式な報告書。安全管理者・広報官など特定の役職で書く。短縮形・口語表現は不可。',
-    structure: 'Purpose → Background → Problem → Recommendation → Closing',
-  },
-  {
-    id: 'essay',
-    icon: '📝',
-    label: 'Essay',
-    formality: 'Middle Formal',
-    words: '250–500 words',
-    description:
-      '時事的トピックに対する論理的なエッセイ。賛否両論をバランスよく分析し、最後に立場を表明する。',
-    structure: 'Introduction → Pros (2 points) → Cons (2 points) → Conclusion',
-  },
-];
-
-export const SUPPORTED_AIS = [
-  {
-    id: 'gemini',
-    name: 'Google Gemini',
-    url: 'https://gemini.google.com/',
-    note: '無料枠あり。日本語フィードバックが自然。',
-  },
-  {
-    id: 'claude',
-    name: 'Anthropic Claude',
-    url: 'https://claude.ai/',
-    note: '長文の構造分析に強い。フィードバックの一貫性が高い。',
-  },
-  {
-    id: 'chatgpt',
-    name: 'ChatGPT',
-    url: 'https://chat.openai.com/',
-    note: '幅広い軍事トピックをカバー。GPT-4 推奨。',
-  },
-];
+// NOTE: WRITING_TASKS / SUPPORTED_AIS metadata is now sourced from i18n
+// (src/i18n/messages.js → writing.tasks.* / writing.ai.*) so that the Writing
+// tab UI is fully translatable. The script body above remains in English by
+// design — it is the AI prompt sent to Gemini / Claude / ChatGPT verbatim.
