@@ -46,7 +46,78 @@ export const MESSAGES = {
       grading: 'Test',
       writing: 'Writing',
       stats: 'Stats',
+      updates: 'Updates',
       settings: 'Settings',
+    },
+
+    changelog: {
+      title: '📰 Update notes',
+      intro:
+        'A short log of what has changed recently. New entries appear at the top.',
+      empty: 'No updates yet.',
+      tags: {
+        feature: 'NEW',
+        improvement: 'Improved',
+        fix: 'Fixed',
+        style: 'Design',
+      },
+      entries: {
+        updates_tab: {
+          title: 'Update notes tab',
+          desc:
+            'This tab. A lightweight changelog so you can see what changed without checking GitHub.',
+        },
+        mobile_header: {
+          title: 'Mobile-friendly header',
+          desc:
+            'On phones the header now wraps to two rows so tab buttons stay tappable. Desktop layout unchanged.',
+        },
+        footer_credit: {
+          title: 'Refined credit placement',
+          desc:
+            '"by Oshibe" moved from the header to a faint italic line in the footer.',
+        },
+        welcome_screen: {
+          title: 'Practice welcome screen',
+          desc:
+            'Opening the app no longer drops you straight into a question. Pick a skill / level on the welcome screen first.',
+        },
+        session_streak_fix: {
+          title: 'Session streak resets on open',
+          desc:
+            'The current-streak counter now starts at 0 each time you open the app. Best-streak and lifetime correct counts are preserved.',
+        },
+        bilingual_ui: {
+          title: 'English / Japanese UI',
+          desc:
+            'All UI text is now bilingual. Auto-detects your browser language and offers a JA / EN toggle in the header.',
+        },
+        writing_tab: {
+          title: 'Writing tab + AI coach prompt',
+          desc:
+            'A prompt that turns Gemini / Claude / ChatGPT into a JFLT writing examiner. Generates E-Mail / Report / Essay tasks and grades your work.',
+        },
+        grading_mode: {
+          title: 'Grading mode (JFLT official format)',
+          desc:
+            'A new tab that runs 15 questions × 4 sections with adaptive progression and final SLP score. Test history is saved.',
+        },
+        l4_questions: {
+          title: 'Level 4 question set completed',
+          desc:
+            'Reading L4 and Listening L4 each now have 15 questions, matching the JFLT section size for all four levels.',
+        },
+        expanded_questions: {
+          title: 'Question bank expanded',
+          desc:
+            'Reading and Listening question counts increased substantially (now 140 / 90 questions across L1-L4).',
+        },
+        initial_release: {
+          title: 'Initial release',
+          desc:
+            'JFLT Training launches with Reading / Listening / Vocab / Grammar across four levels, stats tracking, and Google Cloud TTS audio.',
+        },
+      },
     },
 
     welcome: {
@@ -358,7 +429,78 @@ export const MESSAGES = {
       grading: '採点',
       writing: 'Writing',
       stats: '統計',
+      updates: '更新',
       settings: '設定',
+    },
+
+    changelog: {
+      title: '📰 アップデート情報',
+      intro:
+        'これまでの変更点をまとめています。新しいものが上にきます。',
+      empty: 'まだ更新情報はありません。',
+      tags: {
+        feature: '新機能',
+        improvement: '改善',
+        fix: '修正',
+        style: 'デザイン',
+      },
+      entries: {
+        updates_tab: {
+          title: 'アップデート情報タブを追加',
+          desc:
+            'このタブです。GitHub を見に行かなくても、何が変わったかをアプリ内で確認できるようにしました。',
+        },
+        mobile_header: {
+          title: 'スマホでのヘッダーレイアウト改善',
+          desc:
+            'スマートフォンではヘッダーを 2 行に分け、タブボタンをタップしやすくしました。デスクトップ表示は変更ありません。',
+        },
+        footer_credit: {
+          title: 'クレジット表記の位置調整',
+          desc:
+            '「by Oshibe」をヘッダーから外し、フッターに薄いイタリック体で表示するようにしました。',
+        },
+        welcome_screen: {
+          title: '問題タブにスタート画面を追加',
+          desc:
+            'アプリを開いてすぐに問題が表示されないように、スキル / レベル選択のスタート画面を挟みました。',
+        },
+        session_streak_fix: {
+          title: '連続正解カウントが開くたびに 0 に',
+          desc:
+            'アプリを開いた瞬間の「連続正解」を 0 にリセットするようにしました。最高連続記録と累計の正解数は引き続き保持されます。',
+        },
+        bilingual_ui: {
+          title: '英語 / 日本語の切替対応',
+          desc:
+            'UI を完全バイリンガル化。ブラウザ言語を自動検出し、ヘッダー右の JA / EN ボタンで切り替えられます。',
+        },
+        writing_tab: {
+          title: 'Writing タブと AI 添削プロンプトを追加',
+          desc:
+            'Gemini / Claude / ChatGPT を JFLT 添削コーチに変身させるプロンプトを掲載。E-Mail / Report / Essay の課題生成と採点ができます。',
+        },
+        grading_mode: {
+          title: '採点モード (JFLT 公式形式) を追加',
+          desc:
+            '15問×4セクションの適応進行で SLP スコアを算出する採点モードを新設。受験履歴も保存されます。',
+        },
+        l4_questions: {
+          title: 'Level 4 問題セットを完成',
+          desc:
+            'Reading L4 / Listening L4 をそれぞれ 15 問に拡充。全レベルが JFLT 公式の 1 セクション分（15 問）以上になりました。',
+        },
+        expanded_questions: {
+          title: '問題数の大幅増加',
+          desc:
+            'Reading / Listening の問題数を大きく増やしました（現在 L1-L4 合計で 140 / 90 問）。',
+        },
+        initial_release: {
+          title: '初回リリース',
+          desc:
+            'JFLT Training 公開。Reading / Listening / Vocab / Grammar の 4 カテゴリ、統計記録、Google Cloud TTS による音声再生を実装。',
+        },
+      },
     },
 
     welcome: {

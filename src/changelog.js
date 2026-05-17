@@ -1,0 +1,39 @@
+// JFLT Training - update / patch notes
+// ----------------------------------------------------------------------------
+// Each entry's id maps to a translation key:
+//   changelog.entries.<id>.title  /  changelog.entries.<id>.desc
+// in src/i18n/messages.js (EN + JA).
+//
+// When you ship a new feature, add ONE entry at the top of this list,
+// then add the matching translation pair to messages.js.
+// Keep descriptions short — one or two sentences.
+// ----------------------------------------------------------------------------
+
+/**
+ * Tag categories used for the colour-coded chip on each entry.
+ *   feature      — new functionality
+ *   improvement  — non-trivial enhancement of existing feature
+ *   fix          — bug fix
+ *   style        — visual / layout change only
+ */
+export const TAG_STYLES = {
+  feature: 'bg-blue-100 text-blue-800 border-blue-200',
+  improvement: 'bg-violet-100 text-violet-800 border-violet-200',
+  fix: 'bg-amber-100 text-amber-800 border-amber-200',
+  style: 'bg-rose-100 text-rose-700 border-rose-200',
+};
+
+export const CHANGELOG_ENTRIES = [
+  // Newest first
+  { id: 'updates_tab', date: '2026-05-17', tag: 'feature' },
+  { id: 'mobile_header', date: '2026-05-17', tag: 'style' },
+  { id: 'footer_credit', date: '2026-05-17', tag: 'style' },
+  { id: 'welcome_screen', date: '2026-05-17', tag: 'improvement' },
+  { id: 'session_streak_fix', date: '2026-05-17', tag: 'fix' },
+  { id: 'bilingual_ui', date: '2026-05-17', tag: 'feature' },
+  { id: 'writing_tab', date: '2026-05-17', tag: 'feature' },
+  { id: 'grading_mode', date: '2026-05-13', tag: 'feature' },
+  { id: 'l4_questions', date: '2026-05-13', tag: 'improvement' },
+  { id: 'expanded_questions', date: '2026-05-12', tag: 'improvement' },
+  { id: 'initial_release', date: '2026-05-10', tag: 'feature' },
+];

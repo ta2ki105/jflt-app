@@ -12,6 +12,7 @@ import Statistics from './components/Statistics.jsx';
 import SettingsPanel from './components/SettingsPanel.jsx';
 import GradingMode from './components/GradingMode.jsx';
 import WritingPanel from './components/WritingPanel.jsx';
+import UpdatesPanel from './components/UpdatesPanel.jsx';
 import './App.css';
 
 const DATASETS = {
@@ -177,6 +178,7 @@ export default function App() {
     { id: 'grading', label: t('tabs.grading'), icon: '🎖️' },
     { id: 'writing', label: t('tabs.writing'), icon: '✍️' },
     { id: 'stats', label: t('tabs.stats'), icon: '📊' },
+    { id: 'updates', label: t('tabs.updates'), icon: '📰' },
     { id: 'settings', label: t('tabs.settings'), icon: '⚙️' },
   ];
 
@@ -192,6 +194,9 @@ export default function App() {
             <div className="min-w-0">
               <h1 className="text-lg font-bold text-slate-900 leading-tight truncate">
                 {t('header.brand')}
+                <span className="ml-1.5 text-[10px] font-normal text-slate-300 italic tracking-wide">
+                  by Tatsuki
+                </span>
               </h1>
               <p className="text-xs text-slate-500 leading-tight truncate">
                 {t('header.tagline')}
@@ -345,6 +350,8 @@ export default function App() {
             onResetCategory={handleResetCategory}
           />
         )}
+
+        {currentTab === 'updates' && <UpdatesPanel />}
 
         {currentTab === 'settings' && (
           <SettingsPanel apiKey={apiKey} onSave={handleSaveApiKey} />
