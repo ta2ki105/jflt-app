@@ -184,8 +184,8 @@ export default function App() {
     <div className="min-h-full">
       {/* Header */}
       <header className="sticky top-0 z-10 backdrop-blur bg-white/80 border-b border-slate-200">
-        <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 min-w-0">
+        <div className="max-w-3xl mx-auto px-4 py-3 flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-2 min-w-0 flex-1">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-sm flex-none">
               J
             </div>
@@ -198,13 +198,45 @@ export default function App() {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2 flex-none">
-            <nav className="flex items-center gap-1 bg-slate-100 rounded-xl p-1">
+          {/* Language toggle (row 1 on mobile, end of row on desktop) */}
+          <div
+            className="flex items-center bg-slate-100 rounded-lg p-0.5 text-xs font-semibold sm:order-3"
+            role="group"
+            aria-label={t('header.langSwitch')}
+          >
+            <button
+              type="button"
+              onClick={() => setLang('ja')}
+              className={`px-2 py-1 rounded-md transition-colors ${
+                lang === 'ja'
+                  ? 'bg-white text-blue-700 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+              aria-pressed={lang === 'ja'}
+            >
+              {t('header.langJA')}
+            </button>
+            <button
+              type="button"
+              onClick={() => setLang('en')}
+              className={`px-2 py-1 rounded-md transition-colors ${
+                lang === 'en'
+                  ? 'bg-white text-blue-700 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+              aria-pressed={lang === 'en'}
+            >
+              {t('header.langEN')}
+            </button>
+          </div>
+          {/* Tabs (wraps to row 2 on mobile, middle of row on desktop) */}
+          <div className="w-full sm:w-auto sm:order-2">
+            <nav className="flex items-center gap-1 bg-slate-100 rounded-xl p-1 w-full">
               {TABS.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setCurrentTab(tab.id)}
-                  className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
+                  className={`flex-1 sm:flex-none px-2 sm:px-3 py-1.5 text-sm rounded-lg transition-colors text-center ${
                     currentTab === tab.id
                       ? 'bg-white text-blue-700 shadow-sm font-medium'
                       : 'text-slate-600 hover:text-slate-900'
@@ -215,37 +247,6 @@ export default function App() {
                 </button>
               ))}
             </nav>
-            {/* Language toggle */}
-            <div
-              className="flex items-center bg-slate-100 rounded-lg p-0.5 text-xs font-semibold"
-              role="group"
-              aria-label={t('header.langSwitch')}
-            >
-              <button
-                type="button"
-                onClick={() => setLang('ja')}
-                className={`px-2 py-1 rounded-md transition-colors ${
-                  lang === 'ja'
-                    ? 'bg-white text-blue-700 shadow-sm'
-                    : 'text-slate-500 hover:text-slate-900'
-                }`}
-                aria-pressed={lang === 'ja'}
-              >
-                {t('header.langJA')}
-              </button>
-              <button
-                type="button"
-                onClick={() => setLang('en')}
-                className={`px-2 py-1 rounded-md transition-colors ${
-                  lang === 'en'
-                    ? 'bg-white text-blue-700 shadow-sm'
-                    : 'text-slate-500 hover:text-slate-900'
-                }`}
-                aria-pressed={lang === 'en'}
-              >
-                {t('header.langEN')}
-              </button>
-            </div>
           </div>
         </div>
       </header>
