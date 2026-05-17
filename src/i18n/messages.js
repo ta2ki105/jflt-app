@@ -72,11 +72,6 @@ export const MESSAGES = {
           desc:
             'On phones the header now wraps to two rows so tab buttons stay tappable. Desktop layout unchanged.',
         },
-        footer_credit: {
-          title: 'Refined credit placement',
-          desc:
-            '"by Oshibe" moved from the header to a faint italic line in the footer.',
-        },
         welcome_screen: {
           title: 'Practice welcome screen',
           desc:
@@ -454,11 +449,6 @@ export const MESSAGES = {
           title: 'スマホでのヘッダーレイアウト改善',
           desc:
             'スマートフォンではヘッダーを 2 行に分け、タブボタンをタップしやすくしました。デスクトップ表示は変更ありません。',
-        },
-        footer_credit: {
-          title: 'クレジット表記の位置調整',
-          desc:
-            '「by Oshibe」をヘッダーから外し、フッターに薄いイタリック体で表示するようにしました。',
         },
         welcome_screen: {
           title: '問題タブにスタート画面を追加',

@@ -27,7 +27,6 @@ export const CHANGELOG_ENTRIES = [
   // Newest first
   { id: 'updates_tab', date: '2026-05-17', tag: 'feature' },
   { id: 'mobile_header', date: '2026-05-17', tag: 'style' },
-  { id: 'footer_credit', date: '2026-05-17', tag: 'style' },
   { id: 'welcome_screen', date: '2026-05-17', tag: 'improvement' },
   { id: 'session_streak_fix', date: '2026-05-17', tag: 'fix' },
   { id: 'bilingual_ui', date: '2026-05-17', tag: 'feature' },
