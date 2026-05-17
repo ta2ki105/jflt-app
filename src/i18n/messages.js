@@ -49,6 +49,21 @@ export const MESSAGES = {
       settings: 'Settings',
     },
 
+    welcome: {
+      title: 'Free Practice',
+      body:
+        'Choose a skill and level, then practice freely. Each correct answer is added to your lifetime stats. To take a full JFLT-format test, use the Test tab instead.',
+      pick_skill: 'Choose a skill',
+      pick_level: 'Choose a level',
+      level_all: 'ALL (every level)',
+      level_one: 'Level {level}',
+      level_count: '{count} questions',
+      start: '▶️ Start practice',
+      change: '⚙ Change skill / level',
+      hint_grading_a: 'Want an official-format graded test instead?',
+      hint_grading_b: 'Go to the Test tab.',
+    },
+
     levels: {
       label: 'Level:',
       all: 'ALL',
@@ -344,6 +359,21 @@ export const MESSAGES = {
       writing: 'Writing',
       stats: '統計',
       settings: '設定',
+    },
+
+    welcome: {
+      title: '自由練習モード',
+      body:
+        'スキルとレベルを選んで自由に練習できます。正解は累計の統計に記録されます。公式形式で実力測定したい場合は「採点」タブをご利用ください。',
+      pick_skill: 'スキルを選択',
+      pick_level: 'レベルを選択',
+      level_all: 'ALL（全レベル）',
+      level_one: 'Level {level}',
+      level_count: '{count} 問',
+      start: '▶️ 練習を開始',
+      change: '⚙ スキル / レベルを変更',
+      hint_grading_a: '公式形式の採点テストを受けたい場合は',
+      hint_grading_b: '「採点」タブへ。',
     },
 
     levels: {

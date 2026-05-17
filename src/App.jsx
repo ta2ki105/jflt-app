@@ -7,6 +7,7 @@ import {
 } from './scoring.js';
 import { useI18n } from './i18n/useI18n.js';
 import QuestionCard from './components/QuestionCard.jsx';
+import PracticeWelcome from './components/PracticeWelcome.jsx';
 import Statistics from './components/Statistics.jsx';
 import SettingsPanel from './components/SettingsPanel.jsx';
 import GradingMode from './components/GradingMode.jsx';
@@ -46,16 +47,27 @@ export default function App() {
   const [answered, setAnswered] = useState(false);
   const [stats, setStats] = useState(emptyStats);
   const [apiKey, setApiKey] = useState('');
+  // Gate: Practice tab shows a welcome screen until the user clicks "Start".
+  // Avoids auto-displaying Reading L1 the moment the app loads.
+  const [practiceStarted, setPracticeStarted] = useState(false);
 
-  // Load persisted state (with migration from legacy v1 stats)
+  // Load persisted state (with migration from legacy v1 stats).
+  // Note: streak is intentionally reset to 0 on each app open so the
+  // "current streak" display starts fresh per session. Lifetime stats
+  // (per-category correct/total counts) and bestStreak are preserved.
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STATS_KEY);
+      let loaded = null;
       if (saved) {
-        setStats(migrateStats(JSON.parse(saved)));
+        loaded = migrateStats(JSON.parse(saved));
       } else {
         const legacy = localStorage.getItem(LEGACY_STATS_KEY);
-        if (legacy) setStats(migrateStats(JSON.parse(legacy)));
+        if (legacy) loaded = migrateStats(JSON.parse(legacy));
+      }
+      if (loaded) {
+        loaded.streak = 0;
+        setStats(loaded);
       }
     } catch (e) {
       console.warn('Failed to load stats', e);
@@ -242,27 +254,39 @@ export default function App() {
       </header>
 
       <main className="max-w-3xl mx-auto px-4 py-6">
-        {currentTab === 'questions' && (
+        {currentTab === 'questions' && !practiceStarted && (
+          <PracticeWelcome
+            datasets={DATASETS}
+            category={category}
+            setCategory={setCategory}
+            level={level}
+            setLevel={setLevel}
+            onStart={() => setPracticeStarted(true)}
+            goToGradingTab={() => setCurrentTab('grading')}
+          />
+        )}
+
+        {currentTab === 'questions' && practiceStarted && (
           <div className="space-y-4 fade-in">
-            {/* Category tabs */}
-            <div className="grid grid-cols-4 gap-2">
-              {Object.entries(DATASETS).map(([key, info]) => (
-                <button
-                  key={key}
-                  onClick={() => setCategory(key)}
-                  className={`px-3 py-2.5 text-sm rounded-xl border transition-all ${
-                    category === key
-                      ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                      : 'bg-white text-slate-700 border-slate-200 hover:border-blue-300'
-                  }`}
-                >
-                  <div className="text-base">{info.icon}</div>
-                  <div className="font-medium">{info.label}</div>
-                </button>
-              ))}
+            {/* Compact selectors + change button */}
+            <div className="flex flex-wrap gap-2 items-center">
+              <span className="text-sm font-medium text-slate-700">
+                {datasetMeta.icon} {datasetMeta.label}
+              </span>
+              <span className="text-xs text-slate-400">·</span>
+              <span className="text-sm text-slate-600">
+                {level === 'all' ? t('levels.all') : `L${level}`}
+              </span>
+              <button
+                type="button"
+                onClick={() => setPracticeStarted(false)}
+                className="ml-auto px-3 py-1 text-xs rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-50"
+              >
+                {t('welcome.change')}
+              </button>
             </div>
 
-            {/* Level filter */}
+            {/* Level quick-filter (within current category) */}
             <div className="flex flex-wrap gap-2 items-center">
               <span className="text-sm text-slate-500 mr-1">
                 {t('levels.label')}
