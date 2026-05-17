@@ -1,6 +1,15 @@
 # JFLT Training
 
-NATO英語能力試験 (JFLT) 対策アプリ — Reading / Listening / Vocabulary / Grammar の **350問** + JFLT 公式形式の採点モード。
+NATO英語能力試験 (JFLT) 対策アプリ — Reading / Listening / Vocabulary / Grammar の **350問** + JFLT 公式形式の採点モード + Writing 添削スクリプト。
+
+## 🚀 アプリを使う
+
+### 👉 **[https://jflt-app.vercel.app/](https://jflt-app.vercel.app/)**
+
+インストール不要。上記の URL をブラウザで開けばすぐに使えます。
+スマートフォン・PC どちらにも対応。
+
+---
 
 ## 技術スタック
 
@@ -8,12 +17,14 @@ NATO英語能力試験 (JFLT) 対策アプリ — Reading / Listening / Vocabula
 - Tailwind CSS 3
 - Google Cloud Text-to-Speech (en-GB)
 - LocalStorage (統計・APIキー永続化)
+- ホスティング: Vercel (`master` ブランチへの push で自動デプロイ)
 
-## セットアップ
+## ローカル開発
 
 Node.js 18以上が必要です。
 
 ```bash
+git clone https://github.com/ta2ki105/jflt-app.git
 cd jflt-app
 npm install
 npm run dev
