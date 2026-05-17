@@ -34,6 +34,7 @@ npm run preview
 |------|------|
 | 📝 問題 | カテゴリ × レベルで自由に練習。クリックで自動採点・解説表示。 |
 | 🎖️ 採点 | JFLT 公式形式 (15問×4セクション、適応進行) で実力測定 → SLPスコア表示。履歴保存。 |
+| ✍️ Writing | 汎用 AI (Gemini / Claude / ChatGPT) を JFLT 添削コーチに変身させるプロンプトを提供。E-Mail / Report / Essay の課題生成 + 採点を自動化。 |
 | 📊 統計 | JFLT 採点基準に基づく総合スコア + セクション別 + レベル別の進捗。 |
 | ⚙️ 設定 | Google Cloud APIキーの登録、テスト再生、セットアップガイド。 |
 
@@ -100,6 +101,7 @@ jflt-app/
     ├── data.js              バレル (4ファイルを再エクスポート)
     ├── scoring.js           JFLT スコア計算 + 採点モード対応
     ├── gradingMode.js       採点モード実行ロジック
+    ├── writingScript.js     Writing 添削コーチ用プロンプト
     ├── reading-complete.js  Reading 140問
     ├── listening-complete.js Listening 90問
     ├── vocab-data.js        Vocab 60問
@@ -111,7 +113,8 @@ jflt-app/
         ├── SettingsPanel.jsx
         ├── GradingMode.jsx           採点モードのオーケストレーター
         ├── PracticeQuestionView.jsx  採点モード中の単問表示
-        └── PracticeResult.jsx        SLPスコア + レビュー画面
+        ├── PracticeResult.jsx        SLPスコア + レビュー画面
+        └── WritingPanel.jsx          Writing 添削スクリプトの紹介・使い方
 ```
 
 ## 注意

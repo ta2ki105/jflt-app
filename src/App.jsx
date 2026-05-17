@@ -9,6 +9,7 @@ import QuestionCard from './components/QuestionCard.jsx';
 import Statistics from './components/Statistics.jsx';
 import SettingsPanel from './components/SettingsPanel.jsx';
 import GradingMode from './components/GradingMode.jsx';
+import WritingPanel from './components/WritingPanel.jsx';
 import './App.css';
 
 const DATASETS = {
@@ -176,6 +177,7 @@ export default function App() {
             {[
               { id: 'questions', label: '問題', icon: '📝' },
               { id: 'grading', label: '採点', icon: '🎖️' },
+              { id: 'writing', label: 'Writing', icon: '✍️' },
               { id: 'stats', label: '統計', icon: '📊' },
               { id: 'settings', label: '設定', icon: '⚙️' },
             ].map((t) => (
@@ -262,6 +264,8 @@ export default function App() {
         {currentTab === 'grading' && (
           <GradingMode datasets={DATASETS} apiKey={apiKey} />
         )}
+
+        {currentTab === 'writing' && <WritingPanel />}
 
         {currentTab === 'stats' && (
           <Statistics
