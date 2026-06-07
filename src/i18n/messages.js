@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        answer_distribution: {
+          title: 'Balanced A / B / C / D answer distribution',
+          desc:
+            'Reading and Listening previously had ~67% of answers at option B and 0% at D, so guessing "B" was a usable shortcut. Options have been rebalanced so each letter is the correct answer roughly 25% of the time. Question text, passages, distractor wording and explanations are unchanged — only the order inside each options array was reshuffled.',
+        },
         listening_countdown: {
           title: 'Listening: 5-second read-ahead before audio plays',
           desc:
@@ -485,6 +490,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        answer_distribution: {
+          title: '正解の A / B / C / D 分布を均等化',
+          desc:
+            'Reading / Listening でこれまで正解の 67% が B、D が一度も使われていなかったため「B にしておけば当たる」戦略が成立してしまっていました。各選択肢が約 25% ずつ正解になるよう並び替えました。問題文・本文・選択肢の文言・解説は一切変更されておらず、options 配列内の順序のみ変わっています。',
+        },
         listening_countdown: {
           title: 'Listening: 音声再生前に 5 秒の読み取り時間',
           desc:
