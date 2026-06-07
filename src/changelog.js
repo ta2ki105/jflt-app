@@ -25,6 +25,8 @@ export const TAG_STYLES = {
 
 export const CHANGELOG_ENTRIES = [
   // Newest first
+  { id: 'review_listening_audio', date: '2026-05-17', tag: 'feature' },
+  { id: 'grading_autosave_unmount', date: '2026-05-17', tag: 'fix' },
   { id: 'history_breakdown', date: '2026-05-17', tag: 'feature' },
   { id: 'listening_audio_stop', date: '2026-05-17', tag: 'fix' },
   { id: 'grading_timer_pause', date: '2026-05-17', tag: 'feature' },

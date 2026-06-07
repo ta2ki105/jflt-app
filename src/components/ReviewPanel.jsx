@@ -1,5 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { useI18n } from '../i18n/useI18n.js';
+import { playAudio } from './AudioPlayer.jsx';
 
 /**
  * 復習タブ — Review previously-answered questions.
@@ -9,13 +10,44 @@ import { useI18n } from '../i18n/useI18n.js';
  * the user can re-attempt the question. Re-attempt results flow back
  * through `onReattempt(category, level, qIndex, isCorrect)`.
  */
-export default function ReviewPanel({ datasets, stats, onReattempt }) {
+export default function ReviewPanel({ datasets, stats, onReattempt, apiKey }) {
   const { t, lang } = useI18n();
   const [filterCategory, setFilterCategory] = useState('all');
   const [filterResult, setFilterResult] = useState('all'); // all | correct | incorrect
   const [openKey, setOpenKey] = useState(null); // expanded question key
   const [reSelected, setReSelected] = useState(null);
   const [reAnswered, setReAnswered] = useState(false);
+  // Track audio playback state per expanded question (idle | loading | failed)
+  const [audioState, setAudioState] = useState('idle');
+  const audioRef = useRef(null);
+
+  const stopCurrentAudio = () => {
+    if (audioRef.current) {
+      try {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      } catch (_) { /* ignore */ }
+      audioRef.current = null;
+    }
+  };
+
+  const handlePlayAudio = async (passage) => {
+    if (!passage) return;
+    stopCurrentAudio();
+    setAudioState('loading');
+    try {
+      const audio = await playAudio(
+        passage,
+        apiKey,
+        { noKey: t('audio.noKey') }
+      );
+      audioRef.current = audio || null;
+      setAudioState('idle');
+    } catch (e) {
+      console.warn('Review audio play failed', e);
+      setAudioState('failed');
+    }
+  };
 
   const aq = stats.answeredQuestions || {};
 
@@ -77,6 +109,9 @@ export default function ReviewPanel({ datasets, stats, onReattempt }) {
   const incorrectCount = total - correctCount;
 
   const handleToggle = (key) => {
+    // Stop any audio when collapsing or switching items
+    stopCurrentAudio();
+    setAudioState('idle');
     if (openKey === key) {
       setOpenKey(null);
       setReSelected(null);
@@ -280,6 +315,43 @@ export default function ReviewPanel({ datasets, stats, onReattempt }) {
 
                       {expanded && (
                         <div className="px-4 pb-4 fade-in">
+                          {/* Audio play button for items with a passage */}
+                          {item.question.passage && (
+                            <div className="mb-2 flex items-center gap-2 flex-wrap">
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handlePlayAudio(item.question.passage)
+                                }
+                                disabled={audioState === 'loading' || !apiKey}
+                                className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-md bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 disabled:opacity-50"
+                                title={
+                                  apiKey ? '' : t('audio.noKey')
+                                }
+                              >
+                                <span>
+                                  {audioState === 'loading' ? '⏳' : '🔊'}
+                                </span>
+                                <span>
+                                  {audioState === 'loading'
+                                    ? t('audio.loading')
+                                    : item.category === 'listening'
+                                    ? t('card.playAudio')
+                                    : t('card.readAloud')}
+                                </span>
+                              </button>
+                              {!apiKey && (
+                                <span className="text-[11px] text-rose-600">
+                                  {t('audio.noKey')}
+                                </span>
+                              )}
+                              {audioState === 'failed' && (
+                                <span className="text-[11px] text-rose-600">
+                                  {t('audio.failed')}
+                                </span>
+                              )}
+                            </div>
+                          )}
                           {item.question.passage && (
                             <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs text-slate-700 whitespace-pre-wrap leading-relaxed mb-3">
                               {item.question.passage}

@@ -74,6 +74,59 @@ export default function GradingMode({ datasets, apiKey }) {
     return () => clearInterval(id);
   }, [phase]);
 
+  // Keep a ref of the latest test state so the unmount handler (which fires
+  // when the user navigates to another tab during a test) can save current
+  // progress without depending on the closure captured at mount time.
+  const liveStateRef = useRef({});
+  liveStateRef.current = {
+    phase,
+    session,
+    currentLevel,
+    currentIdx,
+    currentSelected,
+    sectionAnswers,
+    answeredSections,
+    pausedElapsedSec,
+    tickStartedAt: tickStartedAtRef.current,
+  };
+
+  // Helper: snapshot current test state and persist it. Used by both the
+  // explicit pause button and the auto-save-on-unmount effect below.
+  const persistCurrentProgress = useCallback((reason = 'unmount') => {
+    const s = liveStateRef.current;
+    if (s.phase !== PHASE.TESTING || !s.session) return;
+    const elapsed =
+      s.pausedElapsedSec +
+      (s.tickStartedAt != null
+        ? (Date.now() - s.tickStartedAt) / 1000
+        : 0);
+    saveProgress({
+      skill: s.session.skill,
+      session: s.session,
+      currentLevel: s.currentLevel,
+      currentIdx: s.currentIdx,
+      currentSelected: s.currentSelected,
+      sectionAnswers: s.sectionAnswers,
+      answeredSections: s.answeredSections,
+      elapsedSec: Math.round(elapsed),
+      savedAt: Date.now(),
+      reason,
+    });
+  }, []);
+
+  // Auto-save on:
+  //   * component unmount (user switches to another tab → GradingMode unmounts)
+  //   * browser tab close / refresh (beforeunload)
+  // This prevents the in-flight test from silently disappearing.
+  useEffect(() => {
+    const onBeforeUnload = () => persistCurrentProgress('beforeunload');
+    window.addEventListener('beforeunload', onBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', onBeforeUnload);
+      persistCurrentProgress('unmount');
+    };
+  }, [persistCurrentProgress]);
+
   const currentElapsedSec = useMemo(() => {
     if (phase !== PHASE.TESTING || tickStartedAtRef.current == null) {
       return pausedElapsedSec;

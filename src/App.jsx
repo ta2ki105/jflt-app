@@ -356,6 +356,7 @@ export default function App() {
             datasets={DATASETS}
             stats={stats}
             onReattempt={handleReattempt}
+            apiKey={apiKey}
           />
         )}
 

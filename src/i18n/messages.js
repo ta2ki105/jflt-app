@@ -79,6 +79,16 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        review_listening_audio: {
+          title: 'Review: play Listening audio',
+          desc:
+            'Expanded items in the Review tab now have a 🔊 play button. Listening passages can be re-listened to (not just read), and Reading passages can be read aloud — both via the same Google Cloud TTS used in the test.',
+        },
+        grading_autosave_unmount: {
+          title: 'Test progress auto-saves when you leave the tab',
+          desc:
+            'Switching to another tab (or closing the browser) during a test no longer wipes your progress. The grading session is auto-saved exactly like clicking Pause, so the Resume banner appears next time you visit the Test tab.',
+        },
         history_breakdown: {
           title: 'Test history: per-section breakdown',
           desc:
@@ -523,6 +533,16 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        review_listening_audio: {
+          title: '復習タブ: Listening 音声を再生可能に',
+          desc:
+            '復習タブの問題を展開すると 🔊 再生ボタンが表示されるようになりました。Listening は音声を聴き直せ、Reading は読み上げできます (採点モードと同じ Google Cloud TTS を使用)。',
+        },
+        grading_autosave_unmount: {
+          title: '採点中に他タブへ移動しても進捗を自動保存',
+          desc:
+            '採点モードで試験中に他のタブへ切り替えたり、ブラウザを閉じても進捗が消えなくなりました。「一時停止」を押したときと同じ状態で自動保存され、次に採点タブを開くと「再開」バナーが表示されます。',
+        },
         history_breakdown: {
           title: '受験履歴: セクション別の正答内訳を表示',
           desc:
