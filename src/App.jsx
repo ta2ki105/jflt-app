@@ -4,10 +4,12 @@ import {
   emptyStats,
   migrateStats,
   recordAnswer,
+  recordReattempt,
 } from './scoring.js';
 import { useI18n } from './i18n/useI18n.js';
 import QuestionCard from './components/QuestionCard.jsx';
 import PracticeWelcome from './components/PracticeWelcome.jsx';
+import ReviewPanel from './components/ReviewPanel.jsx';
 import Statistics from './components/Statistics.jsx';
 import SettingsPanel from './components/SettingsPanel.jsx';
 import GradingMode from './components/GradingMode.jsx';
@@ -27,10 +29,14 @@ const LEVELS = ['all', 1, 2, 3, 4];
 function flattenByLevel(dataset, level) {
   if (level === 'all') {
     return [1, 2, 3, 4].flatMap((lv) =>
-      (dataset[lv] || []).map((q) => ({ ...q, _level: lv }))
+      (dataset[lv] || []).map((q, idx) => ({ ...q, _level: lv, _qIndex: idx }))
     );
   }
-  return (dataset[level] || []).map((q) => ({ ...q, _level: level }));
+  return (dataset[level] || []).map((q, idx) => ({
+    ...q,
+    _level: level,
+    _qIndex: idx,
+  }));
 }
 
 const STATS_KEY = 'jflt_stats_v2';
@@ -114,6 +120,7 @@ export default function App() {
         stats,
         category,
         currentQuestion._level,
+        currentQuestion._qIndex,
         isCorrect
       );
       persistStats(next);
@@ -175,12 +182,20 @@ export default function App() {
 
   const TABS = [
     { id: 'questions', label: t('tabs.questions'), icon: '📝' },
+    { id: 'review', label: t('tabs.review'), icon: '📚' },
     { id: 'grading', label: t('tabs.grading'), icon: '🎖️' },
     { id: 'writing', label: t('tabs.writing'), icon: '✍️' },
     { id: 'stats', label: t('tabs.stats'), icon: '📊' },
     { id: 'updates', label: t('tabs.updates'), icon: '📰' },
     { id: 'settings', label: t('tabs.settings'), icon: '⚙️' },
   ];
+
+  const handleReattempt = useCallback(
+    (cat, lv, qIdx, isCorrect) => {
+      persistStats(recordReattempt(stats, cat, lv, qIdx, isCorrect));
+    },
+    [stats, persistStats]
+  );
 
   return (
     <div className="min-h-full">
@@ -334,6 +349,14 @@ export default function App() {
               </div>
             )}
           </div>
+        )}
+
+        {currentTab === 'review' && (
+          <ReviewPanel
+            datasets={DATASETS}
+            stats={stats}
+            onReattempt={handleReattempt}
+          />
         )}
 
         {currentTab === 'grading' && (

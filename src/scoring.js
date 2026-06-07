@@ -132,13 +132,55 @@ export function emptyStats() {
     perCategory,
     streak: 0,
     bestStreak: 0,
+    // Per-question latest result, used by the Review tab.
+    // Shape: { reading: { 1: { 0: { isCorrect, attempts, lastAt }, ... } } }
+    answeredQuestions: {},
   };
 }
 
 /**
  * Returns a brand-new stats object after recording a single answer.
+ *
+ * `qIndex` (optional) identifies the question within its level so the
+ * Review tab can show ○ / × per question and offer re-attempts. When
+ * omitted, only the per-level aggregate is updated (back-compat).
  */
-export function recordAnswer(stats, category, level, isCorrect) {
+export function recordAnswer(stats, category, level, qIndex, isCorrect) {
+  // Back-compat: allow the older 4-arg signature
+  //   recordAnswer(stats, category, level, isCorrect)
+  if (typeof qIndex === 'boolean' && typeof isCorrect === 'undefined') {
+    isCorrect = qIndex;
+    qIndex = undefined;
+  }
+
+  const prevAQ = stats.answeredQuestions || {};
+  const prevCat = prevAQ[category] || {};
+  const prevLevel = prevCat[level] || {};
+  const prevRecord = qIndex != null ? prevLevel[qIndex] : null;
+
+  const nextRecord =
+    qIndex != null
+      ? {
+          isCorrect: !!isCorrect,
+          attempts: (prevRecord?.attempts || 0) + 1,
+          lastAt: Date.now(),
+        }
+      : null;
+
+  const nextAQ =
+    qIndex != null
+      ? {
+          ...prevAQ,
+          [category]: {
+            ...prevCat,
+            [level]: {
+              ...prevLevel,
+              [qIndex]: nextRecord,
+            },
+          },
+        }
+      : prevAQ;
+
   const next = {
     ...stats,
     perCategory: {
@@ -154,9 +196,40 @@ export function recordAnswer(stats, category, level, isCorrect) {
       },
     },
     streak: isCorrect ? stats.streak + 1 : 0,
+    answeredQuestions: nextAQ,
   };
   next.bestStreak = Math.max(stats.bestStreak || 0, next.streak);
   return next;
+}
+
+/**
+ * Re-attempt from the Review tab: updates only the per-question record
+ * (does NOT touch perCategory totals or streak). Keeps the original
+ * `attempts` counter incrementing.
+ */
+export function recordReattempt(stats, category, level, qIndex, isCorrect) {
+  const prevAQ = stats.answeredQuestions || {};
+  const prevCat = prevAQ[category] || {};
+  const prevLevel = prevCat[level] || {};
+  const prevRecord = prevLevel[qIndex] || { attempts: 0 };
+
+  return {
+    ...stats,
+    answeredQuestions: {
+      ...prevAQ,
+      [category]: {
+        ...prevCat,
+        [level]: {
+          ...prevLevel,
+          [qIndex]: {
+            isCorrect: !!isCorrect,
+            attempts: (prevRecord.attempts || 0) + 1,
+            lastAt: Date.now(),
+          },
+        },
+      },
+    },
+  };
 }
 
 /**
@@ -181,6 +254,10 @@ export function migrateStats(raw) {
     }
     merged.streak = raw.streak || 0;
     merged.bestStreak = raw.bestStreak || raw.streak || 0;
+    merged.answeredQuestions =
+      raw.answeredQuestions && typeof raw.answeredQuestions === 'object'
+        ? raw.answeredQuestions
+        : {};
     return merged;
   }
   const blank = emptyStats();

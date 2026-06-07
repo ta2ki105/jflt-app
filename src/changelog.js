@@ -25,6 +25,7 @@ export const TAG_STYLES = {
 
 export const CHANGELOG_ENTRIES = [
   // Newest first
+  { id: 'review_tab', date: '2026-05-17', tag: 'feature' },
   { id: 'updates_tab', date: '2026-05-17', tag: 'feature' },
   { id: 'mobile_header', date: '2026-05-17', tag: 'style' },
   { id: 'welcome_screen', date: '2026-05-17', tag: 'improvement' },

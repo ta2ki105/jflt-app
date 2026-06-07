@@ -43,11 +43,28 @@ export const MESSAGES = {
 
     tabs: {
       questions: 'Practice',
+      review: 'Review',
       grading: 'Test',
       writing: 'Writing',
       stats: 'Stats',
       updates: 'Updates',
       settings: 'Settings',
+    },
+
+    review: {
+      title: '📚 Review',
+      intro:
+        'Look back at questions you have answered, and re-attempt any of them. Topics you got wrong appear first.',
+      filter_category: 'Category',
+      filter_result: 'Result',
+      filter_all: 'All',
+      filter_correct: 'Correct',
+      filter_incorrect: 'Incorrect',
+      empty:
+        'No answered questions yet. Try the Practice tab to start building your review list.',
+      empty_filtered: 'No questions match the current filters.',
+      attempts_count: '{count} attempt(s)',
+      last_attempt: 'last: {date}',
     },
 
     changelog: {
@@ -62,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        review_tab: {
+          title: 'Review tab',
+          desc:
+            'Look back at every question you have answered, see which ones you got right or wrong, and re-attempt any of them right there.',
+        },
         updates_tab: {
           title: 'Update notes tab',
           desc:
@@ -421,11 +443,28 @@ export const MESSAGES = {
 
     tabs: {
       questions: '問題',
+      review: '復習',
       grading: '採点',
       writing: 'Writing',
       stats: '統計',
       updates: '更新',
       settings: '設定',
+    },
+
+    review: {
+      title: '📚 復習',
+      intro:
+        'これまで解いた問題を一覧で振り返り、その場で再挑戦できます。不正解だった問題が上に表示されます。',
+      filter_category: 'カテゴリ',
+      filter_result: '結果',
+      filter_all: 'すべて',
+      filter_correct: '正解',
+      filter_incorrect: '不正解',
+      empty:
+        'まだ解いた問題がありません。「問題」タブで練習を始めると、ここに表示されます。',
+      empty_filtered: '条件に合致する問題はありません。',
+      attempts_count: '{count}回挑戦',
+      last_attempt: '最終: {date}',
     },
 
     changelog: {
@@ -440,6 +479,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        review_tab: {
+          title: '復習タブを追加',
+          desc:
+            'これまで解いた問題を ○ / × の一覧で振り返り、その場で再挑戦できる「復習」タブを追加しました。',
+        },
         updates_tab: {
           title: 'アップデート情報タブを追加',
           desc:
