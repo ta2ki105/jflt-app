@@ -14,6 +14,31 @@ import { MAX_LEVEL, shouldContinueAdaptive, calculateAdaptiveScore } from './sco
 export const SECTION_SIZE = 15;
 export const HISTORY_KEY = 'grading_history_v1';
 export const HISTORY_LIMIT = 30; // keep most recent N runs
+export const PROGRESS_KEY = 'grading_progress_v1';
+
+/**
+ * Per-skill recommended time limit for the timer at the top of the test view.
+ * Reading 120 min comes from the official JFLT spec (60 questions / 120 min).
+ * Listening / Vocab / Grammar are estimates aligned with similar proficiency
+ * tests — adjust if official figures become available.
+ */
+export const TIME_LIMIT_MINUTES = {
+  reading: 120,
+  listening: 60,
+  vocab: 30,
+  grammar: 30,
+};
+
+/**
+ * When sampling questions for the grading test, we deliberately favour
+ * shorter passages so the user can finish within the recommended limit.
+ * The Practice tab still sees the full pool (including long passages —
+ * those remain valuable for endurance practice).
+ *
+ * Sample 2× SECTION_SIZE shortest, then shuffle and take SECTION_SIZE.
+ * This keeps randomness while ensuring the test stays manageable.
+ */
+const SHORT_POOL_MULTIPLIER = 2;
 
 /**
  * Fisher-Yates shuffle (immutable).
@@ -45,17 +70,37 @@ export function createSession(skill, dataset) {
   const sections = [];
   for (let lv = 1; lv <= MAX_LEVEL; lv++) {
     const pool = dataset[lv] || [];
-    const picked = shuffle(pool).slice(0, SECTION_SIZE).map((q) => ({
+    sections.push(samplePreferShort(pool, SECTION_SIZE).map((q) => ({
       ...q,
       _level: lv,
-    }));
-    sections.push(picked);
+    })));
   }
   return {
     skill,
     sections,
     startedAt: Date.now(),
   };
+}
+
+/**
+ * Sample N questions, preferring those with shorter `passage` text.
+ *
+ * If the pool has no `passage` field (vocab/grammar), this falls back to
+ * a uniform shuffle. Otherwise we take the SHORT_POOL_MULTIPLIER × N
+ * shortest, then shuffle and pick N.
+ */
+function samplePreferShort(pool, n) {
+  if (!pool || pool.length === 0) return [];
+  if (pool.length <= n) return shuffle(pool);
+
+  const hasPassage = pool.some((q) => typeof q.passage === 'string' && q.passage.length > 0);
+  if (!hasPassage) return shuffle(pool).slice(0, n);
+
+  const shortPoolSize = Math.min(pool.length, n * SHORT_POOL_MULTIPLIER);
+  const sortedShort = [...pool]
+    .sort((a, b) => (a.passage?.length || 0) - (b.passage?.length || 0))
+    .slice(0, shortPoolSize);
+  return shuffle(sortedShort).slice(0, n);
 }
 
 /**
@@ -116,6 +161,55 @@ export function clearHistory() {
     localStorage.removeItem(HISTORY_KEY);
   } catch (e) {
     console.warn('Failed to clear grading history', e);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// In-progress test save / restore
+// ---------------------------------------------------------------------------
+
+/**
+ * Persist the current test progress so the user can resume after closing
+ * the tab or coming back tomorrow.
+ *
+ * The full session (sampled questions) is serialised so we don't depend
+ * on the dataset staying identical between save and resume — even if
+ * questions get added/removed later, the in-flight test still works.
+ */
+export function saveProgress(progress) {
+  try {
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+  } catch (e) {
+    console.warn('Failed to save grading progress', e);
+  }
+}
+
+export function loadProgress() {
+  try {
+    const raw = localStorage.getItem(PROGRESS_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (
+      !parsed ||
+      !parsed.session ||
+      !Array.isArray(parsed.session.sections) ||
+      !parsed.skill ||
+      typeof parsed.currentLevel !== 'number'
+    ) {
+      return null;
+    }
+    return parsed;
+  } catch (e) {
+    console.warn('Failed to load grading progress', e);
+    return null;
+  }
+}
+
+export function clearProgress() {
+  try {
+    localStorage.removeItem(PROGRESS_KEY);
+  } catch (e) {
+    console.warn('Failed to clear grading progress', e);
   }
 }
 

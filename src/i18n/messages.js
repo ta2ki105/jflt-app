@@ -79,6 +79,16 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        grading_timer_pause: {
+          title: 'Test mode: timer + pause / resume',
+          desc:
+            'The grading-mode test now shows an elapsed-time chip at the top (Reading targets 120 min per official spec; Listening 60, Vocab/Grammar 30). You can pause mid-test and resume later from the exact same question.',
+        },
+        grading_short_passages: {
+          title: 'Test mode: prefer shorter passages',
+          desc:
+            'When the grading-mode test samples Reading and Listening questions, it now favours shorter passages so the test stays within the recommended time limit. The Practice tab still surfaces every question — long passages are useful for endurance training.',
+        },
         answer_distribution: {
           title: 'Balanced A / B / C / D answer distribution',
           desc:
@@ -213,8 +223,20 @@ export const MESSAGES = {
       section_label: 'Section {current} / {total}',
       progress_count: '{current} / {total}',
       abort: 'Abort',
+      pause: 'Pause',
+      timer_label: 'time',
+      time_target: 'Target: ~{min} min',
+      note_pause: 'You can pause a test mid-way and resume it later.',
       confirm_abort: 'Aborting the test. Your record will not be saved.',
+      confirm_pause:
+        'Pause the test and save your progress? You can resume from this exact spot later.',
+      confirm_discard: 'Discard the saved test and start fresh?',
       confirm_clear_history: 'Delete all test history?',
+      resume_title: '⏸ Resume your saved test',
+      resume_body:
+        'You have a {skill} test in progress, paused on {date}. So far: Section {section}, question {question}, {elapsed} elapsed.',
+      resume_btn: '▶ Resume',
+      discard_btn: '🗑 Discard',
     },
 
     pq: {
@@ -490,6 +512,16 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        grading_timer_pause: {
+          title: '採点モード: タイマー + 一時停止 / 再開',
+          desc:
+            '採点モードに経過時間の表示を追加しました (Reading は公式仕様の 120 分、Listening 60 分、Vocab/Grammar 30 分が目安)。テストを途中で一時停止して、後で同じ問題から再開できます。',
+        },
+        grading_short_passages: {
+          title: '採点モード: 短い passage を優先出題',
+          desc:
+            '採点モードで問題を選ぶ際、Reading / Listening は短めの passage を優先的に選択するようにしました。これで制限時間内に終わりやすくなります。問題タブでは引き続き全問題 (長文含む) を練習できます — 長文は持久力訓練に有効なので残しています。',
+        },
         answer_distribution: {
           title: '正解の A / B / C / D 分布を均等化',
           desc:
@@ -625,8 +657,20 @@ export const MESSAGES = {
       section_label: 'Section {current} / {total}',
       progress_count: '{current} / {total}',
       abort: '中断',
+      pause: '一時停止',
+      timer_label: '経過',
+      time_target: '目安: 約 {min} 分',
+      note_pause: 'テスト途中で一時停止して、後で同じ場所から再開できます。',
       confirm_abort: 'テストを中断します。記録は保存されません。',
+      confirm_pause:
+        'テストを一時停止して進捗を保存しますか？同じ場所から再開できます。',
+      confirm_discard: '保存されたテストを破棄して、新規に開始しますか？',
       confirm_clear_history: '採点履歴をすべて削除しますか？',
+      resume_title: '⏸ 中断中のテストを再開しますか？',
+      resume_body:
+        '{date} に一時停止した {skill} のテストがあります。現在: Section {section}、問題 {question}、経過時間 {elapsed}。',
+      resume_btn: '▶ 再開',
+      discard_btn: '🗑 破棄',
     },
 
     pq: {

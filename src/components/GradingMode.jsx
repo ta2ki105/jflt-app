@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import {
   createSession,
   tallySection,
@@ -7,6 +7,10 @@ import {
   appendHistory,
   loadHistory,
   clearHistory,
+  saveProgress,
+  loadProgress,
+  clearProgress,
+  TIME_LIMIT_MINUTES,
 } from '../gradingMode.js';
 import { MAX_LEVEL } from '../scoring.js';
 import { useI18n } from '../i18n/useI18n.js';
@@ -22,6 +26,13 @@ const PHASE = {
 // Section has 15 questions (per official JFLT spec)
 const QUESTIONS_PER_SECTION = 15;
 
+function formatClock(totalSec) {
+  const s = Math.max(0, Math.floor(totalSec));
+  const m = Math.floor(s / 60);
+  const r = s % 60;
+  return `${m}:${r.toString().padStart(2, '0')}`;
+}
+
 export default function GradingMode({ datasets, apiKey }) {
   const { t, lang } = useI18n();
   const [phase, setPhase] = useState(PHASE.SETUP);
@@ -34,7 +45,40 @@ export default function GradingMode({ datasets, apiKey }) {
   const [answeredSections, setAnsweredSections] = useState([]);
   const [historyTick, setHistoryTick] = useState(0);
 
+  // Timer state. `pausedElapsedSec` accumulates time across runs (paused
+  // intervals are not counted). `tickStartedAt` is the wall-clock time when
+  // the current testing tick began.
+  const [pausedElapsedSec, setPausedElapsedSec] = useState(0);
+  const tickStartedAtRef = useRef(null);
+  const [nowTick, setNowTick] = useState(0); // forces re-render every second
+
+  // Saved progress (for showing "resume" prompt in setup view)
+  const [savedProgress, setSavedProgress] = useState(null);
+
   const history = useMemo(() => loadHistory(), [historyTick]);
+
+  // Check for saved progress on mount + whenever we return to setup
+  useEffect(() => {
+    if (phase === PHASE.SETUP) {
+      setSavedProgress(loadProgress());
+    }
+  }, [phase]);
+
+  // Tick interval — only runs in TESTING phase
+  useEffect(() => {
+    if (phase !== PHASE.TESTING) return;
+    const id = setInterval(() => setNowTick((n) => n + 1), 1000);
+    return () => clearInterval(id);
+  }, [phase]);
+
+  const currentElapsedSec = useMemo(() => {
+    if (phase !== PHASE.TESTING || tickStartedAtRef.current == null) {
+      return pausedElapsedSec;
+    }
+    // nowTick is read only to trigger re-render; real value uses Date.now()
+    void nowTick;
+    return pausedElapsedSec + (Date.now() - tickStartedAtRef.current) / 1000;
+  }, [phase, pausedElapsedSec, nowTick]);
 
   const startTest = useCallback(() => {
     const s = createSession(skill, datasets[skill].data);
@@ -44,8 +88,34 @@ export default function GradingMode({ datasets, apiKey }) {
     setCurrentSelected(null);
     setSectionAnswers([]);
     setAnsweredSections([]);
+    setPausedElapsedSec(0);
+    tickStartedAtRef.current = Date.now();
+    // A new test invalidates any saved progress.
+    clearProgress();
+    setSavedProgress(null);
     setPhase(PHASE.TESTING);
   }, [skill, datasets]);
+
+  // Restore from saved progress
+  const resumeTest = useCallback(() => {
+    if (!savedProgress) return;
+    setSkill(savedProgress.skill);
+    setSession(savedProgress.session);
+    setCurrentLevel(savedProgress.currentLevel);
+    setCurrentIdx(savedProgress.currentIdx);
+    setCurrentSelected(savedProgress.currentSelected ?? null);
+    setSectionAnswers(savedProgress.sectionAnswers || []);
+    setAnsweredSections(savedProgress.answeredSections || []);
+    setPausedElapsedSec(savedProgress.elapsedSec || 0);
+    tickStartedAtRef.current = Date.now();
+    setPhase(PHASE.TESTING);
+  }, [savedProgress]);
+
+  const discardSaved = useCallback(() => {
+    if (!window.confirm(t('grading.confirm_discard'))) return;
+    clearProgress();
+    setSavedProgress(null);
+  }, [t]);
 
   const handleClearHistory = () => {
     if (!window.confirm(t('grading.confirm_clear_history'))) return;
@@ -97,6 +167,7 @@ export default function GradingMode({ datasets, apiKey }) {
         answeredSections: allSections,
       });
       appendHistory(entry);
+      clearProgress(); // test completed
       setHistoryTick((tick) => tick + 1);
       setPhase(PHASE.RESULT);
     }
@@ -111,13 +182,51 @@ export default function GradingMode({ datasets, apiKey }) {
     session,
   ]);
 
-  const handleAbort = () => {
+  // Pause + save progress (returns to setup, can be resumed later)
+  const handlePause = useCallback(() => {
+    if (!session) return;
+    if (!window.confirm(t('grading.confirm_pause'))) return;
+    const elapsed =
+      pausedElapsedSec +
+      (tickStartedAtRef.current != null
+        ? (Date.now() - tickStartedAtRef.current) / 1000
+        : 0);
+    saveProgress({
+      skill: session.skill,
+      session,
+      currentLevel,
+      currentIdx,
+      currentSelected,
+      sectionAnswers,
+      answeredSections,
+      elapsedSec: Math.round(elapsed),
+      savedAt: Date.now(),
+    });
+    tickStartedAtRef.current = null;
+    setPhase(PHASE.SETUP);
+  }, [
+    session,
+    currentLevel,
+    currentIdx,
+    currentSelected,
+    sectionAnswers,
+    answeredSections,
+    pausedElapsedSec,
+    t,
+  ]);
+
+  // Abort without saving (discards progress)
+  const handleAbort = useCallback(() => {
     if (!window.confirm(t('grading.confirm_abort'))) return;
+    clearProgress();
+    setSavedProgress(null);
+    tickStartedAtRef.current = null;
     setPhase(PHASE.SETUP);
     setSession(null);
-  };
+  }, [t]);
 
   const handleRestart = () => {
+    tickStartedAtRef.current = null;
     setPhase(PHASE.SETUP);
     setSession(null);
   };
@@ -125,6 +234,54 @@ export default function GradingMode({ datasets, apiKey }) {
   if (phase === PHASE.SETUP) {
     return (
       <div className="space-y-4 fade-in">
+        {/* Resume saved progress prompt */}
+        {savedProgress && (
+          <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-300 rounded-2xl p-5 shadow-sm">
+            <div className="flex items-start gap-3">
+              <span className="text-3xl flex-none">⏸️</span>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-slate-900 mb-1">
+                  {t('grading.resume_title')}
+                </h3>
+                <p className="text-xs text-slate-700 leading-relaxed mb-3">
+                  {t('grading.resume_body', {
+                    skill:
+                      datasets[savedProgress.skill]?.label || savedProgress.skill,
+                    section: savedProgress.currentLevel,
+                    question: savedProgress.currentIdx + 1,
+                    elapsed: formatClock(savedProgress.elapsedSec || 0),
+                    date: new Date(savedProgress.savedAt).toLocaleString(
+                      lang === 'ja' ? 'ja-JP' : 'en-GB',
+                      {
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      }
+                    ),
+                  })}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={resumeTest}
+                    className="px-4 py-2 text-sm rounded-lg bg-amber-600 text-white font-semibold hover:bg-amber-700"
+                  >
+                    {t('grading.resume_btn')}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={discardSaved}
+                    className="px-4 py-2 text-sm rounded-lg bg-white border border-slate-300 text-slate-700 hover:bg-slate-50"
+                  >
+                    {t('grading.discard_btn')}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
           <h2 className="text-lg font-semibold text-slate-900 mb-2">
             {t('grading.title')}
@@ -153,6 +310,7 @@ export default function GradingMode({ datasets, apiKey }) {
               </li>
               <li>{t('grading.note_reading_visible')}</li>
               <li>{t('grading.note_history')}</li>
+              <li>{t('grading.note_pause')}</li>
             </ul>
           </div>
 
@@ -173,6 +331,15 @@ export default function GradingMode({ datasets, apiKey }) {
               >
                 <div className="text-base">{info.icon}</div>
                 <div className="font-medium">{info.label}</div>
+                <div
+                  className={`text-[10px] mt-0.5 ${
+                    skill === key ? 'text-blue-100' : 'text-slate-400'
+                  }`}
+                >
+                  {t('grading.time_target', {
+                    min: TIME_LIMIT_MINUTES[key] ?? 30,
+                  })}
+                </div>
               </button>
             ))}
           </div>
@@ -263,12 +430,51 @@ export default function GradingMode({ datasets, apiKey }) {
         </div>
       );
     }
+
+    const limitMin = TIME_LIMIT_MINUTES[session.skill] ?? 30;
+    const limitSec = limitMin * 60;
+    const elapsedSec = Math.floor(currentElapsedSec);
+    const pct = limitSec > 0 ? (elapsedSec / limitSec) * 100 : 0;
+    let timerCls = 'text-emerald-700 bg-emerald-50 border-emerald-200';
+    if (pct >= 100) timerCls = 'text-rose-700 bg-rose-50 border-rose-200';
+    else if (pct >= 80) timerCls = 'text-amber-700 bg-amber-50 border-amber-200';
+
     return (
       <div className="space-y-3 fade-in">
+        {/* Timer bar */}
+        <div
+          className={`rounded-xl border px-4 py-2 flex items-center gap-3 text-xs ${timerCls}`}
+        >
+          <span className="text-base">⏱️</span>
+          <span className="font-semibold tabular-nums">
+            {formatClock(elapsedSec)}
+          </span>
+          <span className="text-slate-500">/</span>
+          <span className="tabular-nums">{limitMin}:00</span>
+          <div className="flex-1 h-1.5 bg-white/50 rounded-full overflow-hidden">
+            <div
+              className={`h-full transition-all ${
+                pct >= 100
+                  ? 'bg-rose-500'
+                  : pct >= 80
+                  ? 'bg-amber-500'
+                  : 'bg-emerald-500'
+              }`}
+              style={{ width: `${Math.min(100, pct)}%` }}
+            />
+          </div>
+          <span className="text-[10px] uppercase tracking-wide opacity-70">
+            {t('grading.timer_label')}
+          </span>
+        </div>
+
         {/* Progress strip */}
         <div className="bg-white rounded-xl border border-slate-200 px-4 py-2 flex items-center gap-3 text-xs">
           <span className="font-semibold text-slate-700">
-            {t('grading.section_label', { current: currentLevel, total: MAX_LEVEL })}
+            {t('grading.section_label', {
+              current: currentLevel,
+              total: MAX_LEVEL,
+            })}
           </span>
           <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
             <div
@@ -286,8 +492,15 @@ export default function GradingMode({ datasets, apiKey }) {
           </span>
           <button
             type="button"
+            onClick={handlePause}
+            className="text-xs text-blue-700 hover:underline ml-2"
+          >
+            {t('grading.pause')}
+          </button>
+          <button
+            type="button"
             onClick={handleAbort}
-            className="text-xs text-slate-500 hover:text-rose-700 ml-2"
+            className="text-xs text-slate-500 hover:text-rose-700"
           >
             {t('grading.abort')}
           </button>
@@ -316,7 +529,7 @@ export default function GradingMode({ datasets, apiKey }) {
         skillLabel={datasets[lastSkill].label}
         skillIcon={datasets[lastSkill].icon}
         answeredSections={answeredSections}
-        durationSec={Math.round((Date.now() - session.startedAt) / 1000)}
+        durationSec={Math.round(currentElapsedSec)}
         onRestart={startTest}
         onExit={handleRestart}
       />
