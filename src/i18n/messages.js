@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        listening_audio_stop: {
+          title: 'Listening: previous audio is now stopped between questions',
+          desc:
+            'When moving to the next Listening question in Test mode, the previous question\'s audio is forcibly stopped so the new 5-second countdown actually has silence. Before, lingering audio made the next question seem to play instantly.',
+        },
         grading_timer_pause: {
           title: 'Test mode: timer + pause / resume',
           desc:
@@ -512,6 +517,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        listening_audio_stop: {
+          title: 'Listening: 次の問題に進むと前の音声を停止',
+          desc:
+            '採点モードで次の Listening 問題に進む際、前の問題の音声を確実に停止するようにしました。これまで前の音声が継続再生されていたため、「次の音声がすぐに鳴った」と感じる挙動になっていました。これで 5 秒のカウントダウン中は確実に無音になります。',
+        },
         grading_timer_pause: {
           title: '採点モード: タイマー + 一時停止 / 再開',
           desc:

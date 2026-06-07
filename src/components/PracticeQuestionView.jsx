@@ -39,6 +39,23 @@ export default function PracticeQuestionView({
   const playedKeyRef = useRef(null);
   const playTimerRef = useRef(null);
   const countdownTimerRef = useRef(null);
+  // Track the currently-playing Audio element so we can stop it the moment
+  // we move on to the next question. Without this, the previous answer's
+  // audio keeps playing while the next question's countdown ticks, which
+  // sounds to the user like "the next audio started immediately".
+  const audioRef = useRef(null);
+  const questionRef = useRef(question);
+  questionRef.current = question;
+
+  const stopCurrentAudio = () => {
+    if (audioRef.current) {
+      try {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      } catch (_) { /* ignore */ }
+      audioRef.current = null;
+    }
+  };
 
   const clearTimers = () => {
     if (playTimerRef.current) {
@@ -51,10 +68,17 @@ export default function PracticeQuestionView({
     }
   };
 
-  const startPlayback = async () => {
+  const startPlayback = async (passage) => {
+    // Always stop whatever might still be playing from the previous question
+    stopCurrentAudio();
     setAudioState('loading');
     try {
-      await playAudio(question.passage || '', apiKey, { noKey: t('audio.noKey') });
+      const audio = await playAudio(
+        passage || '',
+        apiKey,
+        { noKey: t('audio.noKey') }
+      );
+      audioRef.current = audio || null;
       setAudioState('played');
     } catch (e) {
       console.warn('Listening play failed', e);
@@ -69,10 +93,20 @@ export default function PracticeQuestionView({
     if (playedKeyRef.current === key) return;
     playedKeyRef.current = key;
 
+    // Hard stop on any audio from the previous question before we start the
+    // new countdown. Without this, late-arriving previous audio can begin
+    // playing AFTER this effect already showed the new question's countdown.
+    stopCurrentAudio();
+    clearTimers();
+
     setAudioState('waiting');
     setCountdown(COUNTDOWN_SECONDS);
 
     let cancelled = false;
+    // Snapshot the passage now; if the question prop changes mid-countdown
+    // we'd rather play the snapshot than the new question's audio (the
+    // new question's own effect will then take over and cancel us).
+    const passageSnapshot = question.passage || '';
 
     // Tick the visible countdown every second
     countdownTimerRef.current = setInterval(() => {
@@ -90,24 +124,35 @@ export default function PracticeQuestionView({
 
     // Trigger playback after the countdown elapses
     playTimerRef.current = setTimeout(() => {
-      if (cancelled) return;
       playTimerRef.current = null;
-      startPlayback();
+      if (cancelled) return;
+      startPlayback(passageSnapshot);
     }, COUNTDOWN_SECONDS * 1000);
 
     return () => {
       cancelled = true;
       clearTimers();
+      // Also stop in-flight audio on cleanup so leaving / pausing /
+      // advancing immediately silences the previous question.
+      stopCurrentAudio();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isListeningSkill, apiKey, questionIndex, level, skill]);
+
+  // Stop audio on unmount as well (e.g. user changes tab away from grading).
+  useEffect(() => {
+    return () => {
+      clearTimers();
+      stopCurrentAudio();
+    };
+  }, []);
 
   // Manual play: cancel any pending countdown and start immediately.
   const handleManualPlay = async () => {
     if (audioState === 'loading') return;
     clearTimers();
     setCountdown(0);
-    await startPlayback();
+    await startPlayback(questionRef.current.passage || '');
   };
 
   const passageVisible = !isListeningSkill;
