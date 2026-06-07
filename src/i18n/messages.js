@@ -79,6 +79,16 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        reading_l3_trimmed: {
+          title: 'Reading L3: long passages trimmed, vocabulary upgraded',
+          desc:
+            'All eleven Reading L3 passages over 150 words have been rewritten to ≤150 words. To preserve L3 difficulty, vocabulary was upgraded (more Latinate, more abstract) and distractors were redesigned around plausible misreadings rather than obviously wrong choices. Lifts the average L3 read-time toward 2 min/question, matching the official 120-min Reading section.',
+        },
+        listening_l3_paraphrased: {
+          title: 'Listening L3: paraphrased options instead of verbatim matching',
+          desc:
+            'Listening L3 previously let learners win by keyword matching — the correct option often copied the passage verbatim. The first 15 L3 questions have been rewritten so the correct answer paraphrases the passage and distractors target common misreadings, matching the style already used in L2 and the later L3 questions.',
+        },
         review_listening_audio: {
           title: 'Review: play Listening audio',
           desc:
@@ -533,6 +543,16 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        reading_l3_trimmed: {
+          title: 'Reading L3: 長文を短縮し、語彙を高度化',
+          desc:
+            'Reading L3 の 150 語超だった 11 問を全て ≤150 語に書き換えました。L3 らしい難易度を保つため、語彙をより抽象的・ラテン語系に上げ、ひっかけ選択肢を「もっともらしい誤読」に作り直しています。1問 2 分目安 (公式 Reading 120分/60問) で解ける文章量になります。',
+        },
+        listening_l3_paraphrased: {
+          title: 'Listening L3: 選択肢に言い換えを導入',
+          desc:
+            'これまで Listening L3 は本文の表現をそのまま選択肢に使っていたため、キーワード一致だけで解けてしまいました。前半 15 問の正解選択肢を「言い換え」に書き換え、ひっかけ選択肢も近似誤読型に再設計しました。L2 や L3 後半と同じスタイルに揃えています。',
+        },
         review_listening_audio: {
           title: '復習タブ: Listening 音声を再生可能に',
           desc:
