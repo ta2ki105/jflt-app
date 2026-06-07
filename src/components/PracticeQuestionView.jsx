@@ -25,8 +25,42 @@ export default function PracticeQuestionView({
   const isAudioSkill = skill === 'listening' || skill === 'reading';
   const isListeningSkill = skill === 'listening';
 
-  const [audioState, setAudioState] = useState('idle'); // idle | loading | played | failed
+  // Auto-play UX:
+  //   1. Question appears → countdown shows for COUNTDOWN_SECONDS
+  //      so the user can skim the question + options first
+  //   2. After countdown, audio starts automatically
+  //   3. User can tap the audio button at any time to skip the countdown
+  //      and play immediately
+  const COUNTDOWN_SECONDS = 5;
+
+  // idle | waiting | loading | played | failed
+  const [audioState, setAudioState] = useState('idle');
+  const [countdown, setCountdown] = useState(0);
   const playedKeyRef = useRef(null);
+  const playTimerRef = useRef(null);
+  const countdownTimerRef = useRef(null);
+
+  const clearTimers = () => {
+    if (playTimerRef.current) {
+      clearTimeout(playTimerRef.current);
+      playTimerRef.current = null;
+    }
+    if (countdownTimerRef.current) {
+      clearInterval(countdownTimerRef.current);
+      countdownTimerRef.current = null;
+    }
+  };
+
+  const startPlayback = async () => {
+    setAudioState('loading');
+    try {
+      await playAudio(question.passage || '', apiKey, { noKey: t('audio.noKey') });
+      setAudioState('played');
+    } catch (e) {
+      console.warn('Listening play failed', e);
+      setAudioState('failed');
+    }
+  };
 
   useEffect(() => {
     if (!isListeningSkill) return;
@@ -34,27 +68,46 @@ export default function PracticeQuestionView({
     const key = `${skill}-${level}-${questionIndex}`;
     if (playedKeyRef.current === key) return;
     playedKeyRef.current = key;
-    let cancelled = false;
-    setAudioState('loading');
-    playAudio(question.passage || '', apiKey, { noKey: t('audio.noKey') })
-      .then(() => { if (!cancelled) setAudioState('played'); })
-      .catch((e) => {
-        console.warn('Listening auto-play failed', e);
-        if (!cancelled) setAudioState('failed');
-      });
-    return () => { cancelled = true; };
-  }, [isListeningSkill, apiKey, question, questionIndex, level, skill, t]);
 
+    setAudioState('waiting');
+    setCountdown(COUNTDOWN_SECONDS);
+
+    let cancelled = false;
+
+    // Tick the visible countdown every second
+    countdownTimerRef.current = setInterval(() => {
+      setCountdown((c) => {
+        if (c <= 1) {
+          if (countdownTimerRef.current) {
+            clearInterval(countdownTimerRef.current);
+            countdownTimerRef.current = null;
+          }
+          return 0;
+        }
+        return c - 1;
+      });
+    }, 1000);
+
+    // Trigger playback after the countdown elapses
+    playTimerRef.current = setTimeout(() => {
+      if (cancelled) return;
+      playTimerRef.current = null;
+      startPlayback();
+    }, COUNTDOWN_SECONDS * 1000);
+
+    return () => {
+      cancelled = true;
+      clearTimers();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isListeningSkill, apiKey, questionIndex, level, skill]);
+
+  // Manual play: cancel any pending countdown and start immediately.
   const handleManualPlay = async () => {
     if (audioState === 'loading') return;
-    setAudioState('loading');
-    try {
-      await playAudio(question.passage || '', apiKey, { noKey: t('audio.noKey') });
-      setAudioState('played');
-    } catch (e) {
-      console.error('Manual play failed', e);
-      setAudioState('failed');
-    }
+    clearTimers();
+    setCountdown(0);
+    await startPlayback();
   };
 
   const passageVisible = !isListeningSkill;
@@ -77,13 +130,25 @@ export default function PracticeQuestionView({
             type="button"
             onClick={handleManualPlay}
             disabled={audioState === 'loading'}
-            className="ml-auto inline-flex items-center gap-1 px-2 py-1 text-xs rounded-md bg-blue-50 text-blue-700 border border-blue-200 disabled:opacity-50"
+            className={`ml-auto inline-flex items-center gap-1 px-2 py-1 text-xs rounded-md border disabled:opacity-50 ${
+              audioState === 'waiting'
+                ? 'bg-amber-50 text-amber-800 border-amber-200 hover:bg-amber-100'
+                : 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100'
+            }`}
             title={isListeningSkill ? t('pq.audio_once_tooltip') : ''}
           >
-            <span>{audioState === 'loading' ? '⏳' : '🔊'}</span>
+            <span>
+              {audioState === 'loading'
+                ? '⏳'
+                : audioState === 'waiting'
+                ? '⏱️'
+                : '🔊'}
+            </span>
             <span>
               {audioState === 'loading'
                 ? t('pq.audio_loading')
+                : audioState === 'waiting'
+                ? t('pq.audio_waiting', { count: countdown })
                 : isListeningSkill
                 ? audioState === 'played'
                   ? t('pq.audio_played')

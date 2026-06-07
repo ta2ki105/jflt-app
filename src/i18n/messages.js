@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        listening_countdown: {
+          title: 'Listening: 5-second read-ahead before audio plays',
+          desc:
+            'In Test mode, each Listening question now waits 5 seconds before the audio starts so you can skim the question and options first. Tap the audio button to skip the countdown.',
+        },
         review_tab: {
           title: 'Review tab',
           desc:
@@ -220,6 +225,7 @@ export const MESSAGES = {
       audio_failed: 'Failed (retry)',
       audio_play: 'Play',
       audio_read: 'Read aloud',
+      audio_waiting: 'Auto-play in {count}s (tap to play now)',
       select_prompt: 'Please select an answer',
       answered: 'Answered',
       next_question: 'Next question →',
@@ -479,6 +485,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        listening_countdown: {
+          title: 'Listening: 音声再生前に 5 秒の読み取り時間',
+          desc:
+            '採点モードの Listening 問題で、音声が自動再生される前に 5 秒間の読み取り時間を設けました。質問と選択肢を先に確認できます。ボタンタップで即座に再生することも可能です。',
+        },
         review_tab: {
           title: '復習タブを追加',
           desc:
@@ -621,6 +632,7 @@ export const MESSAGES = {
       audio_failed: '再生失敗 (再試行)',
       audio_play: '再生',
       audio_read: '読み上げ',
+      audio_waiting: 'あと {count} 秒で自動再生 (タップで即再生)',
       select_prompt: '回答を選択してください',
       answered: '回答済み',
       next_question: '次の問題 →',
