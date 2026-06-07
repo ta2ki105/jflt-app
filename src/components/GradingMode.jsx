@@ -55,6 +55,9 @@ export default function GradingMode({ datasets, apiKey }) {
   // Saved progress (for showing "resume" prompt in setup view)
   const [savedProgress, setSavedProgress] = useState(null);
 
+  // Which history entry is currently expanded for detail view
+  const [openHistoryId, setOpenHistoryId] = useState(null);
+
   const history = useMemo(() => loadHistory(), [historyTick]);
 
   // Check for saved progress on mount + whenever we return to setup
@@ -378,7 +381,7 @@ export default function GradingMode({ datasets, apiKey }) {
           {history.length === 0 ? (
             <p className="text-sm text-slate-500">{t('grading.history_empty')}</p>
           ) : (
-            <ul className="space-y-2 max-h-80 overflow-y-auto">
+            <ul className="space-y-2 max-h-[28rem] overflow-y-auto">
               {history.map((h) => {
                 const date = new Date(h.startedAt);
                 const locale = lang === 'ja' ? 'ja-JP' : 'en-GB';
@@ -390,21 +393,117 @@ export default function GradingMode({ datasets, apiKey }) {
                   minute: '2-digit',
                 });
                 const skillInfo = datasets[h.skill];
+                const expanded = openHistoryId === h.id;
+                // Build per-level row data. entry.sections may be missing
+                // levels that weren't reached — fill them with untested.
+                const perLevel = [];
+                for (let lv = 1; lv <= MAX_LEVEL; lv++) {
+                  const s = (h.sections || []).find((x) => x.level === lv);
+                  perLevel.push({
+                    level: lv,
+                    correct: s?.correct ?? 0,
+                    total: s?.total ?? 0,
+                    status: !s
+                      ? 'untested'
+                      : s.correct >= 10
+                      ? 'pass'
+                      : s.correct >= 7
+                      ? 'half'
+                      : 'fail',
+                  });
+                }
+                const totalCorrect = perLevel.reduce((a, b) => a + b.correct, 0);
+                const totalAttempted = perLevel.reduce((a, b) => a + b.total, 0);
+                const durM = Math.floor((h.durationSec || 0) / 60);
+                const durS = Math.round((h.durationSec || 0) % 60);
                 return (
                   <li
                     key={h.id}
-                    className="flex items-center gap-3 p-2 border border-slate-100 rounded-lg text-sm"
+                    className="border border-slate-100 rounded-lg overflow-hidden"
                   >
-                    <span className="text-base">{skillInfo?.icon || '📝'}</span>
-                    <span className="flex-1 min-w-0">
-                      <div className="font-medium text-slate-900">
-                        {skillInfo?.label || h.skill}
+                    <button
+                      type="button"
+                      onClick={() => setOpenHistoryId(expanded ? null : h.id)}
+                      className="w-full text-left flex items-center gap-3 p-2 hover:bg-slate-50/60"
+                    >
+                      <span className="text-base">{skillInfo?.icon || '📝'}</span>
+                      <span className="flex-1 min-w-0">
+                        <div className="font-medium text-slate-900 text-sm">
+                          {skillInfo?.label || h.skill}
+                        </div>
+                        <div className="text-xs text-slate-500">
+                          {dateStr} ・ {totalCorrect}/{totalAttempted}
+                        </div>
+                      </span>
+                      <span className="text-2xl font-bold text-blue-700 tabular-nums">
+                        {h.label}
+                      </span>
+                      <span className="text-xs text-slate-400 ml-1">
+                        {expanded ? '▲' : '▼'}
+                      </span>
+                    </button>
+
+                    {expanded && (
+                      <div className="px-3 pb-3 pt-1 bg-slate-50/40 fade-in space-y-2">
+                        {perLevel.map((row) => {
+                          const widthPct =
+                            row.total > 0
+                              ? Math.round((row.correct / 15) * 100)
+                              : 0;
+                          const barCls =
+                            row.status === 'pass'
+                              ? 'bg-emerald-500'
+                              : row.status === 'half'
+                              ? 'bg-amber-400'
+                              : row.status === 'fail'
+                              ? 'bg-rose-400'
+                              : 'bg-slate-200';
+                          const badgeCls =
+                            row.status === 'pass'
+                              ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                              : row.status === 'half'
+                              ? 'bg-amber-100 text-amber-800 border-amber-300'
+                              : row.status === 'fail'
+                              ? 'bg-rose-100 text-rose-700 border-rose-300'
+                              : 'bg-slate-100 text-slate-500 border-slate-200';
+                          return (
+                            <div
+                              key={row.level}
+                              className="flex items-center gap-2 text-xs"
+                            >
+                              <span className="font-mono text-slate-500 w-7">
+                                L{row.level}
+                              </span>
+                              <div className="flex-1 h-2 bg-white border border-slate-200 rounded-full overflow-hidden">
+                                <div
+                                  className={`h-full ${barCls}`}
+                                  style={{ width: `${widthPct}%` }}
+                                />
+                              </div>
+                              <span className="tabular-nums text-slate-700 w-12 text-right">
+                                {row.correct}/{row.total || 15}
+                              </span>
+                              <span
+                                className={`text-[10px] px-1.5 py-0.5 rounded border ${badgeCls}`}
+                              >
+                                {t(`pr.status.${row.status}`)}
+                              </span>
+                            </div>
+                          );
+                        })}
+                        <div className="flex justify-between items-center pt-2 border-t border-slate-200 text-[11px] text-slate-500">
+                          <span>
+                            ⏱ {durM}:{String(durS).padStart(2, '0')}
+                          </span>
+                          <span>
+                            {t('grading.history_total_correct', {
+                              correct: totalCorrect,
+                              total: totalAttempted,
+                            })}
+                          </span>
+                        </div>
                       </div>
-                      <div className="text-xs text-slate-500">{dateStr}</div>
-                    </span>
-                    <span className="text-2xl font-bold text-blue-700 tabular-nums">
-                      {h.label}
-                    </span>
+                    )}
                   </li>
                 );
               })}

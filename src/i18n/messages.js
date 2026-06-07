@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        history_breakdown: {
+          title: 'Test history: per-section breakdown',
+          desc:
+            'Tap any past test in the history list to see the per-level breakdown: correct/total per section, pass / + / fail status, and total duration. Lets you spot where you stalled rather than only seeing the final SLP score.',
+        },
         listening_audio_stop: {
           title: 'Listening: previous audio is now stopped between questions',
           desc:
@@ -223,6 +228,7 @@ export const MESSAGES = {
       history_title: '📜 Test History',
       history_clear: 'Clear history',
       history_empty: 'No test history yet.',
+      history_total_correct: 'Total correct: {correct} / {total}',
       load_failed: 'Failed to load questions. Please return to the top.',
       go_back: 'Back',
       section_label: 'Section {current} / {total}',
@@ -517,6 +523,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        history_breakdown: {
+          title: '受験履歴: セクション別の正答内訳を表示',
+          desc:
+            '採点履歴の各行をタップで展開できるようになりました。L1〜L4 のセクション別正答数・合格/+/未到達のステータス・所要時間が確認でき、SLP スコアだけでなく「どこで詰まったか」が分かるようになります。',
+        },
         listening_audio_stop: {
           title: 'Listening: 次の問題に進むと前の音声を停止',
           desc:
@@ -662,6 +673,7 @@ export const MESSAGES = {
       history_title: '📜 受験履歴',
       history_clear: '履歴を削除',
       history_empty: 'まだ受験履歴がありません。',
+      history_total_correct: '合計正解数: {correct} / {total}',
       load_failed: '問題の読み込みに失敗しました。トップに戻ってください。',
       go_back: '戻る',
       section_label: 'Section {current} / {total}',
