@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        reading_length_bias: {
+          title: 'Reading: distractors lengthened so option length no longer reveals the answer',
+          desc:
+            'Audit found the correct option was uniquely the longest in 44% of Reading questions (vs the ~25% random baseline), letting learners guess by size — especially L4 at 80%. Padded the shorter distractors with semantically appropriate qualifiers across 22 questions. New rate: 21% overall (L1=6, L2=33, L3=29, L4=0).',
+        },
         reading_l3_trimmed: {
           title: 'Reading L3: long passages trimmed, vocabulary upgraded',
           desc:
@@ -543,6 +548,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        reading_length_bias: {
+          title: 'Reading: 選択肢の文字数で正解がバレない様に修正',
+          desc:
+            '監査で「正解が唯一の最長選択肢」になっている問題が 44% (ランダム期待値 25%) と判明。特に L4 は 80%。これでは文字数で当てられてしまうため、22 問の短いひっかけ選択肢に意味を変えない修飾句を追加して延長。修正後は全体で 21% (L1=6%, L2=33%, L3=29%, L4=0%) となり、ランダム期待値を下回りました。',
+        },
         reading_l3_trimmed: {
           title: 'Reading L3: 長文を短縮し、語彙を高度化',
           desc:

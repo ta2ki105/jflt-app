@@ -25,6 +25,7 @@ export const TAG_STYLES = {
 
 export const CHANGELOG_ENTRIES = [
   // Newest first
+  { id: 'reading_length_bias', date: '2026-05-17', tag: 'fix' },
   { id: 'reading_l3_trimmed', date: '2026-05-17', tag: 'improvement' },
   { id: 'listening_l3_paraphrased', date: '2026-05-17', tag: 'improvement' },
   { id: 'review_listening_audio', date: '2026-05-17', tag: 'feature' },
