@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        listening_l3_expanded: {
+          title: 'Listening L3: 10 new questions added (25 → 35)',
+          desc:
+            'Ten new L3 listening briefings added covering Indo-Pacific maritime ops, Arctic security, space situational awareness, counter-intelligence, integrated air defence, special operations economy of force, crisis communications, election interference, energy security, and combined arms doctrine. All follow current protocols: ≤180-word passages, paraphrased options (no verbatim keyword matching), distractors length-balanced so the correct answer is never uniquely the longest.',
+        },
         reading_length_bias: {
           title: 'Reading: distractors lengthened so option length no longer reveals the answer',
           desc:
@@ -548,6 +553,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        listening_l3_expanded: {
+          title: 'Listening L3: 10 問追加 (25 → 35)',
+          desc:
+            'Listening L3 に 10 問を追加しました (Indo-Pacific 海洋作戦、北極安全保障、宇宙状況把握、防諜、統合防空、特殊作戦の経済性、危機広報、選挙介入対策、エネルギー安全保障、諸兵連合ドクトリン)。現行プロトコル準拠: 本文 ≤180 語、選択肢は本文表現の言い換え (verbatim 不可)、正解選択肢が唯一の最長にならないよう文字数調整。',
+        },
         reading_length_bias: {
           title: 'Reading: 選択肢の文字数で正解がバレない様に修正',
           desc:
