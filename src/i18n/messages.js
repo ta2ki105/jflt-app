@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        vocab_expanded_2026_06: {
+          title: 'Vocabulary: 125 new questions added (60 → 185)',
+          desc:
+            'Major vocab expansion across all four levels. L1 gains 37 everyday and basic military terms (unit names, ranks, drill commands, kit, AWOL/POW/KIA, etc.). L2 adds 38 intermediate operational and procedural terms (ambush, surveillance, doctrine, covert/overt, corroborate, authorize, etc.). L3 adds 38 strategic and policy terms (coercion, brinkmanship, containment, détente, polarization, ratify, promulgate, etc.). L4 adds 12 formal academic terms (attrition, cognizant, exigency, obviate, tacit, nascent, tantamount, corollary, etc.). All follow protocol: answer letters round-robin A/B/C/D, correct option never uniquely longest, no duplicate topics.',
+        },
         listening_l3_expanded: {
           title: 'Listening L3: 10 new questions added (25 → 35)',
           desc:
@@ -553,6 +558,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        vocab_expanded_2026_06: {
+          title: '語彙: 125 問追加 (60 → 185)',
+          desc:
+            '全 4 レベルで語彙問題を大幅拡充しました。L1 は基本的な軍事・日常語彙 37 問 (部隊単位、階級、号令、装備、AWOL/POW/KIA 等)。L2 は中級の作戦・手続き用語 38 問 (ambush, surveillance, doctrine, covert/overt, corroborate, authorize 等)。L3 は戦略・政策用語 38 問 (coercion, brinkmanship, containment, détente, polarization, ratify, promulgate 等)。L4 はフォーマル学術語彙 12 問 (attrition, cognizant, exigency, obviate, tacit, nascent, tantamount, corollary 等)。全問でプロトコル準拠: 正解の A/B/C/D ラウンドロビン、正解選択肢が唯一の最長にならない、既存トピックと重複なし。',
+        },
         listening_l3_expanded: {
           title: 'Listening L3: 10 問追加 (25 → 35)',
           desc:
