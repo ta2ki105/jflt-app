@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        vocab_grammar_balanced_2026_06: {
+          title: 'Vocab + Grammar: answer letter and option length rebalanced',
+          desc:
+            'Fixed two issues affecting guessability. Answer letters: VOCAB had B at 45% (now 25%); GRAMMAR had 0% D answers (now 25%). Option lengths: VOCAB had the correct option uniquely longest in 69% of questions (now 4%); GRAMMAR went from 37% to 2%. Short distractors were padded with neutral qualifier tails, then options reordered round-robin per level. References to option letters in explanations were remapped automatically.',
+        },
         vocab_expanded_2026_06: {
           title: 'Vocabulary: 125 new questions added (60 → 185)',
           desc:
@@ -558,6 +563,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        vocab_grammar_balanced_2026_06: {
+          title: '語彙・文法: 答え記号と選択肢長を再バランス',
+          desc:
+            '推測されやすい 2 つの問題を修正しました。答え記号: VOCAB は B が 45% でしたが 25% に均等化、GRAMMAR は D が 0% でしたが 25% に。選択肢の長さ: VOCAB は正解が唯一の最長になっている問題が 69% でしたが 4% に、GRAMMAR は 37% から 2% に減少。短い不正解選択肢に中立的な修飾語を付加してから、レベル毎にラウンドロビンで再配置しました。解説中の選択肢記号参照も自動的に再マッピングされています。',
+        },
         vocab_expanded_2026_06: {
           title: '語彙: 125 問追加 (60 → 185)',
           desc:

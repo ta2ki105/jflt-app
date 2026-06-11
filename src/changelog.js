@@ -25,6 +25,7 @@ export const TAG_STYLES = {
 
 export const CHANGELOG_ENTRIES = [
   // Newest first
+  { id: 'vocab_grammar_balanced_2026_06', date: '2026-06-11', tag: 'fix' },
   { id: 'vocab_expanded_2026_06', date: '2026-06-09', tag: 'improvement' },
   { id: 'listening_l3_expanded', date: '2026-05-17', tag: 'improvement' },
   { id: 'reading_length_bias', date: '2026-05-17', tag: 'fix' },
