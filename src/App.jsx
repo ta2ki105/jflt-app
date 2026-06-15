@@ -216,11 +216,13 @@ export default function App() {
     <div className="min-h-full">
       {/* Header */}
       <header className="sticky top-0 z-10 backdrop-blur bg-white/80 border-b border-slate-200">
-        <div className="max-w-3xl mx-auto px-4 py-3 flex flex-wrap items-center gap-2">
+        <div className="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-2 min-w-0 flex-1">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-sm flex-none">
-              J
-            </div>
+            <img
+              src="/favicon.svg"
+              alt="JFLT logo"
+              className="w-9 h-9 flex-none"
+            />
             <div className="min-w-0">
               <h1 className="text-lg font-bold text-slate-900 leading-tight truncate">
                 {t('header.brand')}

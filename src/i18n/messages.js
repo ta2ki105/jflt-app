@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        header_desktop_fix_2026_06: {
+          title: 'Header layout fixed on desktop + logo updated',
+          desc:
+            'On wide screens the brand name and tagline were truncated to "JF..." / "350 ..." because the header container was too narrow for the tab row plus title plus language toggle. Widened the header container from 768 to 1024 pixels so everything fits naturally. The placeholder "J" gradient square in the corner has been replaced with the new JFLT roundel logo (same as the favicon).',
+        },
         favicon_added_2026_06: {
           title: 'Browser tab icon added',
           desc:
@@ -573,6 +578,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        header_desktop_fix_2026_06: {
+          title: 'PC 表示でヘッダーが潰れていた問題を修正 + ロゴ更新',
+          desc:
+            'PC で開くと「JF...」「350 ...」のようにブランド名・タグラインが見切れていました。ヘッダー部分のコンテナ幅を 768px から 1024px に広げ、タブ・タイトル・言語切替が自然に収まるよう調整しました。あわせて、左上の仮ロゴ ("J" の青いグラデーション四角) を、新しい JFLT ラウンデルロゴ (ファビコンと同じデザイン) に置き換えました。',
+        },
         favicon_added_2026_06: {
           title: 'ブラウザタブのアイコンを追加',
           desc:
