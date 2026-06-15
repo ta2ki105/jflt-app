@@ -1,13 +1,6 @@
 import { useState, useRef } from 'react';
 import { useI18n } from '../i18n/useI18n.js';
-
-// Voice assignment for two-speaker dialogue passages.
-// Single-narrator passages (no MAN:/WOMAN: markers) use VOICE_MAP.default.
-const VOICE_MAP = {
-  default: 'en-GB-Neural2-B', // male British — default narrator
-  MAN: 'en-GB-Neural2-B',     // male British
-  WOMAN: 'en-GB-Neural2-A',   // female British
-};
+import { loadVoicePrefs, resolveVoice } from '../voicePrefs.js';
 
 // Pause between speaker turns so the conversation breathes.
 const TURN_GAP_MS = 400;
@@ -15,23 +8,25 @@ const TURN_GAP_MS = 400;
 // Parse passage into turns. Lines beginning with "MAN: " or "WOMAN: "
 // are treated as speaker turns; continuation lines append to the
 // previous turn. If no markers are found, the whole passage is one
-// default turn.
-function parseTurns(passage) {
+// default turn. Voices are resolved per turn using the user's saved
+// preferences in voicePrefs.
+function parseTurns(passage, voiceOverride) {
+  const prefs = loadVoicePrefs();
   const lines = passage.split(/\n+/).map((l) => l.trim()).filter(Boolean);
   const hasMarkers = lines.some((l) => /^(MAN|WOMAN):\s+/.test(l));
   if (!hasMarkers) {
-    return [{ voice: VOICE_MAP.default, text: passage }];
+    return [{ voice: voiceOverride || resolveVoice(null, prefs), text: passage }];
   }
   const turns = [];
   for (const line of lines) {
     const m = line.match(/^(MAN|WOMAN):\s+(.*)$/);
     if (m) {
-      turns.push({ voice: VOICE_MAP[m[1]], text: m[2] });
+      turns.push({ voice: resolveVoice(m[1], prefs), text: m[2] });
     } else if (turns.length) {
       turns[turns.length - 1].text += ' ' + line;
     }
   }
-  return turns.length ? turns : [{ voice: VOICE_MAP.default, text: passage }];
+  return turns.length ? turns : [{ voice: voiceOverride || resolveVoice(null, prefs), text: passage }];
 }
 
 async function fetchTts(text, voiceName, apiKey) {
@@ -64,7 +59,7 @@ async function fetchTts(text, voiceName, apiKey) {
  * Returns a handle exposing `pause()` and a no-op `currentTime` setter
  * so callers that previously held a raw HTMLAudioElement keep working.
  */
-export async function playAudio(passage, apiKey, messages) {
+export async function playAudio(passage, apiKey, messages, options) {
   const noKeyMsg =
     (messages && messages.noKey) || 'Please enter an API key in Settings.';
   if (!apiKey) {
@@ -72,7 +67,8 @@ export async function playAudio(passage, apiKey, messages) {
     return;
   }
 
-  const turns = parseTurns(passage || '');
+  const voiceOverride = options && options.voiceName;
+  const turns = parseTurns(passage || '', voiceOverride);
   // Fetch all turns in parallel — total wait equals the slowest turn,
   // not the sum.
   const audios = await Promise.all(

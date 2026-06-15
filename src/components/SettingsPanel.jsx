@@ -1,9 +1,16 @@
 import { useState } from 'react';
 import { useI18n } from '../i18n/useI18n.js';
 import { playAudio } from './AudioPlayer.jsx';
+import { VOICE_CATALOG, loadVoicePrefs, saveVoicePrefs } from '../voicePrefs.js';
 
 const SAMPLE_TEXT =
   'This is a test of the Google Cloud Text to Speech voice. Stand by for further instructions.';
+
+const TIER_BADGE = {
+  neural2: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  wavenet: 'bg-slate-50 text-slate-600 border-slate-200',
+  studio:  'bg-amber-50 text-amber-700 border-amber-200',
+};
 
 export default function SettingsPanel({ apiKey, onSave }) {
   const { t } = useI18n();
@@ -12,6 +19,9 @@ export default function SettingsPanel({ apiKey, onSave }) {
   const [saved, setSaved] = useState(false);
   const [testing, setTesting] = useState(false);
   const [testMsg, setTestMsg] = useState('');
+
+  const [voicePrefs, setVoicePrefs] = useState(loadVoicePrefs);
+  const [previewing, setPreviewing] = useState('');
 
   const handleSave = () => {
     onSave(draft.trim());
@@ -40,6 +50,72 @@ export default function SettingsPanel({ apiKey, onSave }) {
     } finally {
       setTesting(false);
     }
+  };
+
+  const updatePref = (patch) => {
+    const next = { ...voicePrefs, ...patch };
+    setVoicePrefs(next);
+    saveVoicePrefs(patch);
+  };
+
+  const previewVoice = async (voiceName) => {
+    if (!apiKey) {
+      setTestMsg(t('settings.test_no_key'));
+      return;
+    }
+    setPreviewing(voiceName);
+    try {
+      await playAudio(SAMPLE_TEXT, apiKey, { noKey: t('audio.noKey') }, { voiceName });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setPreviewing('');
+    }
+  };
+
+  const renderVoicePicker = (gender) => {
+    const list = VOICE_CATALOG[gender];
+    const selected = voicePrefs[gender];
+    return (
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-slate-700">
+          {gender === 'male' ? t('settings.voice_male') : t('settings.voice_female')}
+        </label>
+        <div className="flex gap-2">
+          <select
+            value={selected}
+            onChange={(e) => updatePref({ [gender]: e.target.value })}
+            className="flex-1 px-3 py-2 border border-slate-300 rounded-lg text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none bg-white"
+          >
+            {list.map((v) => (
+              <option key={v.name} value={v.name}>
+                {v.label}
+              </option>
+            ))}
+          </select>
+          <button
+            type="button"
+            onClick={() => previewVoice(selected)}
+            disabled={previewing === selected || !apiKey}
+            className="px-3 py-2 text-sm rounded-lg bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 disabled:opacity-50"
+          >
+            {previewing === selected ? '⏳' : '🔊'} {t('settings.voice_preview')}
+          </button>
+        </div>
+        <div className="flex flex-wrap gap-1">
+          {list.map((v) => (
+            <span
+              key={v.name}
+              className={`text-xs px-2 py-0.5 rounded border ${TIER_BADGE[v.tier]} ${
+                v.name === selected ? 'ring-2 ring-offset-1 ring-blue-300' : ''
+              }`}
+            >
+              {v.label}
+            </span>
+          ))}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -118,6 +194,97 @@ export default function SettingsPanel({ apiKey, onSave }) {
         )}
       </div>
 
+      <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-4">
+        <div>
+          <h3 className="text-base font-semibold text-slate-900 mb-1">
+            {t('settings.voice_title')}
+          </h3>
+          <p className="text-sm text-slate-600">{t('settings.voice_body')}</p>
+        </div>
+
+        {renderVoicePicker('male')}
+        {renderVoicePicker('female')}
+
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1">
+            {t('settings.voice_default_gender')}
+          </label>
+          <div className="inline-flex rounded-lg border border-slate-300 overflow-hidden">
+            <button
+              type="button"
+              onClick={() => updatePref({ defaultGender: 'male' })}
+              className={`px-4 py-1.5 text-sm ${
+                voicePrefs.defaultGender === 'male'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              {t('settings.voice_male_short')}
+            </button>
+            <button
+              type="button"
+              onClick={() => updatePref({ defaultGender: 'female' })}
+              className={`px-4 py-1.5 text-sm border-l border-slate-300 ${
+                voicePrefs.defaultGender === 'female'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              {t('settings.voice_female_short')}
+            </button>
+          </div>
+          <p className="mt-1 text-xs text-slate-500">{t('settings.voice_default_hint')}</p>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-2xl border border-slate-200 p-5">
+        <h3 className="text-base font-semibold text-slate-900 mb-2">
+          {t('settings.pricing_title')}
+        </h3>
+        <p className="text-sm text-slate-600 mb-3">{t('settings.pricing_body')}</p>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-slate-50 text-slate-600">
+              <tr>
+                <th className="text-left px-3 py-2 font-medium">{t('settings.pricing_col_tier')}</th>
+                <th className="text-left px-3 py-2 font-medium">{t('settings.pricing_col_free')}</th>
+                <th className="text-left px-3 py-2 font-medium">{t('settings.pricing_col_rate')}</th>
+              </tr>
+            </thead>
+            <tbody className="text-slate-700">
+              <tr className="border-t border-slate-200">
+                <td className="px-3 py-2">
+                  <span className={`text-xs px-2 py-0.5 rounded border ${TIER_BADGE.neural2}`}>Neural2</span>
+                </td>
+                <td className="px-3 py-2">{t('settings.pricing_free_neural')}</td>
+                <td className="px-3 py-2">{t('settings.pricing_rate_neural')}</td>
+              </tr>
+              <tr className="border-t border-slate-200">
+                <td className="px-3 py-2">
+                  <span className={`text-xs px-2 py-0.5 rounded border ${TIER_BADGE.wavenet}`}>WaveNet</span>
+                </td>
+                <td className="px-3 py-2">{t('settings.pricing_free_neural')}</td>
+                <td className="px-3 py-2">{t('settings.pricing_rate_neural')}</td>
+              </tr>
+              <tr className="border-t border-slate-200">
+                <td className="px-3 py-2">
+                  <span className={`text-xs px-2 py-0.5 rounded border ${TIER_BADGE.studio}`}>Studio</span>
+                </td>
+                <td className="px-3 py-2">{t('settings.pricing_free_studio')}</td>
+                <td className="px-3 py-2">{t('settings.pricing_rate_studio')}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="mt-4 p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-700 space-y-1">
+          <div className="font-medium text-slate-800">{t('settings.pricing_example_title')}</div>
+          <div>{t('settings.pricing_example_basis')}</div>
+          <div>• {t('settings.pricing_example_neural')}</div>
+          <div>• {t('settings.pricing_example_studio')}</div>
+        </div>
+        <p className="mt-3 text-xs text-slate-500">{t('settings.pricing_source')}</p>
+      </div>
+
       <div className="bg-white rounded-2xl border border-slate-200 p-5">
         <h3 className="text-base font-semibold text-slate-900 mb-3">
           {t('settings.guide_title')}
@@ -151,11 +318,6 @@ export default function SettingsPanel({ apiKey, onSave }) {
           {t('settings.audio_title')}
         </h3>
         <ul className="text-sm text-slate-700 space-y-1 list-disc list-inside">
-          <li>
-            {t('settings.audio_voice')}
-            <code className="font-mono">{t('settings.audio_voice_code')}</code>
-            {t('settings.audio_voice_suffix')}
-          </li>
           <li>{t('settings.audio_use')}</li>
           <li>{t('settings.audio_cost')}</li>
         </ul>

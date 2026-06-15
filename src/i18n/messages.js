@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        voice_picker_2026_06: {
+          title: 'Voice picker in Settings + pricing breakdown',
+          desc:
+            'Settings now has a male / female voice picker for Listening playback. Choose from Neural2 (default), WaveNet, or Studio (premium) tiers — each with a Test button for live preview. Two-speaker dialogue questions automatically use both your chosen voices for clear male/female contrast. A pricing table shows free-tier limits and per-character costs so you can estimate monthly Google Cloud spend before switching to Studio voices.',
+        },
         listening_voice_swap_2026_06: {
           title: 'Listening: clearer narrator voice + readable dialogue labels',
           desc:
@@ -419,12 +424,39 @@ export const MESSAGES = {
       warn_shared:
         '⚠️ The API key is stored only in this browser. On shared devices, click "Remove API key" after use.',
       audio_title: 'ℹ️ About audio',
-      audio_voice: 'Voice: ',
-      audio_voice_code: 'en-GB-Neural2-A',
-      audio_voice_suffix: ' (British English).',
       audio_use: 'Reads aloud Reading and Listening passages.',
       audio_cost:
-        'Free within Google Cloud TTS\'s monthly free tier (1,000,000 characters).',
+        'Free within Google Cloud TTS\'s monthly free tier on Neural2 / WaveNet voices.',
+      voice_title: '🎙️ Voice selection',
+      voice_body:
+        'Pick a male and a female voice. Single-narrator passages use your default-gender voice; dialogue passages use both (MAN: → male, WOMAN: → female).',
+      voice_male: 'Male voice',
+      voice_female: 'Female voice',
+      voice_male_short: 'Male',
+      voice_female_short: 'Female',
+      voice_preview: 'Test',
+      voice_default_gender: 'Default narrator (single-speaker passages)',
+      voice_default_hint:
+        'Two-speaker dialogue questions always use both voices regardless of this setting.',
+      pricing_title: '💰 Google Cloud TTS pricing',
+      pricing_body:
+        'Google bills your API key directly by characters synthesised. Free tier resets monthly.',
+      pricing_col_tier: 'Tier',
+      pricing_col_free: 'Free tier / month',
+      pricing_col_rate: 'After free tier',
+      pricing_free_neural: '1,000,000 chars',
+      pricing_rate_neural: '$16 / 1M chars',
+      pricing_free_studio: '100,000 chars',
+      pricing_rate_studio: '$160 / 1M chars',
+      pricing_example_title: 'Typical usage',
+      pricing_example_basis:
+        'A medium passage ≈ 800 chars. Practising 300 passages/month ≈ 240K chars.',
+      pricing_example_neural:
+        'Neural2 / WaveNet → within free tier → $0/month.',
+      pricing_example_studio:
+        'Studio → 140K paid chars → ≈ $22/month. Quality is noticeably higher but watch the budget.',
+      pricing_source:
+        'Rates as of 2026. Check cloud.google.com/text-to-speech/pricing for the current figures.',
     },
 
     writing: {
@@ -588,6 +620,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        voice_picker_2026_06: {
+          title: 'Settings に音声選択 UI + 料金表を追加',
+          desc:
+            '⚙️ Settings タブから Listening 用の男声・女声を個別に選択できるようになりました。Neural2 (デフォルト) / WaveNet / Studio (高品質・有料) の3ティアから選択可能、各候補に試聴ボタン付き。2人会話形式の問題では選択した男声・女声が自動的に使い分けられ、男女コントラストを維持します。料金カードでは無料枠と文字単価を表示し、Studio に切り替える前に月額コストを試算できます。',
+        },
         listening_voice_swap_2026_06: {
           title: 'Listening: ナレーター声をより聞き取りやすく + 対話ラベルを読みやすく',
           desc:
@@ -929,12 +966,39 @@ export const MESSAGES = {
       warn_shared:
         '⚠️ APIキーはブラウザ内にのみ保存されます。共有端末では使用後に「APIキーを削除」を押してください。',
       audio_title: 'ℹ️ 音声について',
-      audio_voice: '音声は ',
-      audio_voice_code: 'en-GB-Neural2-A',
-      audio_voice_suffix: ' (en-GB / British English) を使用します。',
       audio_use: 'Reading / Listening 問題の本文を読み上げます。',
       audio_cost:
-        '料金は Google Cloud TTS の無料枠（毎月100万文字）の範囲内なら無料です。',
+        'Neural2 / WaveNet 声は Google Cloud TTS の無料枠の範囲内なら無料です。',
+      voice_title: '🎙️ 音声選択',
+      voice_body:
+        '男声と女声をそれぞれ選択してください。単独ナレーターは「デフォルト性別」の声で読まれ、2人会話問題は両方の声を使用します (MAN: → 男声、WOMAN: → 女声)。',
+      voice_male: '男声',
+      voice_female: '女声',
+      voice_male_short: '男声',
+      voice_female_short: '女声',
+      voice_preview: '試聴',
+      voice_default_gender: 'デフォルトナレーター（単独話者の問題）',
+      voice_default_hint:
+        '2人会話形式の問題はこの設定に関わらず常に男声＋女声の両方を使用します。',
+      pricing_title: '💰 Google Cloud TTS 料金',
+      pricing_body:
+        '料金はあなたの API キーに対して Google から直接請求されます (文字数課金)。無料枠は毎月リセット。',
+      pricing_col_tier: 'ティア',
+      pricing_col_free: '無料枠 / 月',
+      pricing_col_rate: '超過分',
+      pricing_free_neural: '100万文字',
+      pricing_rate_neural: '$16 / 100万文字',
+      pricing_free_studio: '10万文字',
+      pricing_rate_studio: '$160 / 100万文字',
+      pricing_example_title: '使用量の目安',
+      pricing_example_basis:
+        '中程度の passage ≈ 800 文字。月300問再生すると ≈ 24万文字。',
+      pricing_example_neural:
+        'Neural2 / WaveNet → 無料枠内 → $0/月。',
+      pricing_example_studio:
+        'Studio → 課金14万文字 → 約 $22/月。音質は明確に向上しますが予算注意。',
+      pricing_source:
+        '料金は 2026 年時点の参考値。最新の料金は cloud.google.com/text-to-speech/pricing を確認してください。',
     },
 
     writing: {
