@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        favicon_added_2026_06: {
+          title: 'Browser tab icon added',
+          desc:
+            'Added a JFLT roundel favicon so the app is identifiable in browser tabs and bookmarks. Navy disc with a yellow inner ring and "JFLT" lettering — readable down to 16 pixels.',
+        },
         practice_random_order_2026_06: {
           title: 'Practice tab: questions now appear in random order',
           desc:
@@ -568,6 +573,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        favicon_added_2026_06: {
+          title: 'ブラウザタブのアイコンを追加',
+          desc:
+            'ブラウザタブやブックマーク一覧でアプリを識別できるよう、JFLT ラウンデルのファビコンを追加しました。紺の円盤に黄色のリングと "JFLT" の文字 — 16 ピクセルまで縮小しても判読可能なデザインです。',
+        },
         practice_random_order_2026_06: {
           title: '練習タブ: 出題順をランダム化',
           desc:
