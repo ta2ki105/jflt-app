@@ -2,28 +2,29 @@ import { useState, useRef } from 'react';
 import { useI18n } from '../i18n/useI18n.js';
 
 // Voice assignment for two-speaker dialogue passages.
-// Single-narrator passages (no A:/B: markers) use VOICE_MAP.default.
+// Single-narrator passages (no MAN:/WOMAN: markers) use VOICE_MAP.default.
 const VOICE_MAP = {
-  default: 'en-GB-Neural2-A',
-  A: 'en-GB-Neural2-A', // female British
-  B: 'en-GB-Neural2-B', // male British
+  default: 'en-GB-Neural2-B', // male British — default narrator
+  MAN: 'en-GB-Neural2-B',     // male British
+  WOMAN: 'en-GB-Neural2-A',   // female British
 };
 
 // Pause between speaker turns so the conversation breathes.
 const TURN_GAP_MS = 400;
 
-// Parse passage into turns. Lines beginning with "A: " or "B: " are
-// treated as speaker turns; continuation lines append to the previous
-// turn. If no markers are found, the whole passage is one default turn.
+// Parse passage into turns. Lines beginning with "MAN: " or "WOMAN: "
+// are treated as speaker turns; continuation lines append to the
+// previous turn. If no markers are found, the whole passage is one
+// default turn.
 function parseTurns(passage) {
   const lines = passage.split(/\n+/).map((l) => l.trim()).filter(Boolean);
-  const hasMarkers = lines.some((l) => /^[AB]:\s+/.test(l));
+  const hasMarkers = lines.some((l) => /^(MAN|WOMAN):\s+/.test(l));
   if (!hasMarkers) {
     return [{ voice: VOICE_MAP.default, text: passage }];
   }
   const turns = [];
   for (const line of lines) {
-    const m = line.match(/^([AB]):\s+(.*)$/);
+    const m = line.match(/^(MAN|WOMAN):\s+(.*)$/);
     if (m) {
       turns.push({ voice: VOICE_MAP[m[1]], text: m[2] });
     } else if (turns.length) {

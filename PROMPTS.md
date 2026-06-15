@@ -123,19 +123,20 @@ passage は Google Cloud TTS で読み上げられる音声原稿。以下に注
   併記しても良い (passage は単語、options は数字 OK)
 
 【2人会話形式 (任意)】
-passage を `A:` / `B:` で始まる複数行にすると、TTS が話者ごとに別の声で
-読み上げる (A=女声 en-GB-Neural2-A、B=男声 en-GB-Neural2-B)。
+passage を `MAN:` / `WOMAN:` で始まる複数行にすると、TTS が話者ごとに
+別の声で読み上げる (MAN=男声 en-GB-Neural2-B、WOMAN=女声 en-GB-Neural2-A)。
 ターン間に約 400 ms のポーズが入る。マーカーがない通常 passage は
-従来通り単一ナレーターで読まれる (後方互換)。
+従来通り単一ナレーター (男声 en-GB-Neural2-B) で読まれる。
 
 例:
 ```
-passage: "A: All call signs, this is Zero. Patrol departs fourteen forty-five.\nB: Roger Zero. Vehicles ready by fourteen fifteen, copy.\nA: Affirmative. Any questions, contact the duty officer. Out."
+passage: "MAN: All call signs, this is Zero. Patrol departs fourteen forty-five.\nWOMAN: Roger Zero. Vehicles ready by fourteen fifteen, copy.\nMAN: Affirmative. Any questions, contact the duty officer. Out."
 ```
 
-- ターン頭は必ず `A: ` または `B: ` (大文字 + コロン + スペース)
+- ターン頭は必ず `MAN: ` または `WOMAN: ` (大文字 + コロン + スペース)
 - 同一話者の改行継続行はマーカー不要 (前のターンに連結される)
 - 質問は会話全体から作成 (どちらかの発言だけに偏らない)
+- 質問文・選択肢では話者を "the man" / "the woman" で参照 (受験者向け)
 
 【レベル別仕様】
 - L1 (10問): ~30 秒の短い無線通信 / アナウンス

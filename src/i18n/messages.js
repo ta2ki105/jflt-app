@@ -79,10 +79,15 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        listening_voice_swap_2026_06: {
+          title: 'Listening: clearer narrator voice + readable dialogue labels',
+          desc:
+            'The default narrator voice for Listening passages is now en-GB-Neural2-B (male British) — clearer pronunciation in our testing. Two-speaker dialogue markers were renamed from "A:/B:" to "MAN:/WOMAN:" so question text can refer naturally to "the man" / "the woman". MAN turns use the male voice, WOMAN turns use en-GB-Neural2-A (female British). A sample L3 dialogue question has been added to Listening Level 3.',
+        },
         listening_dialogue_2026_06: {
           title: 'Listening: two-speaker dialogue support',
           desc:
-            'Listening passages can now be back-and-forth dialogues between two people. Lines beginning with "A: " or "B: " are read with separate British voices (A = en-GB-Neural2-A female, B = en-GB-Neural2-B male) with a short pause between turns. Passages without these markers continue to play in the single narrator voice exactly as before, so existing questions are unaffected. Future Listening question batches can use the new format — see PROMPTS.md for the convention.',
+            'Listening passages can now be back-and-forth dialogues between two people. Lines beginning with speaker markers are read with separate British voices, with a short pause between turns. Passages without markers continue to play in the single narrator voice exactly as before, so existing questions are unaffected. Future Listening question batches can use the new format — see PROMPTS.md for the convention.',
         },
         header_desktop_fix_2026_06: {
           title: 'Header layout fixed on desktop + logo updated',
@@ -583,10 +588,15 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        listening_voice_swap_2026_06: {
+          title: 'Listening: ナレーター声をより聞き取りやすく + 対話ラベルを読みやすく',
+          desc:
+            'Listening の単一ナレーター音声を en-GB-Neural2-B (英国男声) に変更しました — 検証の結果より発音が明瞭でした。対話形式の話者マーカーも "A:/B:" から "MAN:/WOMAN:" に改名し、設問文で "the man" / "the woman" と自然に参照できるようになりました。MAN ターンは男声、WOMAN ターンは en-GB-Neural2-A (英国女声) で読まれます。サンプルとして L3 Listening に対話形式問題を1問追加。',
+        },
         listening_dialogue_2026_06: {
           title: 'Listening: 2人会話形式に対応',
           desc:
-            'Listening の passage を 2 人の対話形式で作成できるようになりました。行頭が "A: " または "B: " で始まる行は別々の英国英語ボイス (A = en-GB-Neural2-A 女性、B = en-GB-Neural2-B 男性) で読み上げられ、ターン間に短いポーズが入ります。マーカーがない passage は従来通り単一ナレーターで読まれるため、既存問題に影響はありません。今後の Listening 問題作成では新形式を利用可能 — 記法詳細は PROMPTS.md を参照。',
+            'Listening の passage を 2 人の対話形式で作成できるようになりました。行頭が話者マーカーで始まる行は別々の英国英語ボイスで読み上げられ、ターン間に短いポーズが入ります。マーカーがない passage は従来通り単一ナレーターで読まれるため、既存問題に影響はありません。今後の Listening 問題作成では新形式を利用可能 — 記法詳細は PROMPTS.md を参照。',
         },
         header_desktop_fix_2026_06: {
           title: 'PC 表示でヘッダーが潰れていた問題を修正 + ロゴ更新',
