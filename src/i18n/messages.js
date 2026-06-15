@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        practice_random_order_2026_06: {
+          title: 'Practice tab: questions now appear in random order',
+          desc:
+            'The Practice tab previously showed questions in fixed dataset order, so the same items appeared first every session. Each Practice session now reshuffles the question order on Start, and again whenever category or level changes. Stats and Review continue to track each question by its stable internal ID, unaffected by display order.',
+        },
         vocab_grammar_balanced_2026_06: {
           title: 'Vocab + Grammar: answer letter and option length rebalanced',
           desc:
@@ -563,6 +568,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        practice_random_order_2026_06: {
+          title: '練習タブ: 出題順をランダム化',
+          desc:
+            '練習タブの出題順がデータセット固定順だったため、毎回同じ問題が最初に出る状態でした。練習開始時、およびカテゴリー・レベル変更時に問題順を毎回シャッフルするように変更しました。統計やレビューは内部 ID で各問題を識別しているため、表示順の変更による影響はありません。',
+        },
         vocab_grammar_balanced_2026_06: {
           title: '語彙・文法: 答え記号と選択肢長を再バランス',
           desc:

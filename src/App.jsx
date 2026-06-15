@@ -39,6 +39,15 @@ function flattenByLevel(dataset, level) {
   }));
 }
 
+function shuffleArray(arr) {
+  const out = arr.slice();
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
 const STATS_KEY = 'jflt_stats_v2';
 const LEGACY_STATS_KEY = 'jflt_stats';
 const API_KEY_STORAGE = 'gcloud_api_key';
@@ -57,6 +66,8 @@ export default function App() {
   // Gate: Practice tab shows a welcome screen until the user clicks "Start".
   // Avoids auto-displaying Reading L1 the moment the app loads.
   const [practiceStarted, setPracticeStarted] = useState(false);
+  // Bump to force a reshuffle of the Practice question order.
+  const [shuffleSeed, setShuffleSeed] = useState(() => Date.now());
 
   // Load persisted state (with migration from legacy v1 stats).
   // Note: streak is intentionally reset to 0 on each app open so the
@@ -83,16 +94,20 @@ export default function App() {
     if (savedKey) setApiKey(savedKey);
   }, []);
 
-  // Reset position when category/level changes
+  // Reset position when category/level changes. Also reshuffle so a fresh
+  // selection draws a fresh order.
   useEffect(() => {
     setCurrentIndex(0);
     setSelectedAnswer(null);
     setAnswered(false);
+    setShuffleSeed(Date.now());
   }, [category, level]);
 
   const questions = useMemo(
-    () => flattenByLevel(DATASETS[category].data, level),
-    [category, level]
+    () => shuffleArray(flattenByLevel(DATASETS[category].data, level)),
+    // shuffleSeed is intentionally a dep so changing it reshuffles.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [category, level, shuffleSeed]
   );
 
   const totalQuestions = questions.length;
@@ -279,7 +294,11 @@ export default function App() {
             setCategory={setCategory}
             level={level}
             setLevel={setLevel}
-            onStart={() => setPracticeStarted(true)}
+            onStart={() => {
+              setShuffleSeed(Date.now());
+              setCurrentIndex(0);
+              setPracticeStarted(true);
+            }}
             goToGradingTab={() => setCurrentTab('grading')}
           />
         )}
