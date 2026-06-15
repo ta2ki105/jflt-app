@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        listening_dialogue_2026_06: {
+          title: 'Listening: two-speaker dialogue support',
+          desc:
+            'Listening passages can now be back-and-forth dialogues between two people. Lines beginning with "A: " or "B: " are read with separate British voices (A = en-GB-Neural2-A female, B = en-GB-Neural2-B male) with a short pause between turns. Passages without these markers continue to play in the single narrator voice exactly as before, so existing questions are unaffected. Future Listening question batches can use the new format — see PROMPTS.md for the convention.',
+        },
         header_desktop_fix_2026_06: {
           title: 'Header layout fixed on desktop + logo updated',
           desc:
@@ -578,6 +583,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        listening_dialogue_2026_06: {
+          title: 'Listening: 2人会話形式に対応',
+          desc:
+            'Listening の passage を 2 人の対話形式で作成できるようになりました。行頭が "A: " または "B: " で始まる行は別々の英国英語ボイス (A = en-GB-Neural2-A 女性、B = en-GB-Neural2-B 男性) で読み上げられ、ターン間に短いポーズが入ります。マーカーがない passage は従来通り単一ナレーターで読まれるため、既存問題に影響はありません。今後の Listening 問題作成では新形式を利用可能 — 記法詳細は PROMPTS.md を参照。',
+        },
         header_desktop_fix_2026_06: {
           title: 'PC 表示でヘッダーが潰れていた問題を修正 + ロゴ更新',
           desc:

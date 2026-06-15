@@ -1,20 +1,39 @@
 import { useState, useRef } from 'react';
 import { useI18n } from '../i18n/useI18n.js';
 
-/**
- * Calls Google Cloud Text-to-Speech and plays the resulting MP3.
- * Returns a promise that resolves when playback starts.
- *
- * Localised messages can be provided via the optional `messages` arg so the
- * static helper does not need direct access to the React context.
- */
-export async function playAudio(text, apiKey, messages) {
-  const noKeyMsg =
-    (messages && messages.noKey) || 'Please enter an API key in Settings.';
-  if (!apiKey) {
-    alert(noKeyMsg);
-    return;
+// Voice assignment for two-speaker dialogue passages.
+// Single-narrator passages (no A:/B: markers) use VOICE_MAP.default.
+const VOICE_MAP = {
+  default: 'en-GB-Neural2-A',
+  A: 'en-GB-Neural2-A', // female British
+  B: 'en-GB-Neural2-B', // male British
+};
+
+// Pause between speaker turns so the conversation breathes.
+const TURN_GAP_MS = 400;
+
+// Parse passage into turns. Lines beginning with "A: " or "B: " are
+// treated as speaker turns; continuation lines append to the previous
+// turn. If no markers are found, the whole passage is one default turn.
+function parseTurns(passage) {
+  const lines = passage.split(/\n+/).map((l) => l.trim()).filter(Boolean);
+  const hasMarkers = lines.some((l) => /^[AB]:\s+/.test(l));
+  if (!hasMarkers) {
+    return [{ voice: VOICE_MAP.default, text: passage }];
   }
+  const turns = [];
+  for (const line of lines) {
+    const m = line.match(/^([AB]):\s+(.*)$/);
+    if (m) {
+      turns.push({ voice: VOICE_MAP[m[1]], text: m[2] });
+    } else if (turns.length) {
+      turns[turns.length - 1].text += ' ' + line;
+    }
+  }
+  return turns.length ? turns : [{ voice: VOICE_MAP.default, text: passage }];
+}
+
+async function fetchTts(text, voiceName, apiKey) {
   const response = await fetch(
     `https://texttospeech.googleapis.com/v1/text:synthesize?key=${encodeURIComponent(apiKey)}`,
     {
@@ -22,7 +41,7 @@ export async function playAudio(text, apiKey, messages) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         input: { text },
-        voice: { languageCode: 'en-GB', name: 'en-GB-Neural2-A' },
+        voice: { languageCode: 'en-GB', name: voiceName },
         audioConfig: { audioEncoding: 'MP3' },
       }),
     }
@@ -32,9 +51,80 @@ export async function playAudio(text, apiKey, messages) {
     throw new Error(`API request failed (${response.status}) ${err}`);
   }
   const data = await response.json();
-  const audio = new Audio(`data:audio/mp3;base64,${data.audioContent}`);
-  await audio.play();
-  return audio;
+  return new Audio(`data:audio/mp3;base64,${data.audioContent}`);
+}
+
+/**
+ * Calls Google Cloud Text-to-Speech and plays the resulting MP3(s).
+ * For multi-turn dialogue passages (A:/B: markers), one TTS call is
+ * made per turn with the appropriate voice, then audios play
+ * sequentially with a short gap between turns.
+ *
+ * Returns a handle exposing `pause()` and a no-op `currentTime` setter
+ * so callers that previously held a raw HTMLAudioElement keep working.
+ */
+export async function playAudio(passage, apiKey, messages) {
+  const noKeyMsg =
+    (messages && messages.noKey) || 'Please enter an API key in Settings.';
+  if (!apiKey) {
+    alert(noKeyMsg);
+    return;
+  }
+
+  const turns = parseTurns(passage || '');
+  // Fetch all turns in parallel — total wait equals the slowest turn,
+  // not the sum.
+  const audios = await Promise.all(
+    turns.map((t) => fetchTts(t.text, t.voice, apiKey))
+  );
+
+  let cancelled = false;
+  let currentAudio = null;
+
+  const handle = {
+    pause() {
+      cancelled = true;
+      if (currentAudio) {
+        try {
+          currentAudio.pause();
+          currentAudio.currentTime = 0;
+        } catch (_) { /* ignore */ }
+      }
+    },
+    // No-op setter for backward compatibility with callers that do
+    // `audioRef.current.currentTime = 0` right after pause().
+    currentTime: 0,
+  };
+
+  if (audios.length === 0) return handle;
+
+  // Start first audio synchronously so play() rejections (autoplay
+  // blocks, etc.) surface to the caller's try/catch.
+  currentAudio = audios[0];
+  await currentAudio.play();
+
+  // Schedule remaining turns in the background.
+  (async () => {
+    await new Promise((resolve) =>
+      currentAudio.addEventListener('ended', resolve, { once: true })
+    );
+    for (let i = 1; i < audios.length; i++) {
+      if (cancelled) return;
+      await new Promise((resolve) => setTimeout(resolve, TURN_GAP_MS));
+      if (cancelled) return;
+      currentAudio = audios[i];
+      try {
+        await currentAudio.play();
+      } catch (_) {
+        return;
+      }
+      await new Promise((resolve) =>
+        currentAudio.addEventListener('ended', resolve, { once: true })
+      );
+    }
+  })();
+
+  return handle;
 }
 
 export default function AudioPlayer({ text, apiKey, label }) {
