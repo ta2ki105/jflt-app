@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        vocab_jp_gloss_2026_06: {
+          title: 'Vocab: Japanese gloss in every explanation',
+          desc:
+            'Every vocabulary question explanation now begins with 【意味】 followed by the Japanese meaning of the term being tested. Makes it easier to verify whether you actually knew the word, not just guessed the right option. Applied to all 185 vocab questions across L1-L4.',
+        },
         voice_picker_2026_06: {
           title: 'Voice picker in Settings + pricing breakdown',
           desc:
@@ -620,6 +625,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        vocab_jp_gloss_2026_06: {
+          title: 'Vocab: 解説に日本語訳を追加',
+          desc:
+            'Vocab 問題の解説冒頭に 【意味】に続けて出題単語の日本語訳が表示されるようになりました。正答の選択肢を勘で当てたのか、実際に単語を知っていたのかをすぐ確認できます。L1〜L4 の全 185 問に適用。',
+        },
         voice_picker_2026_06: {
           title: 'Settings に音声選択 UI + 料金表を追加',
           desc:
