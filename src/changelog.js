@@ -25,6 +25,7 @@ export const TAG_STYLES = {
 
 export const CHANGELOG_ENTRIES = [
   // Newest first
+  { id: 'vocab_diplomacy_added_2026_06', date: '2026-06-15', tag: 'improvement' },
   { id: 'vocab_jp_gloss_2026_06', date: '2026-06-15', tag: 'improvement' },
   { id: 'voice_picker_2026_06', date: '2026-06-15', tag: 'feature' },
   { id: 'listening_voice_swap_2026_06', date: '2026-06-15', tag: 'improvement' },

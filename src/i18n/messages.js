@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        vocab_diplomacy_added_2026_06: {
+          title: 'Vocab: 45 new diplomacy / IR questions',
+          desc:
+            'Added 45 vocabulary questions covering diplomatic and international-relations terminology at L2-L4 (15 each). Topics include UN procedures (resolution, veto, signatory, accession), treaty law (jurisdiction, sovereignty, stipulate, ratify), dispute settlement (mediation, arbitration, ceasefire, embargo), and IR theory (hegemony, multipolarity, revisionist, status quo, fait accompli, zero-sum). Complements the existing NATO/military vocabulary so the bank now matches the broader topical scope STANAG 6001 L3-L4 expects.',
+        },
         vocab_jp_gloss_2026_06: {
           title: 'Vocab: Japanese gloss in every explanation',
           desc:
@@ -625,6 +630,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        vocab_diplomacy_added_2026_06: {
+          title: 'Vocab: 外交・国際関係の語彙を 45 問追加',
+          desc:
+            '外交および国際関係分野の語彙問題を L2-L4 に各 15 問、計 45 問追加しました。テーマは UN 手続き（resolution / veto / signatory / accession）、条約法（jurisdiction / sovereignty / stipulate）、紛争解決（mediation / arbitration / ceasefire / embargo）、IR 理論（hegemony / multipolarity / revisionist / status quo / fait accompli / zero-sum）など。既存の NATO・軍事系語彙と補完し合うことで、STANAG 6001 の L3-L4 で想定される話題範囲（抽象的・政策的議論）により合致する語彙バンクになりました。',
+        },
         vocab_jp_gloss_2026_06: {
           title: 'Vocab: 解説に日本語訳を追加',
           desc:
