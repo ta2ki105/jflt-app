@@ -22,6 +22,7 @@ export default function SettingsPanel({ apiKey, onSave }) {
 
   const [voicePrefs, setVoicePrefs] = useState(loadVoicePrefs);
   const [previewing, setPreviewing] = useState('');
+  const [showGuide, setShowGuide] = useState(false);
 
   const handleSave = () => {
     onSave(draft.trim());
@@ -171,7 +172,16 @@ export default function SettingsPanel({ apiKey, onSave }) {
               {t('settings.clear')}
             </button>
           )}
+          <button
+            type="button"
+            onClick={() => setShowGuide((s) => !s)}
+            className="px-4 py-2 text-sm rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-100"
+          >
+            {showGuide ? t('settings.hide_key_button') : t('settings.get_key_button')}
+          </button>
         </div>
+
+        {showGuide && <ApiKeyGuide t={t} />}
 
         {saved && (
           <div className="mt-3 text-sm text-emerald-700">{t('settings.saved_msg')}</div>
@@ -286,34 +296,6 @@ export default function SettingsPanel({ apiKey, onSave }) {
       </div>
 
       <div className="bg-white rounded-2xl border border-slate-200 p-5">
-        <h3 className="text-base font-semibold text-slate-900 mb-3">
-          {t('settings.guide_title')}
-        </h3>
-        <ol className="space-y-3 text-sm text-slate-700 list-decimal list-inside">
-          <li>
-            {t('settings.guide_step1_a')}
-            <a
-              href="https://console.cloud.google.com/"
-              target="_blank"
-              rel="noreferrer"
-              className="text-blue-700 underline"
-            >
-              {t('settings.guide_step1_b')}
-            </a>
-            {t('settings.guide_step1_c')}
-          </li>
-          <li>{t('settings.guide_step2')}</li>
-          <li>{t('settings.guide_step3')}</li>
-          <li>{t('settings.guide_step4')}</li>
-          <li>{t('settings.guide_step5')}</li>
-          <li>{t('settings.guide_step6')}</li>
-        </ol>
-        <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800">
-          {t('settings.warn_shared')}
-        </div>
-      </div>
-
-      <div className="bg-white rounded-2xl border border-slate-200 p-5">
         <h3 className="text-base font-semibold text-slate-900 mb-2">
           {t('settings.audio_title')}
         </h3>
@@ -321,6 +303,117 @@ export default function SettingsPanel({ apiKey, onSave }) {
           <li>{t('settings.audio_use')}</li>
           <li>{t('settings.audio_cost')}</li>
         </ul>
+        <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800">
+          {t('settings.warn_shared')}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ApiKeyGuide({ t }) {
+  const StepLink = ({ href, children }) => (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="inline-flex items-center gap-1 mt-1 text-blue-700 underline hover:text-blue-900 break-all"
+    >
+      🔗 {children}
+    </a>
+  );
+
+  const steps = [
+    {
+      title: t('settings.kg_step1_title'),
+      body: t('settings.kg_step1_body'),
+      link: { href: 'https://console.cloud.google.com/', label: t('settings.kg_step1_link') },
+    },
+    {
+      title: t('settings.kg_step2_title'),
+      body: t('settings.kg_step2_body'),
+    },
+    {
+      title: t('settings.kg_step3_title'),
+      body: t('settings.kg_step3_body'),
+      link: {
+        href: 'https://console.cloud.google.com/apis/library/texttospeech.googleapis.com',
+        label: t('settings.kg_step3_link'),
+      },
+    },
+    {
+      title: t('settings.kg_step4_title'),
+      body: t('settings.kg_step4_body'),
+      link: {
+        href: 'https://console.cloud.google.com/billing',
+        label: t('settings.kg_step4_link'),
+      },
+      note: t('settings.kg_step4_note'),
+    },
+    {
+      title: t('settings.kg_step5_title'),
+      body: t('settings.kg_step5_body'),
+      link: {
+        href: 'https://console.cloud.google.com/apis/credentials',
+        label: t('settings.kg_step5_link'),
+      },
+    },
+    {
+      title: t('settings.kg_step6_title'),
+      body: t('settings.kg_step6_body'),
+      referrers: [
+        'https://jflt-app.vercel.app/*',
+        'http://localhost:5173/*',
+      ],
+    },
+    {
+      title: t('settings.kg_step7_title'),
+      body: t('settings.kg_step7_body'),
+    },
+  ];
+
+  return (
+    <div className="mt-4 p-4 bg-indigo-50/40 border border-indigo-200 rounded-xl">
+      <div className="flex items-start justify-between mb-2">
+        <h3 className="text-base font-semibold text-indigo-900">
+          {t('settings.kg_title')}
+        </h3>
+        <span className="text-xs text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded-full border border-indigo-200">
+          {t('settings.kg_duration')}
+        </span>
+      </div>
+      <p className="text-sm text-slate-700 mb-4">{t('settings.kg_intro')}</p>
+
+      <ol className="space-y-4">
+        {steps.map((s, i) => (
+          <li key={i} className="flex gap-3">
+            <div className="flex-none w-7 h-7 rounded-full bg-indigo-600 text-white text-sm font-semibold flex items-center justify-center">
+              {i + 1}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="font-medium text-slate-900 text-sm">{s.title}</div>
+              <div className="text-sm text-slate-700 mt-0.5 whitespace-pre-line">{s.body}</div>
+              {s.link && <StepLink href={s.link.href}>{s.link.label}</StepLink>}
+              {s.note && (
+                <div className="mt-2 p-2 bg-emerald-50 border border-emerald-200 rounded text-xs text-emerald-800">
+                  {s.note}
+                </div>
+              )}
+              {s.referrers && (
+                <div className="mt-2 p-2 bg-white border border-slate-200 rounded text-xs">
+                  <div className="font-medium text-slate-700 mb-1">{t('settings.kg_step6_referrers_label')}</div>
+                  {s.referrers.map((r) => (
+                    <div key={r} className="font-mono text-slate-800">{r}</div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div className="mt-4 p-3 bg-white border border-indigo-200 rounded-lg text-xs text-slate-700">
+        {t('settings.kg_outro')}
       </div>
     </div>
   );

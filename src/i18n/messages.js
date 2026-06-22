@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        api_key_guide_2026_06: {
+          title: 'Settings: detailed API-key setup guide with deep links',
+          desc:
+            'Added a "🔑 How to get an API key" button below the API key input. Clicking it expands an inline step-by-step guide with direct links into the specific Google Cloud Console pages you need (project creation, TTS API library, billing setup, credentials). Each step shows exactly which button to click. Designed for users unfamiliar with Google Cloud.',
+        },
         vocab_diplomacy_added_2026_06: {
           title: 'Vocab: 45 new diplomacy / IR questions',
           desc:
@@ -437,6 +442,42 @@ export const MESSAGES = {
       audio_use: 'Reads aloud Reading and Listening passages.',
       audio_cost:
         'Free within Google Cloud TTS\'s monthly free tier on Neural2 / WaveNet voices.',
+      get_key_button: '🔑 How to get an API key (step-by-step)',
+      hide_key_button: '🔼 Hide the guide',
+      kg_title: '📘 Get your Google Cloud TTS API key',
+      kg_duration: '≈ 5 minutes',
+      kg_intro:
+        'Each link below opens the exact Google Cloud Console page you need, in a new tab. Switch back here to paste the key at the end.',
+      kg_step1_title: 'Step 1: Sign in to Google Cloud',
+      kg_step1_body:
+        'Sign in with any Google account (the same as Gmail). Create a free Google account first if you don\'t have one.',
+      kg_step1_link: 'Open console.cloud.google.com',
+      kg_step2_title: 'Step 2: Create a project',
+      kg_step2_body:
+        'Click the project selector at the top of the page (next to the "Google Cloud" logo) → "New Project" → name it (e.g. "jflt-tts") → "Create". Wait ~30 seconds for it to be ready, then make sure the new project is selected.',
+      kg_step3_title: 'Step 3: Enable Text-to-Speech API',
+      kg_step3_body:
+        'Open the API library page below and click the blue "ENABLE" button. Wait until it switches to "API enabled".',
+      kg_step3_link: 'Open the TTS API library page',
+      kg_step4_title: 'Step 4: Set up billing (required, free tier covers normal use)',
+      kg_step4_body:
+        'Google requires a billing account even for free-tier usage. Add a credit card and link a billing account to your project on the billing page below.',
+      kg_step4_link: 'Open billing setup',
+      kg_step4_note:
+        '💡 Neural2 / WaveNet voices are free up to 1,000,000 characters per month. Normal practice use stays well within this — no actual charges.',
+      kg_step5_title: 'Step 5: Create the API key',
+      kg_step5_body:
+        'On the credentials page below, click "+ CREATE CREDENTIALS" at the top → "API key". A popup will show your key (starts with "AIza..."). Copy it.',
+      kg_step5_link: 'Open the credentials page',
+      kg_step6_title: 'Step 6 (recommended): Restrict the key',
+      kg_step6_body:
+        'In the popup from Step 5, click "RESTRICT KEY". Then: Application restrictions → "HTTP referrers" → add the URLs below as allowed referrers. API restrictions → "Restrict key" → select only "Cloud Text-to-Speech API". Click "Save". This stops anyone else from using your key.',
+      kg_step6_referrers_label: 'Add these as allowed referrers:',
+      kg_step7_title: 'Step 7: Paste it into JFLT',
+      kg_step7_body:
+        'Come back to this Settings tab, paste your copied key into the field above, click "Save", then "Play test audio" to verify it works.',
+      kg_outro:
+        'Done! If playback fails: (1) check the API shows "Enabled" on the library page, (2) check billing is linked to the same project, (3) check the referrer restriction allows this page\'s URL.',
       voice_title: '🎙️ Voice selection',
       voice_body:
         'Pick a male and a female voice. Single-narrator passages use your default-gender voice; dialogue passages use both (MAN: → male, WOMAN: → female).',
@@ -630,6 +671,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        api_key_guide_2026_06: {
+          title: 'Settings: APIキー取得の詳細手順カードを追加',
+          desc:
+            'APIキー入力欄の下に「🔑 APIキー取得手順を表示」ボタンを追加しました。クリックすると Google Cloud Console の各操作ページへの直リンク付きで、ステップごとに何をクリックすればよいかを示す詳細ガイドが展開します（プロジェクト作成 → TTS API 有効化 → 請求設定 → 認証情報作成 → キー制限まで）。Google Cloud に不慣れな方向け。',
+        },
         vocab_diplomacy_added_2026_06: {
           title: 'Vocab: 外交・国際関係の語彙を 45 問追加',
           desc:
@@ -989,6 +1035,42 @@ export const MESSAGES = {
       audio_use: 'Reading / Listening 問題の本文を読み上げます。',
       audio_cost:
         'Neural2 / WaveNet 声は Google Cloud TTS の無料枠の範囲内なら無料です。',
+      get_key_button: '🔑 APIキー取得手順を表示',
+      hide_key_button: '🔼 手順を閉じる',
+      kg_title: '📘 Google Cloud TTS APIキーの取得手順',
+      kg_duration: '所要 約 5 分',
+      kg_intro:
+        '以下の各リンクをクリックすると、Google Cloud Console の該当ページが新しいタブで開きます。最後にこのページに戻ってキーを貼り付けてください。',
+      kg_step1_title: 'Step 1: Google アカウントでログイン',
+      kg_step1_body:
+        'Gmail と同じ Google アカウントでログイン。アカウントを持っていなければ無料で作成可能です。',
+      kg_step1_link: 'console.cloud.google.com を開く',
+      kg_step2_title: 'Step 2: プロジェクトを作成',
+      kg_step2_body:
+        '画面上部のプロジェクトセレクタ（"Google Cloud" ロゴの右隣）をクリック →「新しいプロジェクト」→ 名前（例: jflt-tts）→「作成」。30秒ほど待ってから、新しいプロジェクトが選択されていることを確認してください。',
+      kg_step3_title: 'Step 3: Text-to-Speech API を有効化',
+      kg_step3_body:
+        '下のリンクから API ライブラリページを開き、青い「有効にする」ボタンをクリック。「API は有効です」と表示されるまで待ってください。',
+      kg_step3_link: 'TTS API ライブラリページを開く',
+      kg_step4_title: 'Step 4: 課金設定（必須・無料枠あり）',
+      kg_step4_body:
+        'Google は無料枠の使用でも請求先アカウントの登録を要求します。下のリンクから請求先設定を開き、クレジットカードを登録して作成したプロジェクトに紐付けてください。',
+      kg_step4_link: '請求先アカウント設定を開く',
+      kg_step4_note:
+        '💡 Neural2 / WaveNet 声は月 100 万文字まで無料。通常の練習使用範囲内なら実際の課金は発生しません。',
+      kg_step5_title: 'Step 5: APIキーを作成',
+      kg_step5_body:
+        '下のリンクから認証情報ページを開き、上部の「+ 認証情報を作成」→「APIキー」を選択。ポップアップに「AIza...」で始まるキーが表示されるのでコピーしてください。',
+      kg_step5_link: '認証情報ページを開く',
+      kg_step6_title: 'Step 6（推奨）: キーを制限',
+      kg_step6_body:
+        'Step 5 のポップアップ内の「鍵を制限する」をクリック。「アプリケーションの制限」→「HTTP リファラー」を選択 → 下記の URL を許可リファラーとして追加。「API の制限」→「キーを制限」→「Cloud Text-to-Speech API」のみを選択 →「保存」。これで他人があなたのキーを悪用できなくなります。',
+      kg_step6_referrers_label: '許可リファラーに追加する URL:',
+      kg_step7_title: 'Step 7: 本アプリに貼り付け',
+      kg_step7_body:
+        'この Settings タブに戻り、コピーしたキーを上の入力欄に貼り付け →「保存」→「テスト音声を再生」で動作確認をしてください。',
+      kg_outro:
+        '完了です！ 再生が失敗する場合は (1) API ライブラリで「有効」と表示されているか、(2) 同じプロジェクトに請求先が紐付いているか、(3) リファラー制限にこのページの URL が含まれているか を順に確認してください。',
       voice_title: '🎙️ 音声選択',
       voice_body:
         '男声と女声をそれぞれ選択してください。単独ナレーターは「デフォルト性別」の声で読まれ、2人会話問題は両方の声を使用します (MAN: → 男声、WOMAN: → 女声)。',
