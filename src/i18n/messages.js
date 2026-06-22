@@ -79,6 +79,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        vocab_audio_2026_06: {
+          title: 'Vocab: pronunciation playback for the tested word',
+          desc:
+            'Each Vocab practice question now has a 🔊 "Hear word" button that plays the term being tested (extracted from the quoted word in the question text). Helps you build the sound-meaning link, not just the spelling-meaning link. Uses the same Google TTS voice as Listening playback.',
+        },
         api_key_guide_2026_06: {
           title: 'Settings: detailed API-key setup guide with deep links',
           desc:
@@ -279,6 +284,7 @@ export const MESSAGES = {
       incorrect: 'Incorrect — answer is {label}',
       readAloud: 'Read aloud',
       playAudio: 'Play audio',
+      hearWord: 'Hear word',
       listenInstruction: '🔊 Use the "Play audio" button above to listen. (Transcript appears after answering.)',
       next: 'Next →',
       skip: 'Skip →',
@@ -671,6 +677,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        vocab_audio_2026_06: {
+          title: 'Vocab: 出題単語の音声再生に対応',
+          desc:
+            'Vocab 練習問題に 🔊「単語を聞く」ボタンを追加しました（問題文内の \'…\' で囲まれた語を自動抽出して読み上げます）。綴り→意味だけでなく、音→意味の結びつきも訓練できるようになります。Listening と同じ Google TTS 声を使用。',
+        },
         api_key_guide_2026_06: {
           title: 'Settings: APIキー取得の詳細手順カードを追加',
           desc:
@@ -871,6 +882,7 @@ export const MESSAGES = {
       incorrect: '不正解 — 正解は {label}',
       readAloud: '読み上げ',
       playAudio: '音声を再生',
+      hearWord: '単語を聞く',
       listenInstruction:
         '🔊 上の「音声を再生」ボタンで聴き取ってください。（採点後にスクリプトが表示されます）',
       next: '次へ →',

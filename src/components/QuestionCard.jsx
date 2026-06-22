@@ -22,7 +22,15 @@ export default function QuestionCard({
   const { t } = useI18n();
   const correctIndex = question.answer;
   const isCorrect = answered && selectedAnswer === correctIndex;
-  const speakable = question.passage || '';
+  // For vocab/grammar there's no passage; pull the first quoted term out
+  // of the question text so users can hear the word being tested.
+  const keyword = !question.passage
+    ? (question.question?.match(/'([^']+)'/)?.[1] || '')
+    : '';
+  const speakable = question.passage || keyword;
+  const audioLabel = question.passage
+    ? (category === 'listening' ? t('card.playAudio') : t('card.readAloud'))
+    : t('card.hearWord');
   const optionLabels = ['A', 'B', 'C', 'D'];
 
   return (
@@ -39,12 +47,12 @@ export default function QuestionCard({
         {question.topic && (
           <span className="text-xs text-slate-500 truncate">{question.topic}</span>
         )}
-        {hasAudio && speakable && (
+        {speakable && (hasAudio || keyword) && (
           <div className="ml-auto">
             <AudioPlayer
               text={speakable}
               apiKey={apiKey}
-              label={category === 'listening' ? t('card.playAudio') : t('card.readAloud')}
+              label={audioLabel}
             />
           </div>
         )}
