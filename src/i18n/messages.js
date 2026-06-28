@@ -49,6 +49,7 @@ export const MESSAGES = {
       stats: 'Stats',
       updates: 'Updates',
       settings: 'Settings',
+      past_exam: 'Past Exam',
     },
 
     review: {
@@ -79,6 +80,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        past_exam_gate_2026_06: {
+          title: 'Restricted past-exam area (infrastructure)',
+          desc:
+            'Added a password-gated area for past-exam listening material. Authorised users click the footer attribution 5 times to reveal a password dialog; once unlocked, a 🔒 Past Exam tab appears. Question data is dynamically loaded so it stays out of the main bundle. ⚠️ This is obscurity, not real security — anyone with browser dev tools can still extract content. Use only for casual access control among trusted users.',
+        },
         vocab_audio_2026_06: {
           title: 'Vocab: pronunciation playback for the tested word',
           desc:
@@ -516,6 +522,24 @@ export const MESSAGES = {
         'Rates as of 2026. Check cloud.google.com/text-to-speech/pricing for the current figures.',
     },
 
+    pastExam: {
+      gate_title: 'Restricted access',
+      gate_body:
+        'This area contains reference material restricted to authorised users. Enter the unlock password to continue.',
+      gate_placeholder: 'Password',
+      gate_submit: 'Unlock',
+      gate_cancel: 'Cancel',
+      wrong_password: 'Incorrect password.',
+      panel_title: 'Past-exam reference material',
+      panel_subtitle: 'Restricted content — do not share outside authorised users.',
+      lock_button: 'Lock',
+      badge: 'Past exam',
+      loading: 'Loading restricted content…',
+      load_failed: 'Failed to load past-exam data',
+      empty:
+        'No past-exam questions added yet. Paste your entries into src/past-exam-data.js.',
+    },
+
     writing: {
       header_title: '✍️ Writing Practice — AI Coach Script',
       header_body:
@@ -647,6 +671,7 @@ export const MESSAGES = {
       stats: '統計',
       updates: '更新',
       settings: '設定',
+      past_exam: '過去問',
     },
 
     review: {
@@ -677,6 +702,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        past_exam_gate_2026_06: {
+          title: '関係者限定の過去問エリアを追加（基盤のみ）',
+          desc:
+            '関係者限定の過去問リスニングエリアを追加しました。フッターの著作表記を 5 回クリックするとパスワードダイアログが表示され、解錠すると 🔒 過去問タブが出現します。問題データは動的読み込みのためメインバンドルには含まれません。⚠️ クライアントサイドの「目隠し」であり真の機密保護ではありません — DevTools が使える人はバンドルから内容を抽出可能です。信頼できる関係者間でのカジュアルなアクセス制限用途のみに使用してください。',
+        },
         vocab_audio_2026_06: {
           title: 'Vocab: 出題単語の音声再生に対応',
           desc:
@@ -1113,6 +1143,24 @@ export const MESSAGES = {
         'Studio → 課金14万文字 → 約 $22/月。音質は明確に向上しますが予算注意。',
       pricing_source:
         '料金は 2026 年時点の参考値。最新の料金は cloud.google.com/text-to-speech/pricing を確認してください。',
+    },
+
+    pastExam: {
+      gate_title: '関係者専用エリア',
+      gate_body:
+        'このエリアは関係者限定の参考資料を含みます。続行するには解錠パスワードを入力してください。',
+      gate_placeholder: 'パスワード',
+      gate_submit: '解錠',
+      gate_cancel: 'キャンセル',
+      wrong_password: 'パスワードが違います。',
+      panel_title: '過去問・参考資料',
+      panel_subtitle: '関係者限定コンテンツ — 関係者以外への共有禁止。',
+      lock_button: 'ロック',
+      badge: '過去問',
+      loading: '関係者限定コンテンツを読み込み中…',
+      load_failed: '過去問データの読み込みに失敗',
+      empty:
+        '過去問データはまだ追加されていません。src/past-exam-data.js に問題を貼り付けてください。',
     },
 
     writing: {

@@ -15,6 +15,9 @@ import SettingsPanel from './components/SettingsPanel.jsx';
 import GradingMode from './components/GradingMode.jsx';
 import WritingPanel from './components/WritingPanel.jsx';
 import UpdatesPanel from './components/UpdatesPanel.jsx';
+import PastExamGate from './components/PastExamGate.jsx';
+import PastExamPanel from './components/PastExamPanel.jsx';
+import { isUnlocked as isPastExamUnlocked, setUnlocked as setPastExamUnlocked, TRIGGER_CLICKS } from './pastExamAuth.js';
 import './App.css';
 
 const DATASETS = {
@@ -68,6 +71,35 @@ export default function App() {
   const [practiceStarted, setPracticeStarted] = useState(false);
   // Bump to force a reshuffle of the Practice question order.
   const [shuffleSeed, setShuffleSeed] = useState(() => Date.now());
+  // Past-exam hidden access (footer-click gated).
+  const [pastExamReady, setPastExamReady] = useState(() => isPastExamUnlocked());
+  const [showPastExamGate, setShowPastExamGate] = useState(false);
+  const [footerClicks, setFooterClicks] = useState(0);
+
+  const handleFooterClick = () => {
+    if (pastExamReady) return; // already unlocked — clicks do nothing
+    const next = footerClicks + 1;
+    if (next >= TRIGGER_CLICKS) {
+      setFooterClicks(0);
+      setShowPastExamGate(true);
+    } else {
+      setFooterClicks(next);
+      // Reset the counter if user takes too long between clicks.
+      setTimeout(() => setFooterClicks((c) => (c === next ? 0 : c)), 2000);
+    }
+  };
+
+  const handlePastExamUnlock = () => {
+    setPastExamUnlocked(true);
+    setPastExamReady(true);
+    setShowPastExamGate(false);
+    setCurrentTab('past_exam');
+  };
+
+  const handlePastExamLock = () => {
+    setPastExamReady(false);
+    if (currentTab === 'past_exam') setCurrentTab('questions');
+  };
 
   // Load persisted state (with migration from legacy v1 stats).
   // Note: streak is intentionally reset to 0 on each app open so the
@@ -203,6 +235,9 @@ export default function App() {
     { id: 'stats', label: t('tabs.stats'), icon: '📊' },
     { id: 'updates', label: t('tabs.updates'), icon: '📰' },
     { id: 'settings', label: t('tabs.settings'), icon: '⚙️' },
+    ...(pastExamReady
+      ? [{ id: 'past_exam', label: t('tabs.past_exam'), icon: '🔒' }]
+      : []),
   ];
 
   const handleReattempt = useCallback(
@@ -401,14 +436,29 @@ export default function App() {
         {currentTab === 'settings' && (
           <SettingsPanel apiKey={apiKey} onSave={handleSaveApiKey} />
         )}
+
+        {currentTab === 'past_exam' && pastExamReady && (
+          <PastExamPanel apiKey={apiKey} onLock={handlePastExamLock} />
+        )}
       </main>
 
       <footer className="max-w-3xl mx-auto px-4 py-6 text-center">
         <p className="text-xs text-slate-400">{t('header.footer')}</p>
-        <p className="mt-1 text-[10px] text-slate-300 italic tracking-wide">
+        <p
+          className="mt-1 text-[10px] text-slate-300 italic tracking-wide cursor-default select-none"
+          onClick={handleFooterClick}
+          title={pastExamReady ? '' : (footerClicks > 0 ? `${footerClicks}/${TRIGGER_CLICKS}` : '')}
+        >
           {t('header.author')}
         </p>
       </footer>
+
+      {showPastExamGate && (
+        <PastExamGate
+          onUnlock={handlePastExamUnlock}
+          onClose={() => setShowPastExamGate(false)}
+        />
+      )}
     </div>
   );
 }
