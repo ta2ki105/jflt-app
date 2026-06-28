@@ -17,10 +17,7 @@
 //   { level, topic, passage, question, options[4], answer (0-3), ex }
 //
 // ---------------------------------------------------------------------
-// PENDING / MISSING (added 2026-06-28, L2 batch):
-//   • Question "The water company..." (rates / ID number / notifying
-//     customers / waiting for instructions) — the matching AUDIO was not
-//     among the 15 transcripts. Add it once the transcript is available.
+// PENDING / MISSING (L2 batch):
 //   • Audio "Dr. Green's office" (closed for bank holiday, reopens
 //     tomorrow at eight thirty) — no QUESTION screenshot was provided,
 //     so its stem/options/answer are unknown. Add once available.
@@ -56,6 +53,21 @@ export const PAST_EXAM = [
     ],
     answer: 0,
     ex: "【正答】is open on alternate days。 月・水・金 = 一日おき (alternate days)。'from nine to noon' は昼まで＝午後は閉まっているが、'is open after lunch' は逆。'closed until noon' も誤り (正午まで開いている)。",
+  },
+  {
+    level: 2,
+    topic: "Water company — report consumption",
+    passage:
+      "Westchester Water Company. To report your monthly water consumption, please dial your customer number, then wait for further instructions.",
+    question: "The water company...",
+    options: [
+      "is considering charging new rates.",
+      "uses an identification number for each client.",
+      "is notifying its customers of changes.",
+      "is waiting for your instructions.",
+    ],
+    answer: 1,
+    ex: "【正答】uses an identification number for each client。 'dial your customer number' = 各顧客に固有の番号(=識別番号)がある。'wait for further instructions' は『あなたが』指示を待つ意味で、会社があなたの指示を待つ 'waiting for your instructions' は逆 — ひっかけ。",
   },
   {
     level: 2,
