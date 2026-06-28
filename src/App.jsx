@@ -74,18 +74,18 @@ export default function App() {
   // Past-exam hidden access (footer-click gated).
   const [pastExamReady, setPastExamReady] = useState(() => isPastExamUnlocked());
   const [showPastExamGate, setShowPastExamGate] = useState(false);
-  const [footerClicks, setFooterClicks] = useState(0);
+  const [logoTaps, setLogoTaps] = useState(0);
 
-  const handleFooterClick = () => {
-    if (pastExamReady) return; // already unlocked — clicks do nothing
-    const next = footerClicks + 1;
+  const handleLogoTap = () => {
+    if (pastExamReady) return; // already unlocked — taps do nothing
+    const next = logoTaps + 1;
     if (next >= TRIGGER_CLICKS) {
-      setFooterClicks(0);
+      setLogoTaps(0);
       setShowPastExamGate(true);
     } else {
-      setFooterClicks(next);
-      // Reset the counter if user takes too long between clicks.
-      setTimeout(() => setFooterClicks((c) => (c === next ? 0 : c)), 2000);
+      setLogoTaps(next);
+      // Reset the counter if user takes too long between taps.
+      setTimeout(() => setLogoTaps((c) => (c === next ? 0 : c)), 2000);
     }
   };
 
@@ -253,11 +253,19 @@ export default function App() {
       <header className="sticky top-0 z-10 backdrop-blur bg-white/80 border-b border-slate-200">
         <div className="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-2 min-w-0 flex-1">
-            <img
-              src="/favicon.svg"
-              alt="JFLT logo"
-              className="w-9 h-9 flex-none"
-            />
+            <button
+              type="button"
+              onClick={handleLogoTap}
+              aria-label="JFLT"
+              className="flex-none p-0 border-0 bg-transparent cursor-default"
+            >
+              <img
+                src="/favicon.svg"
+                alt="JFLT logo"
+                className="w-9 h-9 flex-none select-none"
+                draggable="false"
+              />
+            </button>
             <div className="min-w-0">
               <h1 className="text-lg font-bold text-slate-900 leading-tight truncate">
                 {t('header.brand')}
@@ -444,11 +452,7 @@ export default function App() {
 
       <footer className="max-w-3xl mx-auto px-4 py-6 text-center">
         <p className="text-xs text-slate-400">{t('header.footer')}</p>
-        <p
-          className="mt-1 text-[10px] text-slate-300 italic tracking-wide cursor-default select-none"
-          onClick={handleFooterClick}
-          title={pastExamReady ? '' : (footerClicks > 0 ? `${footerClicks}/${TRIGGER_CLICKS}` : '')}
-        >
+        <p className="mt-1 text-[10px] text-slate-300 italic tracking-wide">
           {t('header.author')}
         </p>
       </footer>
