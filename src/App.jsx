@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { READING, LISTENING, VOCAB, GRAMMAR } from './data.js';
 import {
   emptyStats,
@@ -74,18 +74,24 @@ export default function App() {
   // Past-exam hidden access (footer-click gated).
   const [pastExamReady, setPastExamReady] = useState(() => isPastExamUnlocked());
   const [showPastExamGate, setShowPastExamGate] = useState(false);
-  const [logoTaps, setLogoTaps] = useState(0);
+  // Ref-based tap counter — independent of render timing, so rapid taps
+  // on touch devices are counted reliably (state-based counting could
+  // drop taps that fire before the previous re-render committed).
+  const logoTapsRef = useRef(0);
+  const logoTapTimerRef = useRef(null);
 
   const handleLogoTap = () => {
     if (pastExamReady) return; // already unlocked — taps do nothing
-    const next = logoTaps + 1;
-    if (next >= TRIGGER_CLICKS) {
-      setLogoTaps(0);
+    logoTapsRef.current += 1;
+    if (logoTapTimerRef.current) clearTimeout(logoTapTimerRef.current);
+    if (logoTapsRef.current >= TRIGGER_CLICKS) {
+      logoTapsRef.current = 0;
       setShowPastExamGate(true);
     } else {
-      setLogoTaps(next);
-      // Reset the counter if user takes too long between taps.
-      setTimeout(() => setLogoTaps((c) => (c === next ? 0 : c)), 2000);
+      // Reset the counter if the user takes too long between taps.
+      logoTapTimerRef.current = setTimeout(() => {
+        logoTapsRef.current = 0;
+      }, 2000);
     }
   };
 
@@ -258,11 +264,12 @@ export default function App() {
               onClick={handleLogoTap}
               aria-label="JFLT"
               className="flex-none p-0 border-0 bg-transparent cursor-default"
+              style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
             >
               <img
                 src="/favicon.svg"
                 alt="JFLT logo"
-                className="w-9 h-9 flex-none select-none"
+                className="w-9 h-9 flex-none select-none pointer-events-none"
                 draggable="false"
               />
             </button>
