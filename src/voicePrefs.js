@@ -63,11 +63,38 @@ export function saveVoicePrefs(partial) {
   } catch (_) { /* ignore quota errors */ }
 }
 
+// Pick a voice from `list` that differs from `primary`, so a second
+// same-gender speaker in a dialogue (M2 / F2) is audibly distinct from
+// the first (M1 / F1). Falls back to the primary if the catalog has
+// only one voice for that gender.
+function altVoice(primary, list) {
+  const found = list.find((v) => v.name !== primary);
+  return found ? found.name : primary;
+}
+
 // Resolve the voice name for a parsed dialogue turn or single-narrator
 // passage. Called from AudioPlayer.
+//
+// Supported markers:
+//   MAN / M1  → user's chosen male voice
+//   M2        → a second, distinct male voice (for two-male dialogues)
+//   WOMAN / F1→ user's chosen female voice
+//   F2        → a second, distinct female voice
+//   (none)    → default-gender voice
 export function resolveVoice(marker, prefs) {
   const p = prefs || loadVoicePrefs();
-  if (marker === 'MAN') return p.male;
-  if (marker === 'WOMAN') return p.female;
-  return p.defaultGender === 'female' ? p.female : p.male;
+  switch (marker) {
+    case 'MAN':
+    case 'M1':
+      return p.male;
+    case 'M2':
+      return altVoice(p.male, VOICE_CATALOG.male);
+    case 'WOMAN':
+    case 'F1':
+      return p.female;
+    case 'F2':
+      return altVoice(p.female, VOICE_CATALOG.female);
+    default:
+      return p.defaultGender === 'female' ? p.female : p.male;
+  }
 }

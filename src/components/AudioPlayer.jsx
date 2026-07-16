@@ -5,21 +5,28 @@ import { loadVoicePrefs, resolveVoice } from '../voicePrefs.js';
 // Pause between speaker turns so the conversation breathes.
 const TURN_GAP_MS = 400;
 
-// Parse passage into turns. Lines beginning with "MAN: " or "WOMAN: "
-// are treated as speaker turns; continuation lines append to the
-// previous turn. If no markers are found, the whole passage is one
+// Speaker-marker syntax for dialogue passages. A line may start with:
+//   MAN:  WOMAN:            two-voice (male/female) convention
+//   M1: M2: F1: F2:         numbered speakers (two males and/or two
+//                           females in one exchange); an optional role
+//                           annotation is allowed, e.g. "F1 (Narrator):"
+const MARKER_RE = /^(MAN|WOMAN|M[12]|F[12])(?:\s*\([^)]*\))?:\s+(.*)$/;
+
+// Parse passage into turns. Lines beginning with a speaker marker (see
+// MARKER_RE) are treated as speaker turns; continuation lines append to
+// the previous turn. If no markers are found, the whole passage is one
 // default turn. Voices are resolved per turn using the user's saved
 // preferences in voicePrefs.
 function parseTurns(passage, voiceOverride) {
   const prefs = loadVoicePrefs();
   const lines = passage.split(/\n+/).map((l) => l.trim()).filter(Boolean);
-  const hasMarkers = lines.some((l) => /^(MAN|WOMAN):\s+/.test(l));
+  const hasMarkers = lines.some((l) => MARKER_RE.test(l));
   if (!hasMarkers) {
     return [{ voice: voiceOverride || resolveVoice(null, prefs), text: passage }];
   }
   const turns = [];
   for (const line of lines) {
-    const m = line.match(/^(MAN|WOMAN):\s+(.*)$/);
+    const m = line.match(MARKER_RE);
     if (m) {
       turns.push({ voice: resolveVoice(m[1], prefs), text: m[2] });
     } else if (turns.length) {
