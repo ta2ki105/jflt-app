@@ -538,6 +538,10 @@ export const MESSAGES = {
       load_failed: 'Failed to load past-exam data',
       empty:
         'No past-exam questions added yet. Paste your entries into src/past-exam-data.js.',
+      filter_all: 'All',
+      level_label: 'Level',
+      starred_badge: '★ Confirmed on exam',
+      level_empty: 'No questions at this level yet.',
     },
 
     writing: {
@@ -1161,6 +1165,10 @@ export const MESSAGES = {
       load_failed: '過去問データの読み込みに失敗',
       empty:
         '過去問データはまだ追加されていません。src/past-exam-data.js に問題を貼り付けてください。',
+      filter_all: 'すべて',
+      level_label: 'レベル',
+      starred_badge: '★ 本番頻出',
+      level_empty: 'このレベルの問題はまだありません。',
     },
 
     writing: {

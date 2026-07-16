@@ -284,6 +284,7 @@ export const PAST_EXAM = [
   {
     level: 3,
     topic: "Space tourism — risk (No.21)",
+    starred: true, // confirmed to appear on the real exam
     passage:
       "F1: Based on the number of fatalities since man's space exploration began in nineteen sixty-one, what is the existing percentage chance of dying in a space-related activity? For example, training, actual flight, or re-entry.\nM1: That's an interesting question. The major distinction to make here is that most of the efforts I write about in this week's magazine are aimed at suborbital space, the region one hundred kilometers above the Earth where space is said to begin. There's no real boundary because the atmosphere gradually thins as you get higher. But at one hundred kilometers, you are avoiding most of the heating challenges of re-entry that pose a serious threat. The idea with most of these private companies is to develop reliable, reusable launching vehicles, similar to airplanes, to take tourists into suborbital space. There would still be one heck of a view and a gravity-less environment. Hence the idea is to generate a sustainable business around tourism that creates some excitement to fuel, in turn, the next generation of technologies for flight beyond the atmosphere.",
     question: "The man asserts that risk to space tourists can be minimized by...",
@@ -299,6 +300,7 @@ export const PAST_EXAM = [
   {
     level: 3,
     topic: "Ford recall — ignition module (No.43)",
+    starred: true, // confirmed to appear on the real exam
     passage:
       "M1: A state court judge here in Oakland, California, Judge Michael Ballachey, today told Ford that he is going to order them to recall an estimated two million cars in California. There are cars across three hundred models in California. They all carry what is called a thick film ignition module. The contention in this class-action lawsuit was that Ford mounted this module too close to the engine, that it would get hot and that the vehicles were prone to stalling. When you're doing fifty or sixty miles per hour down the freeway and your car stalls, you're in trouble, said the lawyers. But Ford contends all along that these vehicles are statistically no less safe, that the stall factor was no more significant than other vehicles with other ignition systems installed. Ford says it intends to appeal.",
     question: "In what way is the vehicle faulty?",

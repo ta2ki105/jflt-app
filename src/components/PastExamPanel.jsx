@@ -10,6 +10,9 @@ export default function PastExamPanel({ apiKey, onLock }) {
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [answered, setAnswered] = useState(false);
+  // Level filter: 'all' | 2 | 3. Lets the user practise each level
+  // separately.
+  const [level, setLevel] = useState('all');
 
   useEffect(() => {
     let cancelled = false;
@@ -58,7 +61,48 @@ export default function PastExamPanel({ apiKey, onLock }) {
     );
   }
 
-  const q = questions[index];
+  const levels = Array.from(new Set(questions.map((x) => x.level))).sort(
+    (a, b) => a - b
+  );
+  const filtered =
+    level === 'all' ? questions : questions.filter((x) => x.level === level);
+
+  const changeLevel = (v) => {
+    setLevel(v);
+    setIndex(0);
+    setAnswered(false);
+    setSelected(null);
+  };
+
+  const levelFilter = (
+    <LevelFilter
+      t={t}
+      levels={levels}
+      current={level}
+      counts={{
+        all: questions.length,
+        ...Object.fromEntries(
+          levels.map((lv) => [lv, questions.filter((x) => x.level === lv).length])
+        ),
+      }}
+      onChange={changeLevel}
+    />
+  );
+
+  if (filtered.length === 0) {
+    return (
+      <div className="space-y-4 fade-in">
+        <PanelHeader t={t} onLock={handleLock} />
+        {levelFilter}
+        <div className="bg-white rounded-2xl border border-slate-200 p-5 text-sm text-slate-600">
+          📭 {t('pastExam.level_empty')}
+        </div>
+      </div>
+    );
+  }
+
+  const safeIndex = index % filtered.length;
+  const q = filtered[safeIndex];
   const correctIndex = q.answer;
   const isCorrect = answered && selected === correctIndex;
   const optionLabels = ['A', 'B', 'C', 'D'];
@@ -66,28 +110,37 @@ export default function PastExamPanel({ apiKey, onLock }) {
   const goNext = () => {
     setAnswered(false);
     setSelected(null);
-    setIndex((i) => (i + 1) % questions.length);
+    setIndex((i) => (i + 1) % filtered.length);
   };
   const goPrev = () => {
     setAnswered(false);
     setSelected(null);
-    setIndex((i) => (i - 1 + questions.length) % questions.length);
+    setIndex((i) => (i - 1 + filtered.length) % filtered.length);
   };
 
   return (
     <div className="space-y-4 fade-in">
       <PanelHeader t={t} onLock={handleLock} />
+      {levelFilter}
 
       <article className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="px-5 pt-5 pb-3 flex flex-wrap items-center gap-2">
           <span className="text-xs font-semibold px-2 py-0.5 rounded-md border bg-rose-100 text-rose-700 border-rose-200">
-            🔒 {t('pastExam.badge')}
+            🔒 {t('pastExam.badge')} · {t('pastExam.level_label')} {q.level}
           </span>
+          {q.starred && (
+            <span
+              className="text-xs font-semibold px-2 py-0.5 rounded-md border bg-amber-100 text-amber-800 border-amber-300"
+              title={t('pastExam.starred_badge')}
+            >
+              {t('pastExam.starred_badge')}
+            </span>
+          )}
           {q.topic && (
             <span className="text-xs text-slate-500 truncate">{q.topic}</span>
           )}
           <span className="text-xs text-slate-400 ml-2">
-            {index + 1} / {questions.length}
+            {safeIndex + 1} / {filtered.length}
           </span>
           {q.passage && (
             <div className="ml-auto">
@@ -211,6 +264,45 @@ export default function PastExamPanel({ apiKey, onLock }) {
           </button>
         </div>
       </article>
+    </div>
+  );
+}
+
+function LevelFilter({ t, levels, current, counts, onChange }) {
+  const options = [
+    { value: 'all', label: t('pastExam.filter_all'), count: counts.all },
+    ...levels.map((lv) => ({
+      value: lv,
+      label: `${t('pastExam.level_label')} ${lv}`,
+      count: counts[lv] || 0,
+    })),
+  ];
+  return (
+    <div className="flex flex-wrap gap-2">
+      {options.map((opt) => {
+        const active = current === opt.value;
+        return (
+          <button
+            key={String(opt.value)}
+            type="button"
+            onClick={() => onChange(opt.value)}
+            className={`px-3 py-1.5 text-sm rounded-lg border transition-colors ${
+              active
+                ? 'bg-rose-600 text-white border-rose-600'
+                : 'bg-white text-slate-700 border-slate-200 hover:border-rose-300'
+            }`}
+          >
+            {opt.label}
+            <span
+              className={`ml-1.5 text-xs ${
+                active ? 'text-rose-100' : 'text-slate-400'
+              }`}
+            >
+              {opt.count}
+            </span>
+          </button>
+        );
+      })}
     </div>
   );
 }
