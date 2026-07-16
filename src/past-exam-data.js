@@ -219,6 +219,7 @@ export const PAST_EXAM = [
   {
     level: 2,
     topic: "News — officials fear drug smuggling",
+    starred: true, // confirmed to appear on the real exam
     passage:
       "The move will effectively hand over control of the zone to the Colombian Revolutionary Armed Forces guerrilla group for at least ninety days. Colombian officials fear, however, that the rebels could take advantage of the security vacuum to smuggle drugs out of the region.",
     question: "Officials fear that...",
