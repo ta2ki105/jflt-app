@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useI18n } from '../i18n/useI18n.js';
+import AudioPlayer from './AudioPlayer.jsx';
 
 function shuffle(arr) {
   const out = arr.slice();
@@ -26,7 +27,7 @@ function buildRound(words) {
   });
 }
 
-export default function TopicVocabQuiz({ topic }) {
+export default function TopicVocabQuiz({ topic, apiKey }) {
   const { t } = useI18n();
   const [seed, setSeed] = useState(0);
   const round = useMemo(() => buildRound(topic.words), [topic, seed]);
@@ -77,9 +78,12 @@ export default function TopicVocabQuiz({ topic }) {
       </div>
 
       <article className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <div className="px-5 pt-5 pb-3">
-          <p className="text-xs text-slate-400 mb-1">{t('topicVocab.quiz_prompt')}</p>
-          <p className="text-2xl font-semibold text-slate-900">{q.word.term}</p>
+        <div className="px-5 pt-5 pb-3 flex items-start justify-between gap-3">
+          <div>
+            <p className="text-xs text-slate-400 mb-1">{t('topicVocab.quiz_prompt')}</p>
+            <p className="text-2xl font-semibold text-slate-900">{q.word.term}</p>
+          </div>
+          <AudioPlayer text={q.word.term} apiKey={apiKey} label={t('card.hearWord')} />
         </div>
 
         <ul className="px-5 pb-4 space-y-2">

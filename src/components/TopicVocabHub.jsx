@@ -10,7 +10,7 @@ import TopicVocabFlashcards from './TopicVocabFlashcards.jsx';
  * screen; manages its own topic → mode → practice flow internally so it
  * doesn't interfere with the regular flattenByLevel() question stream.
  */
-export default function TopicVocabHub({ onExit }) {
+export default function TopicVocabHub({ onExit, apiKey }) {
   const { t, lang } = useI18n();
   const [topicId, setTopicId] = useState(null);
   const [mode, setMode] = useState(null); // 'quiz' | 'flashcard'
@@ -99,9 +99,9 @@ export default function TopicVocabHub({ onExit }) {
         }`}
       />
       {mode === 'quiz' ? (
-        <TopicVocabQuiz topic={topic} />
+        <TopicVocabQuiz topic={topic} apiKey={apiKey} />
       ) : (
-        <TopicVocabFlashcards topic={topic} />
+        <TopicVocabFlashcards topic={topic} apiKey={apiKey} />
       )}
     </div>
   );

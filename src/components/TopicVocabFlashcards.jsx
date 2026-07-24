@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useI18n } from '../i18n/useI18n.js';
+import AudioPlayer from './AudioPlayer.jsx';
 
 function shuffle(arr) {
   const out = arr.slice();
@@ -10,7 +11,7 @@ function shuffle(arr) {
   return out;
 }
 
-export default function TopicVocabFlashcards({ topic }) {
+export default function TopicVocabFlashcards({ topic, apiKey }) {
   const { t } = useI18n();
   const [seed, setSeed] = useState(0);
   const deck = useMemo(() => shuffle(topic.words), [topic, seed]);
@@ -48,11 +49,25 @@ export default function TopicVocabFlashcards({ topic }) {
         </button>
       </div>
 
-      <button
-        type="button"
+      <div
+        role="button"
+        tabIndex={0}
         onClick={() => setFlipped((f) => !f)}
-        className="w-full min-h-[220px] bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center gap-3 px-6 py-8 text-center hover:border-indigo-300 transition-colors fade-in"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setFlipped((f) => !f);
+          }
+        }}
+        className="relative w-full min-h-[220px] bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center gap-3 px-6 py-8 text-center hover:border-indigo-300 transition-colors fade-in cursor-pointer"
       >
+        <div
+          className="absolute top-3 right-3"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <AudioPlayer text={card.term} apiKey={apiKey} label={t('card.hearWord')} />
+        </div>
+
         {!flipped ? (
           <>
             <span className="text-xs text-slate-400">{t('topicVocab.flash_front_hint')}</span>
@@ -67,7 +82,7 @@ export default function TopicVocabFlashcards({ topic }) {
             <span className="text-xs text-slate-400">{t('topicVocab.flash_back_hint')}</span>
           </>
         )}
-      </button>
+      </div>
 
       <div className="flex items-center justify-between">
         <button

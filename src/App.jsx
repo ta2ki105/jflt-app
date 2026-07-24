@@ -396,7 +396,7 @@ export default function App() {
             )}
 
             {showTopicVocab ? (
-              <TopicVocabHub onExit={() => setShowTopicVocab(false)} />
+              <TopicVocabHub onExit={() => setShowTopicVocab(false)} apiKey={apiKey} />
             ) : (
               <>
                 {/* Level quick-filter (within current category) */}
