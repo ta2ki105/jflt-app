@@ -17,6 +17,7 @@ import WritingPanel from './components/WritingPanel.jsx';
 import UpdatesPanel from './components/UpdatesPanel.jsx';
 import PastExamGate from './components/PastExamGate.jsx';
 import PastExamPanel from './components/PastExamPanel.jsx';
+import TopicVocabHub from './components/TopicVocabHub.jsx';
 import { isUnlocked as isPastExamUnlocked, setUnlocked as setPastExamUnlocked, TRIGGER_CLICKS } from './pastExamAuth.js';
 import './App.css';
 
@@ -71,6 +72,9 @@ export default function App() {
   const [practiceStarted, setPracticeStarted] = useState(false);
   // Bump to force a reshuffle of the Practice question order.
   const [shuffleSeed, setShuffleSeed] = useState(() => Date.now());
+  // Standalone topic-vocab trainer (treaties/NATO/extradition), entered
+  // from the Vocab practice screen; swaps out the regular question flow.
+  const [showTopicVocab, setShowTopicVocab] = useState(false);
   // Past-exam hidden access (footer-click gated).
   const [pastExamReady, setPastExamReady] = useState(() => isPastExamUnlocked());
   const [showPastExamGate, setShowPastExamGate] = useState(false);
@@ -139,6 +143,7 @@ export default function App() {
     setSelectedAnswer(null);
     setAnswered(false);
     setShuffleSeed(Date.now());
+    setShowTopicVocab(false);
   }, [category, level]);
 
   const questions = useMemo(
@@ -368,56 +373,77 @@ export default function App() {
               </span>
               <button
                 type="button"
-                onClick={() => setPracticeStarted(false)}
+                onClick={() => {
+                  setPracticeStarted(false);
+                  setShowTopicVocab(false);
+                }}
                 className="ml-auto px-3 py-1 text-xs rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-50"
               >
                 {t('welcome.change')}
               </button>
             </div>
 
-            {/* Level quick-filter (within current category) */}
-            <div className="flex flex-wrap gap-2 items-center">
-              <span className="text-sm text-slate-500 mr-1">
-                {t('levels.label')}
-              </span>
-              {LEVELS.map((lv) => (
-                <button
-                  key={lv}
-                  onClick={() => setLevel(lv)}
-                  className={`px-3 py-1.5 text-sm rounded-lg border transition-colors ${
-                    level === lv
-                      ? 'bg-slate-900 text-white border-slate-900'
-                      : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
-                  }`}
-                >
-                  {lv === 'all' ? t('levels.all') : `L${lv}`}
-                </button>
-              ))}
-              <div className="ml-auto text-sm text-slate-500">
-                {t('levels.progress', {
-                  current: totalQuestions === 0 ? 0 : safeIndex + 1,
-                  total: totalQuestions,
-                })}
-              </div>
-            </div>
+            {category === 'vocab' && !showTopicVocab && (
+              <button
+                type="button"
+                onClick={() => setShowTopicVocab(true)}
+                className="w-full flex items-center gap-3 px-4 py-3 text-sm rounded-xl border border-indigo-200 bg-indigo-50 text-indigo-800 hover:bg-indigo-100 transition-colors"
+              >
+                <span className="text-lg">🪖</span>
+                <span className="font-medium">{t('topicVocab.entry_button')}</span>
+                <span className="ml-auto text-indigo-400">→</span>
+              </button>
+            )}
 
-            {/* Question card */}
-            {currentQuestion ? (
-              <QuestionCard
-                question={currentQuestion}
-                category={category}
-                hasAudio={datasetMeta.hasAudio}
-                selectedAnswer={selectedAnswer}
-                answered={answered}
-                onSelect={handleSelect}
-                onNext={goNext}
-                onPrev={goPrev}
-                apiKey={apiKey}
-              />
+            {showTopicVocab ? (
+              <TopicVocabHub onExit={() => setShowTopicVocab(false)} />
             ) : (
-              <div className="bg-white rounded-2xl p-8 text-center text-slate-500 border border-slate-200">
-                {t('levels.noQuestions')}
-              </div>
+              <>
+                {/* Level quick-filter (within current category) */}
+                <div className="flex flex-wrap gap-2 items-center">
+                  <span className="text-sm text-slate-500 mr-1">
+                    {t('levels.label')}
+                  </span>
+                  {LEVELS.map((lv) => (
+                    <button
+                      key={lv}
+                      onClick={() => setLevel(lv)}
+                      className={`px-3 py-1.5 text-sm rounded-lg border transition-colors ${
+                        level === lv
+                          ? 'bg-slate-900 text-white border-slate-900'
+                          : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
+                      }`}
+                    >
+                      {lv === 'all' ? t('levels.all') : `L${lv}`}
+                    </button>
+                  ))}
+                  <div className="ml-auto text-sm text-slate-500">
+                    {t('levels.progress', {
+                      current: totalQuestions === 0 ? 0 : safeIndex + 1,
+                      total: totalQuestions,
+                    })}
+                  </div>
+                </div>
+
+                {/* Question card */}
+                {currentQuestion ? (
+                  <QuestionCard
+                    question={currentQuestion}
+                    category={category}
+                    hasAudio={datasetMeta.hasAudio}
+                    selectedAnswer={selectedAnswer}
+                    answered={answered}
+                    onSelect={handleSelect}
+                    onNext={goNext}
+                    onPrev={goPrev}
+                    apiKey={apiKey}
+                  />
+                ) : (
+                  <div className="bg-white rounded-2xl p-8 text-center text-slate-500 border border-slate-200">
+                    {t('levels.noQuestions')}
+                  </div>
+                )}
+              </>
             )}
           </div>
         )}

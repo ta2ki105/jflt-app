@@ -80,6 +80,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        topic_vocab_2026_07: {
+          title: 'Specialized vocabulary trainer (90 words)',
+          desc:
+            'Added a dedicated entry point on the Vocab practice screen for three topics that come up often in JFLT L3 listening: treaty conclusion, NATO force deployment, and extradition (30 words each). Choose between a multiple-choice quiz (English word → Japanese meaning) or flip flashcards with example sentences.',
+        },
         past_exam_gate_2026_06: {
           title: 'Restricted past-exam area (infrastructure)',
           desc:
@@ -544,6 +549,24 @@ export const MESSAGES = {
       level_empty: 'No questions at this level yet.',
     },
 
+    topicVocab: {
+      entry_button: 'Diplomacy / NATO / Extradition (90 words)',
+      hub_title: 'Specialized Vocabulary — L3 Listening Focus',
+      hub_body:
+        'Three topics that come up often in JFLT L3 listening: treaty conclusion, NATO force deployment, and extradition. 30 words each.',
+      word_count: '{count} words',
+      mode_quiz_title: 'Quiz (EN → JA)',
+      mode_quiz_body: 'See the English word, choose the correct Japanese meaning from 4 options.',
+      mode_flash_title: 'Flashcards',
+      mode_flash_body: 'Flip between the English word and its Japanese meaning, with an example sentence.',
+      exit_button: '✕ Exit',
+      quiz_prompt: 'What does this word mean?',
+      score: 'Score: {correct} / {total}',
+      reshuffle: 'Shuffle',
+      flash_front_hint: 'Tap to reveal meaning',
+      flash_back_hint: 'Tap to flip back',
+    },
+
     writing: {
       header_title: '✍️ Writing Practice — AI Coach Script',
       header_body:
@@ -706,6 +729,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        topic_vocab_2026_07: {
+          title: '専門語彙トレーナーを追加（90語）',
+          desc:
+            'JFLTレベル3のリスニングでよく出る3分野（条約の締結・NATO軍の展開・国際犯罪人引渡し、各30語）専用の入り口をVocab練習画面に追加しました。英→日の4択クイズ、または例文つきフリップカードのどちらかを選んで練習できます。',
+        },
         past_exam_gate_2026_06: {
           title: '関係者限定の過去問エリアを追加（基盤のみ）',
           desc:
@@ -1169,6 +1197,24 @@ export const MESSAGES = {
       level_label: 'レベル',
       starred_badge: '★ 本番頻出',
       level_empty: 'このレベルの問題はまだありません。',
+    },
+
+    topicVocab: {
+      entry_button: '外交・NATO・引渡し語彙（90語）',
+      hub_title: '専門語彙 — L3リスニング頻出',
+      hub_body:
+        'JFLTレベル3のリスニングでよく出る3分野：条約の締結、NATO軍の展開、国際犯罪人引渡し。各30語。',
+      word_count: '{count}語',
+      mode_quiz_title: 'クイズ（英→日）',
+      mode_quiz_body: '英単語を見て、正しい日本語の意味を4択から選びます。',
+      mode_flash_title: 'フリップカード',
+      mode_flash_body: '英単語と日本語訳をめくって確認、例文つき。',
+      exit_button: '✕ 終了',
+      quiz_prompt: 'この単語の意味は？',
+      score: 'スコア：{correct} / {total}',
+      reshuffle: 'シャッフル',
+      flash_front_hint: 'タップして意味を表示',
+      flash_back_hint: 'タップして裏返す',
     },
 
     writing: {
