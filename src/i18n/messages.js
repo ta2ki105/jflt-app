@@ -550,7 +550,9 @@ export const MESSAGES = {
     },
 
     topicVocab: {
+      entry_badge: 'Exam Prep',
       entry_button: 'Diplomacy / NATO / Extradition + More (182 words)',
+      entry_subtitle: 'Specialized words worth reviewing right before the real exam',
       hub_title: 'Specialized Vocabulary — L3 Listening Focus',
       hub_body:
         'Topics that come up often in JFLT L3 listening: treaty conclusion, NATO force deployment, extradition, and a broader mixed pack.',
@@ -1200,7 +1202,9 @@ export const MESSAGES = {
     },
 
     topicVocab: {
+      entry_badge: '直前対策',
       entry_button: '外交・NATO・引渡し語彙＋もっと（182語）',
+      entry_subtitle: '本番前にチェックしておきたい専門語彙',
       hub_title: '専門語彙 — L3リスニング頻出',
       hub_body:
         'JFLTレベル3のリスニングでよく出る分野：条約の締結、NATO軍の展開、国際犯罪人引渡し、そして幅広い重要単語パック。',

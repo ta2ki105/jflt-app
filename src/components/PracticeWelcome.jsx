@@ -36,6 +36,28 @@ export default function PracticeWelcome({
 
   return (
     <div className="space-y-5 fade-in">
+      {onOpenTopicVocab && (
+        <button
+          type="button"
+          onClick={onOpenTopicVocab}
+          className="w-full flex items-center gap-4 px-5 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 text-white shadow-lg shadow-indigo-200 hover:shadow-xl hover:brightness-110 active:scale-[0.99] transition-all"
+        >
+          <span className="text-3xl flex-none">🪖</span>
+          <span className="text-left flex-1 min-w-0">
+            <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/20 uppercase tracking-wide">
+              {t('topicVocab.entry_badge')}
+            </span>
+            <span className="block font-semibold text-[15px] mt-1 truncate">
+              {t('topicVocab.entry_button')}
+            </span>
+            <span className="block text-xs text-indigo-100 mt-0.5">
+              {t('topicVocab.entry_subtitle')}
+            </span>
+          </span>
+          <span className="text-2xl flex-none">→</span>
+        </button>
+      )}
+
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
         <h2 className="text-lg font-semibold text-slate-900 mb-2">
           {t('welcome.title')}
@@ -120,18 +142,6 @@ export default function PracticeWelcome({
           {t('welcome.hint_grading_b')}
         </button>
       </div>
-
-      {onOpenTopicVocab && (
-        <button
-          type="button"
-          onClick={onOpenTopicVocab}
-          className="w-full flex items-center gap-3 px-4 py-3 text-sm rounded-xl border border-indigo-200 bg-indigo-50 text-indigo-800 hover:bg-indigo-100 transition-colors"
-        >
-          <span className="text-lg">🪖</span>
-          <span className="font-medium">{t('topicVocab.entry_button')}</span>
-          <span className="ml-auto text-indigo-400">→</span>
-        </button>
-      )}
     </div>
   );
 }
