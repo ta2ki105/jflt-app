@@ -76,9 +76,16 @@ export default function TopicVocabFlashcards({ topic, apiKey }) {
         ) : (
           <>
             <span className="text-2xl font-bold text-indigo-700">{card.jp}</span>
-            <p className="text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3 mt-1 italic max-w-md">
-              {card.example}
-            </p>
+            <div className="border-t border-slate-100 pt-3 mt-1 max-w-md">
+              <p className="text-sm text-slate-600 leading-relaxed italic">
+                {card.example}
+              </p>
+              {card.exampleJa && (
+                <p className="text-sm text-slate-500 leading-relaxed mt-1">
+                  {card.exampleJa}
+                </p>
+              )}
+            </div>
             <span className="text-xs text-slate-400">{t('topicVocab.flash_back_hint')}</span>
           </>
         )}

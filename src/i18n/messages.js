@@ -550,10 +550,10 @@ export const MESSAGES = {
     },
 
     topicVocab: {
-      entry_button: 'Diplomacy / NATO / Extradition (90 words)',
+      entry_button: 'Diplomacy / NATO / Extradition + More (182 words)',
       hub_title: 'Specialized Vocabulary — L3 Listening Focus',
       hub_body:
-        'Three topics that come up often in JFLT L3 listening: treaty conclusion, NATO force deployment, and extradition. 30 words each.',
+        'Topics that come up often in JFLT L3 listening: treaty conclusion, NATO force deployment, extradition, and a broader mixed pack.',
       word_count: '{count} words',
       mode_quiz_title: 'Quiz (EN → JA)',
       mode_quiz_body: 'See the English word, choose the correct Japanese meaning from 4 options.',
@@ -1200,10 +1200,10 @@ export const MESSAGES = {
     },
 
     topicVocab: {
-      entry_button: '外交・NATO・引渡し語彙（90語）',
+      entry_button: '外交・NATO・引渡し語彙＋もっと（182語）',
       hub_title: '専門語彙 — L3リスニング頻出',
       hub_body:
-        'JFLTレベル3のリスニングでよく出る3分野：条約の締結、NATO軍の展開、国際犯罪人引渡し。各30語。',
+        'JFLTレベル3のリスニングでよく出る分野：条約の締結、NATO軍の展開、国際犯罪人引渡し、そして幅広い重要単語パック。',
       word_count: '{count}語',
       mode_quiz_title: 'クイズ（英→日）',
       mode_quiz_body: '英単語を見て、正しい日本語の意味を4択から選びます。',

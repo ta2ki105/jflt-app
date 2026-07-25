@@ -155,6 +155,11 @@ export default function TopicVocabQuiz({ topic, apiKey }) {
               <p className="text-sm text-slate-700 leading-relaxed italic">
                 {q.word.example}
               </p>
+              {q.word.exampleJa && (
+                <p className="text-sm text-slate-500 leading-relaxed mt-1">
+                  {q.word.exampleJa}
+                </p>
+              )}
             </div>
           </div>
         )}
