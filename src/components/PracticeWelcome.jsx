@@ -13,6 +13,7 @@ export default function PracticeWelcome({
   setLevel,
   onStart,
   goToGradingTab,
+  onOpenTopicVocab,
 }) {
   const { t } = useI18n();
 
@@ -119,6 +120,18 @@ export default function PracticeWelcome({
           {t('welcome.hint_grading_b')}
         </button>
       </div>
+
+      {onOpenTopicVocab && (
+        <button
+          type="button"
+          onClick={onOpenTopicVocab}
+          className="w-full flex items-center gap-3 px-4 py-3 text-sm rounded-xl border border-indigo-200 bg-indigo-50 text-indigo-800 hover:bg-indigo-100 transition-colors"
+        >
+          <span className="text-lg">🪖</span>
+          <span className="font-medium">{t('topicVocab.entry_button')}</span>
+          <span className="ml-auto text-indigo-400">→</span>
+        </button>
+      )}
     </div>
   );
 }

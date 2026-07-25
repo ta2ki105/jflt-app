@@ -72,8 +72,9 @@ export default function App() {
   const [practiceStarted, setPracticeStarted] = useState(false);
   // Bump to force a reshuffle of the Practice question order.
   const [shuffleSeed, setShuffleSeed] = useState(() => Date.now());
-  // Standalone topic-vocab trainer (treaties/NATO/extradition), entered
-  // from the Vocab practice screen; swaps out the regular question flow.
+  // Standalone topic-vocab trainer (treaties/NATO/extradition/Jesús pack),
+  // entered from either the Practice welcome screen or the Vocab practice
+  // screen; swaps out the regular question flow.
   const [showTopicVocab, setShowTopicVocab] = useState(false);
   // Past-exam hidden access (footer-click gated).
   const [pastExamReady, setPastExamReady] = useState(() => isPastExamUnlocked());
@@ -344,7 +345,7 @@ export default function App() {
       </header>
 
       <main className="max-w-3xl mx-auto px-4 py-6">
-        {currentTab === 'questions' && !practiceStarted && (
+        {currentTab === 'questions' && !practiceStarted && !showTopicVocab && (
           <PracticeWelcome
             datasets={DATASETS}
             category={category}
@@ -357,10 +358,15 @@ export default function App() {
               setPracticeStarted(true);
             }}
             goToGradingTab={() => setCurrentTab('grading')}
+            onOpenTopicVocab={() => setShowTopicVocab(true)}
           />
         )}
 
-        {currentTab === 'questions' && practiceStarted && (
+        {currentTab === 'questions' && showTopicVocab && (
+          <TopicVocabHub onExit={() => setShowTopicVocab(false)} apiKey={apiKey} />
+        )}
+
+        {currentTab === 'questions' && practiceStarted && !showTopicVocab && (
           <div className="space-y-4 fade-in">
             {/* Compact selectors + change button */}
             <div className="flex flex-wrap gap-2 items-center">
@@ -383,7 +389,7 @@ export default function App() {
               </button>
             </div>
 
-            {category === 'vocab' && !showTopicVocab && (
+            {category === 'vocab' && (
               <button
                 type="button"
                 onClick={() => setShowTopicVocab(true)}
@@ -395,55 +401,49 @@ export default function App() {
               </button>
             )}
 
-            {showTopicVocab ? (
-              <TopicVocabHub onExit={() => setShowTopicVocab(false)} apiKey={apiKey} />
-            ) : (
-              <>
-                {/* Level quick-filter (within current category) */}
-                <div className="flex flex-wrap gap-2 items-center">
-                  <span className="text-sm text-slate-500 mr-1">
-                    {t('levels.label')}
-                  </span>
-                  {LEVELS.map((lv) => (
-                    <button
-                      key={lv}
-                      onClick={() => setLevel(lv)}
-                      className={`px-3 py-1.5 text-sm rounded-lg border transition-colors ${
-                        level === lv
-                          ? 'bg-slate-900 text-white border-slate-900'
-                          : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
-                      }`}
-                    >
-                      {lv === 'all' ? t('levels.all') : `L${lv}`}
-                    </button>
-                  ))}
-                  <div className="ml-auto text-sm text-slate-500">
-                    {t('levels.progress', {
-                      current: totalQuestions === 0 ? 0 : safeIndex + 1,
-                      total: totalQuestions,
-                    })}
-                  </div>
-                </div>
+            {/* Level quick-filter (within current category) */}
+            <div className="flex flex-wrap gap-2 items-center">
+              <span className="text-sm text-slate-500 mr-1">
+                {t('levels.label')}
+              </span>
+              {LEVELS.map((lv) => (
+                <button
+                  key={lv}
+                  onClick={() => setLevel(lv)}
+                  className={`px-3 py-1.5 text-sm rounded-lg border transition-colors ${
+                    level === lv
+                      ? 'bg-slate-900 text-white border-slate-900'
+                      : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
+                  }`}
+                >
+                  {lv === 'all' ? t('levels.all') : `L${lv}`}
+                </button>
+              ))}
+              <div className="ml-auto text-sm text-slate-500">
+                {t('levels.progress', {
+                  current: totalQuestions === 0 ? 0 : safeIndex + 1,
+                  total: totalQuestions,
+                })}
+              </div>
+            </div>
 
-                {/* Question card */}
-                {currentQuestion ? (
-                  <QuestionCard
-                    question={currentQuestion}
-                    category={category}
-                    hasAudio={datasetMeta.hasAudio}
-                    selectedAnswer={selectedAnswer}
-                    answered={answered}
-                    onSelect={handleSelect}
-                    onNext={goNext}
-                    onPrev={goPrev}
-                    apiKey={apiKey}
-                  />
-                ) : (
-                  <div className="bg-white rounded-2xl p-8 text-center text-slate-500 border border-slate-200">
-                    {t('levels.noQuestions')}
-                  </div>
-                )}
-              </>
+            {/* Question card */}
+            {currentQuestion ? (
+              <QuestionCard
+                question={currentQuestion}
+                category={category}
+                hasAudio={datasetMeta.hasAudio}
+                selectedAnswer={selectedAnswer}
+                answered={answered}
+                onSelect={handleSelect}
+                onNext={goNext}
+                onPrev={goPrev}
+                apiKey={apiKey}
+              />
+            ) : (
+              <div className="bg-white rounded-2xl p-8 text-center text-slate-500 border border-slate-200">
+                {t('levels.noQuestions')}
+              </div>
             )}
           </div>
         )}
