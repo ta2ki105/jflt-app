@@ -1,8 +1,9 @@
 // Specialized vocabulary packs for JFLT Listening L3 — topics that come up
 // often in that section: treaty conclusion, NATO force deployment,
-// extradition, and a broader mixed pack ("Essential Vocabulary by Jesús")
+// extradition, a broader mixed pack ("Essential Vocabulary by Jesús")
 // covering military/security, NATO & UN, Italian Air Force, aviation,
-// politics, economy, current affairs, and natural disasters.
+// politics, economy, current affairs, and natural disasters, and a set of
+// NATO/US military acronyms (USAF, CENTCOM, DoD, HQ, etc.).
 //
 // Unlike vocab-data.js (VOCAB), these are NOT part of the scored
 // Reading/Listening/Vocab/Grammar corpus and don't feed grading-mode or
@@ -228,6 +229,27 @@ export const TOPIC_VOCAB = [
       { term: 'Emergency landing', jp: '緊急着陸（きんきゅうちゃくりく）', example: 'The pilot made an emergency landing safely.', exampleJa: 'パイロットは無事に緊急着陸を行った。' },
       { term: 'NOTAM (Notice to Air Missions)', jp: '航空情報（こうくうじょうほう）', example: 'Pilots should always check the latest NOTAMs before departure.', exampleJa: 'パイロットは出発前に必ず最新の航空情報（NOTAM）を確認すべきである。' },
       { term: 'De-icing', jp: '除氷（じょひょう）', example: 'The aircraft required de-icing before take-off.', exampleJa: 'その航空機は離陸前に除氷が必要だった。' },
+    ],
+  },
+  {
+    id: 'nato_acronyms',
+    icon: '🔠',
+    labelEn: 'NATO & Military Acronyms',
+    labelJa: 'NATO・軍事略語',
+    words: [
+      { term: 'USAF', jp: 'アメリカ空軍（United States Air Force）', example: 'The USAF operates a fleet of advanced fighter aircraft.', exampleJa: 'アメリカ空軍は最新鋭の戦闘機部隊を運用している。' },
+      { term: 'CENTCOM', jp: 'アメリカ中央軍（United States Central Command）', example: 'CENTCOM is responsible for military operations across the Middle East.', exampleJa: '中央軍は中東全域における軍事作戦を統括している。' },
+      { term: 'DoD', jp: 'アメリカ国防総省（Department of Defense）', example: 'The DoD oversees all branches of the U.S. armed forces.', exampleJa: '国防総省はアメリカ軍のすべての軍種を統括している。' },
+      { term: 'DoW', jp: '宣戦布告（Declaration of War）', example: 'Congress has the constitutional power to issue a DoW.', exampleJa: '議会には宣戦布告を行う憲法上の権限がある。' },
+      { term: 'DLI', jp: '国防語学学校（Defense Language Institute）', example: 'Military linguists receive their training at the DLI.', exampleJa: '軍の語学要員は国防語学学校で訓練を受ける。' },
+      { term: 'ISAF', jp: '国際治安支援部隊（International Security Assistance Force）', example: 'ISAF trained Afghan security forces for over a decade.', exampleJa: '国際治安支援部隊は10年以上にわたりアフガニスタン治安部隊を訓練した。' },
+      { term: 'KFOR', jp: 'コソボ治安維持部隊（Kosovo Force）', example: 'KFOR has maintained stability in Kosovo since 1999.', exampleJa: 'コソボ治安維持部隊は1999年からコソボの安定維持を担っている。' },
+      { term: 'CO', jp: '指揮官（Commanding Officer）', example: 'The CO briefed the unit before the mission began.', exampleJa: '指揮官は任務開始前に部隊へ説明を行った。' },
+      { term: 'NCO', jp: '下士官（Non-Commissioned Officer）', example: 'NCOs are responsible for supervising enlisted personnel.', exampleJa: '下士官は兵卒の監督を担っている。' },
+      { term: 'HQ', jp: '司令部（Headquarters）', example: 'Orders came directly from HQ.', exampleJa: '命令は司令部から直接下された。' },
+      { term: 'CP', jp: '指揮所（Command Post）', example: 'Commanders directed the operation from the CP.', exampleJa: '指揮官たちは指揮所から作戦を指揮した。' },
+      { term: 'OPS', jp: '作戦（Operations）', example: "The OPS officer briefed the team on tomorrow's mission.", exampleJa: '作戦担当将校は明日の任務についてチームに説明した。' },
+      { term: 'POC', jp: '連絡窓口（Point of Contact）', example: 'Please contact the POC for further information.', exampleJa: '詳細については連絡窓口までお問い合わせください。' },
     ],
   },
 ];

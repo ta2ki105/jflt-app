@@ -551,7 +551,7 @@ export const MESSAGES = {
 
     topicVocab: {
       entry_badge: 'Exam Prep',
-      entry_button: 'Diplomacy / NATO / Extradition + More (182 words)',
+      entry_button: 'Diplomacy / NATO / Extradition + More (195 words)',
       entry_subtitle: 'Specialized words worth reviewing right before the real exam',
       hub_title: 'Specialized Vocabulary — L3 Listening Focus',
       hub_body:
@@ -1208,7 +1208,7 @@ export const MESSAGES = {
 
     topicVocab: {
       entry_badge: '直前対策',
-      entry_button: '外交・NATO・引渡し語彙＋もっと（182語）',
+      entry_button: '外交・NATO・引渡し語彙＋もっと（195語）',
       entry_subtitle: '本番前にチェックしておきたい専門語彙',
       hub_title: '専門語彙 — L3リスニング頻出',
       hub_body:
