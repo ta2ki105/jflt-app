@@ -1,21 +1,46 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useI18n } from '../i18n/useI18n.js';
 import { TOPIC_VOCAB } from '../topic-vocab-data.js';
+import { loadMarks, saveMarks, markKey, countMarkedForTopic } from '../topicVocabMarks.js';
 import TopicVocabQuiz from './TopicVocabQuiz.jsx';
 import TopicVocabFlashcards from './TopicVocabFlashcards.jsx';
 
 /**
  * Standalone trainer for the specialized topic-vocab packs (treaties, NATO
- * deployment, extradition). Reached via a button on the Vocab practice
- * screen; manages its own topic → mode → practice flow internally so it
- * doesn't interfere with the regular flattenByLevel() question stream.
+ * deployment, extradition, Jesús pack). Reached via a button on the Vocab
+ * practice screen; manages its own topic → mode → practice flow internally
+ * so it doesn't interfere with the regular flattenByLevel() question stream.
  */
 export default function TopicVocabHub({ onExit, apiKey }) {
   const { t, lang } = useI18n();
   const [topicId, setTopicId] = useState(null);
   const [mode, setMode] = useState(null); // 'quiz' | 'flashcard'
+  const [markedOnly, setMarkedOnly] = useState(false);
+  const [marks, setMarks] = useState(() => loadMarks());
+
+  const toggleMark = (tId, term) => {
+    setMarks((prev) => {
+      const key = markKey(tId, term);
+      const next = { ...prev };
+      if (next[key]) delete next[key];
+      else next[key] = true;
+      saveMarks(next);
+      return next;
+    });
+  };
 
   const topic = TOPIC_VOCAB.find((x) => x.id === topicId) || null;
+
+  // Keep the same object reference when not filtering, so the quiz/
+  // flashcard round doesn't reshuffle just because `marks` changed
+  // elsewhere (e.g. marking a word mid-round in the unfiltered view).
+  const effectiveTopic = useMemo(() => {
+    if (!topic || !markedOnly) return topic;
+    return {
+      ...topic,
+      words: topic.words.filter((w) => marks[markKey(topic.id, w.term)]),
+    };
+  }, [topic, markedOnly, marks]);
 
   if (!topic) {
     return (
@@ -23,31 +48,43 @@ export default function TopicVocabHub({ onExit, apiKey }) {
         <HeaderBar t={t} onExit={onExit} title={t('topicVocab.hub_title')} />
         <p className="text-sm text-slate-600">{t('topicVocab.hub_body')}</p>
         <div className="grid gap-3 sm:grid-cols-3">
-          {TOPIC_VOCAB.map((tp) => (
-            <button
-              key={tp.id}
-              type="button"
-              onClick={() => setTopicId(tp.id)}
-              className="text-left bg-white rounded-2xl border border-slate-200 shadow-sm p-4 hover:border-indigo-300 hover:shadow-md transition-all"
-            >
-              <div className="text-2xl mb-2">{tp.icon}</div>
-              <div className="font-semibold text-slate-900">
-                {lang === 'ja' ? tp.labelJa : tp.labelEn}
-              </div>
-              <div className="text-xs text-slate-500 mt-0.5">
-                {lang === 'ja' ? tp.labelEn : tp.labelJa}
-              </div>
-              <div className="text-xs text-indigo-600 mt-2 font-medium">
-                {t('topicVocab.word_count', { count: tp.words.length })}
-              </div>
-            </button>
-          ))}
+          {TOPIC_VOCAB.map((tp) => {
+            const markedCount = countMarkedForTopic(marks, tp.id);
+            return (
+              <button
+                key={tp.id}
+                type="button"
+                onClick={() => {
+                  setTopicId(tp.id);
+                  setMarkedOnly(false);
+                }}
+                className="text-left bg-white rounded-2xl border border-slate-200 shadow-sm p-4 hover:border-indigo-300 hover:shadow-md transition-all"
+              >
+                <div className="text-2xl mb-2">{tp.icon}</div>
+                <div className="font-semibold text-slate-900">
+                  {lang === 'ja' ? tp.labelJa : tp.labelEn}
+                </div>
+                <div className="text-xs text-slate-500 mt-0.5">
+                  {lang === 'ja' ? tp.labelEn : tp.labelJa}
+                </div>
+                <div className="text-xs text-indigo-600 mt-2 font-medium">
+                  {t('topicVocab.word_count', { count: tp.words.length })}
+                </div>
+                {markedCount > 0 && (
+                  <div className="text-xs text-amber-600 mt-1 font-medium">
+                    🚩 {t('topicVocab.marked_count', { count: markedCount })}
+                  </div>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
     );
   }
 
   if (!mode) {
+    const markedCount = countMarkedForTopic(marks, topic.id);
     return (
       <div className="space-y-4 fade-in">
         <HeaderBar
@@ -56,6 +93,22 @@ export default function TopicVocabHub({ onExit, apiKey }) {
           onBack={() => setTopicId(null)}
           title={lang === 'ja' ? topic.labelJa : topic.labelEn}
         />
+        <label
+          className={`flex items-center gap-2 px-4 py-3 text-sm rounded-xl border ${
+            markedCount === 0
+              ? 'border-slate-200 bg-slate-50 text-slate-400 cursor-not-allowed'
+              : 'border-amber-200 bg-amber-50 text-amber-800 cursor-pointer'
+          }`}
+        >
+          <input
+            type="checkbox"
+            checked={markedOnly}
+            disabled={markedCount === 0}
+            onChange={(e) => setMarkedOnly(e.target.checked)}
+            className="accent-amber-600"
+          />
+          🚩 {t('topicVocab.marked_only_toggle', { count: markedCount })}
+        </label>
         <div className="grid gap-3 sm:grid-cols-2">
           <button
             type="button"
@@ -98,10 +151,24 @@ export default function TopicVocabHub({ onExit, apiKey }) {
           mode === 'quiz' ? t('topicVocab.mode_quiz_title') : t('topicVocab.mode_flash_title')
         }`}
       />
-      {mode === 'quiz' ? (
-        <TopicVocabQuiz topic={topic} apiKey={apiKey} />
+      {effectiveTopic.words.length === 0 ? (
+        <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-500">
+          {t('topicVocab.marked_empty')}
+        </div>
+      ) : mode === 'quiz' ? (
+        <TopicVocabQuiz
+          topic={effectiveTopic}
+          apiKey={apiKey}
+          marks={marks}
+          onToggleMark={(term) => toggleMark(topic.id, term)}
+        />
       ) : (
-        <TopicVocabFlashcards topic={topic} apiKey={apiKey} />
+        <TopicVocabFlashcards
+          topic={effectiveTopic}
+          apiKey={apiKey}
+          marks={marks}
+          onToggleMark={(term) => toggleMark(topic.id, term)}
+        />
       )}
     </div>
   );

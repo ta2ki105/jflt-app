@@ -567,6 +567,11 @@ export const MESSAGES = {
       reshuffle: 'Shuffle',
       flash_front_hint: 'Tap to reveal meaning',
       flash_back_hint: 'Tap to flip back',
+      mark_button: 'Mark as hard to remember',
+      unmark_button: 'Remove mark',
+      marked_count: '{count} marked',
+      marked_only_toggle: 'Practice marked words only ({count})',
+      marked_empty: "You haven't marked any words in this topic yet.",
     },
 
     writing: {
@@ -1219,6 +1224,11 @@ export const MESSAGES = {
       reshuffle: 'シャッフル',
       flash_front_hint: 'タップして意味を表示',
       flash_back_hint: 'タップして裏返す',
+      mark_button: '覚えてない単語としてマーク',
+      unmark_button: 'マークを解除',
+      marked_count: '{count}語マーク済み',
+      marked_only_toggle: 'マークした単語だけで練習する（{count}語）',
+      marked_empty: 'このトピックにはまだマークした単語がありません。',
     },
 
     writing: {

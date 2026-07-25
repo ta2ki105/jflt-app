@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useI18n } from '../i18n/useI18n.js';
 import AudioPlayer from './AudioPlayer.jsx';
+import { markKey } from '../topicVocabMarks.js';
 
 function shuffle(arr) {
   const out = arr.slice();
@@ -11,7 +12,7 @@ function shuffle(arr) {
   return out;
 }
 
-export default function TopicVocabFlashcards({ topic, apiKey }) {
+export default function TopicVocabFlashcards({ topic, apiKey, marks, onToggleMark }) {
   const { t } = useI18n();
   const [seed, setSeed] = useState(0);
   const deck = useMemo(() => shuffle(topic.words), [topic, seed]);
@@ -19,6 +20,7 @@ export default function TopicVocabFlashcards({ topic, apiKey }) {
   const [flipped, setFlipped] = useState(false);
 
   const card = deck[index];
+  const isMarked = !!(marks && marks[markKey(topic.id, card.term)]);
 
   const goNext = () => {
     setFlipped(false);
@@ -62,10 +64,23 @@ export default function TopicVocabFlashcards({ topic, apiKey }) {
         className="relative w-full min-h-[220px] bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center gap-3 px-6 py-8 text-center hover:border-indigo-300 transition-colors fade-in cursor-pointer"
       >
         <div
-          className="absolute top-3 right-3"
+          className="absolute top-3 right-3 flex items-center gap-2"
           onClick={(e) => e.stopPropagation()}
         >
           <AudioPlayer text={card.term} apiKey={apiKey} label={t('card.hearWord')} />
+          <button
+            type="button"
+            onClick={() => onToggleMark && onToggleMark(card.term)}
+            title={isMarked ? t('topicVocab.unmark_button') : t('topicVocab.mark_button')}
+            aria-pressed={isMarked}
+            className={`w-9 h-9 rounded-lg border flex items-center justify-center text-base transition-colors ${
+              isMarked
+                ? 'bg-amber-100 border-amber-300 text-amber-700'
+                : 'bg-white border-slate-200 text-slate-300 hover:border-slate-400 hover:text-slate-500'
+            }`}
+          >
+            🚩
+          </button>
         </div>
 
         {!flipped ? (

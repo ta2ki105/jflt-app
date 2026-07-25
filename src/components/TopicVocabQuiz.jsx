@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useI18n } from '../i18n/useI18n.js';
 import AudioPlayer from './AudioPlayer.jsx';
+import { markKey } from '../topicVocabMarks.js';
 
 function shuffle(arr) {
   const out = arr.slice();
@@ -27,7 +28,7 @@ function buildRound(words) {
   });
 }
 
-export default function TopicVocabQuiz({ topic, apiKey }) {
+export default function TopicVocabQuiz({ topic, apiKey, marks, onToggleMark }) {
   const { t } = useI18n();
   const [seed, setSeed] = useState(0);
   const round = useMemo(() => buildRound(topic.words), [topic, seed]);
@@ -39,6 +40,7 @@ export default function TopicVocabQuiz({ topic, apiKey }) {
   const q = round[index];
   const optionLabels = ['A', 'B', 'C', 'D'];
   const isCorrect = answered && selected === q.answerIndex;
+  const isMarked = !!(marks && marks[markKey(topic.id, q.word.term)]);
 
   const handleSelect = (idx) => {
     if (answered) return;
@@ -83,7 +85,22 @@ export default function TopicVocabQuiz({ topic, apiKey }) {
             <p className="text-xs text-slate-400 mb-1">{t('topicVocab.quiz_prompt')}</p>
             <p className="text-2xl font-semibold text-slate-900">{q.word.term}</p>
           </div>
-          <AudioPlayer text={q.word.term} apiKey={apiKey} label={t('card.hearWord')} />
+          <div className="flex-none flex items-center gap-2">
+            <AudioPlayer text={q.word.term} apiKey={apiKey} label={t('card.hearWord')} />
+            <button
+              type="button"
+              onClick={() => onToggleMark && onToggleMark(q.word.term)}
+              title={isMarked ? t('topicVocab.unmark_button') : t('topicVocab.mark_button')}
+              aria-pressed={isMarked}
+              className={`w-9 h-9 rounded-lg border flex items-center justify-center text-base transition-colors ${
+                isMarked
+                  ? 'bg-amber-100 border-amber-300 text-amber-700'
+                  : 'bg-white border-slate-200 text-slate-300 hover:border-slate-400 hover:text-slate-500'
+              }`}
+            >
+              🚩
+            </button>
+          </div>
         </div>
 
         <ul className="px-5 pb-4 space-y-2">
