@@ -80,6 +80,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        topic_vocab_listening_2026_07: {
+          title: 'Listening practice for topic vocabulary (15 questions)',
+          desc:
+            "Added 3 JFLT L3-level listening questions per topic-vocab pack (treaties, NATO deployment, extradition, Jesús pack, NATO acronyms), each built from that pack's own words. Reachable via a new button below the vocabulary banner on the Practice welcome screen.",
+        },
         flashcard_overlap_fix_2026_07: {
           title: 'Fixed flashcard button overlap',
           desc:
@@ -751,6 +756,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        topic_vocab_listening_2026_07: {
+          title: '専門語彙リスニング問題を追加（全15問）',
+          desc:
+            '各語彙パック（条約の締結、NATO軍の展開、国際犯罪人引渡し、重要単語 by Jesús、NATO・軍事略語）ごとに、その単語を使ったJFLTレベル3のリスニング問題を3問ずつ追加しました。練習タブの語彙バナー下にあるボタンから利用できます。',
+        },
         flashcard_overlap_fix_2026_07: {
           title: 'フリップカードのボタン重なりを修正',
           desc:
