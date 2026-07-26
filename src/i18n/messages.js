@@ -80,6 +80,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        topic_vocab_listening_shuffle_all_2026_07: {
+          title: 'Shuffle All Topics for listening practice',
+          desc:
+            'Added a button to mix every topic-vocab listening question (all 26) into one randomized run, tagged with which pack each question came from. Sits above the per-topic list.',
+        },
         topic_vocab_listening_coverage_2026_07: {
           title: 'More listening questions for wider vocabulary coverage',
           desc:
@@ -590,13 +595,15 @@ export const MESSAGES = {
     },
 
     topicListening: {
-      entry_button: 'Listening Practice — Topic Vocabulary (15 questions)',
-      entry_subtitle: '3 questions per topic, ~90-second L3 passages using these exact words',
+      entry_button: 'Listening Practice — Topic Vocabulary (26 questions)',
+      entry_subtitle: "~90-second L3 passages built from each pack's own words",
       hub_title: 'Topic Vocabulary — Listening Practice',
       hub_body:
-        'Pick a topic to practice 3 JFLT L3-level listening questions built from its vocabulary.',
+        'Pick a topic to practice its JFLT L3-level listening questions, or shuffle every topic together.',
       question_count: '{count} questions',
       empty: 'No questions available for this topic yet.',
+      shuffle_all_button: 'Shuffle All Topics',
+      shuffle_all_subtitle: 'All {count} questions mixed together, in random order',
     },
 
     writing: {
@@ -761,6 +768,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        topic_vocab_listening_shuffle_all_2026_07: {
+          title: '全トピックシャッフルを追加',
+          desc:
+            '全26問すべてのリスニング問題を一つにまとめてランダムな順番で出題するボタンを追加しました。どのパックの問題かバッジで表示されます。分野一覧の上に配置されています。',
+        },
         topic_vocab_listening_coverage_2026_07: {
           title: 'リスニング問題を追加してカバー範囲を拡大',
           desc:
@@ -1272,12 +1284,14 @@ export const MESSAGES = {
     },
 
     topicListening: {
-      entry_button: '語彙リスニング問題（全15問）',
-      entry_subtitle: '各分野3問、その単語を使った約90秒のレベル3リスニング',
+      entry_button: '語彙リスニング問題（全26問）',
+      entry_subtitle: 'その単語を使った約90秒のレベル3リスニング',
       hub_title: '専門語彙リスニング問題',
-      hub_body: '分野を選んで、その語彙を使ったJFLTレベル3のリスニング問題を3問練習できます。',
+      hub_body: '分野を選んでリスニング問題を練習するか、全分野をまとめてシャッフルできます。',
       question_count: '{count}問',
       empty: 'このトピックの問題はまだありません。',
+      shuffle_all_button: '全トピックシャッフル',
+      shuffle_all_subtitle: '全{count}問をランダムな順番でまとめて出題',
     },
 
     writing: {

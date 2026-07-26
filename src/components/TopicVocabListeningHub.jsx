@@ -1,38 +1,100 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useI18n } from '../i18n/useI18n.js';
 import { TOPIC_VOCAB } from '../topic-vocab-data.js';
 import { TOPIC_VOCAB_QUESTIONS } from '../topicVocabQuestions.js';
 import AudioPlayer from './AudioPlayer.jsx';
 
+function shuffle(arr) {
+  const out = arr.slice();
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+// Flat pool of every question across every topic pack, each tagged with
+// its originating pack's id/icon/labels so the "shuffle all" mode can
+// still show which pack a question came from. Built once at module
+// scope since TOPIC_VOCAB / TOPIC_VOCAB_QUESTIONS are static imports.
+const ALL_QUESTIONS_BASE = TOPIC_VOCAB.flatMap((tp) =>
+  (TOPIC_VOCAB_QUESTIONS[tp.id] || []).map((q) => ({
+    ...q,
+    _packId: tp.id,
+    _packIcon: tp.icon,
+    _packLabelEn: tp.labelEn,
+    _packLabelJa: tp.labelJa,
+  }))
+);
+
+const ALL_TOPICS_ID = '__all__';
+
 /**
  * Listening-comprehension practice built from the topic-vocab packs'
  * own words (treaties/NATO deployment/extradition/Jesús pack/NATO
- * acronyms) — 3 JFLT L3-level questions per topic. Separate from
- * TopicVocabHub (which drills the words themselves via quiz/flashcard);
- * this zone practises hearing them in a realistic ~90-second passage.
+ * acronyms). Separate from TopicVocabHub (which drills the words
+ * themselves via quiz/flashcard); this zone practises hearing them in
+ * a realistic ~90-second passage. A "shuffle all" mode mixes every
+ * pack's questions into one randomized run.
  */
 export default function TopicVocabListeningHub({ onExit, apiKey }) {
   const { t, lang } = useI18n();
-  const [topicId, setTopicId] = useState(null);
+  const [topicId, setTopicId] = useState(null); // null | ALL_TOPICS_ID | a pack id
+  const [shuffleSeed, setShuffleSeed] = useState(0);
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [answered, setAnswered] = useState(false);
 
-  const topicMeta = TOPIC_VOCAB.find((x) => x.id === topicId) || null;
-  const questions = topicId ? TOPIC_VOCAB_QUESTIONS[topicId] || [] : [];
+  const isAll = topicId === ALL_TOPICS_ID;
+  const topicMeta =
+    topicId && !isAll ? TOPIC_VOCAB.find((x) => x.id === topicId) || null : null;
+
+  const shuffledAll = useMemo(
+    () => shuffle(ALL_QUESTIONS_BASE),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [shuffleSeed]
+  );
+
+  const totalCount = ALL_QUESTIONS_BASE.length;
 
   const openTopic = (id) => {
     setTopicId(id);
     setIndex(0);
     setSelected(null);
     setAnswered(false);
+    if (id === ALL_TOPICS_ID) setShuffleSeed((s) => s + 1);
   };
 
-  if (!topicMeta) {
+  const reshuffleAll = () => {
+    setShuffleSeed((s) => s + 1);
+    setIndex(0);
+    setSelected(null);
+    setAnswered(false);
+  };
+
+  if (topicId === null) {
     return (
       <div className="space-y-4 fade-in">
         <HeaderBar t={t} onExit={onExit} title={t('topicListening.hub_title')} />
         <p className="text-sm text-slate-600">{t('topicListening.hub_body')}</p>
+
+        <button
+          type="button"
+          onClick={() => openTopic(ALL_TOPICS_ID)}
+          className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md hover:shadow-lg hover:brightness-110 active:scale-[0.99] transition-all"
+        >
+          <span className="text-2xl flex-none">🔀</span>
+          <span className="text-left flex-1 min-w-0">
+            <span className="block font-semibold text-[15px] truncate">
+              {t('topicListening.shuffle_all_button')}
+            </span>
+            <span className="block text-xs text-emerald-100 mt-0.5">
+              {t('topicListening.shuffle_all_subtitle', { count: totalCount })}
+            </span>
+          </span>
+          <span className="text-xl flex-none">→</span>
+        </button>
+
         <div className="grid gap-3 sm:grid-cols-3">
           {TOPIC_VOCAB.map((tp) => (
             <button
@@ -59,6 +121,8 @@ export default function TopicVocabListeningHub({ onExit, apiKey }) {
       </div>
     );
   }
+
+  const questions = isAll ? shuffledAll : TOPIC_VOCAB_QUESTIONS[topicId] || [];
 
   if (questions.length === 0) {
     return (
@@ -98,7 +162,13 @@ export default function TopicVocabListeningHub({ onExit, apiKey }) {
         t={t}
         onExit={onExit}
         onBack={() => setTopicId(null)}
-        title={lang === 'ja' ? topicMeta.labelJa : topicMeta.labelEn}
+        title={
+          isAll
+            ? t('topicListening.shuffle_all_button')
+            : lang === 'ja'
+            ? topicMeta.labelJa
+            : topicMeta.labelEn
+        }
       />
 
       <article className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
@@ -106,13 +176,27 @@ export default function TopicVocabListeningHub({ onExit, apiKey }) {
           <span className="text-xs font-semibold px-2 py-0.5 rounded-md border bg-violet-100 text-violet-700 border-violet-200">
             Level {q.level}
           </span>
+          {isAll && q._packIcon && (
+            <span className="text-xs font-semibold px-2 py-0.5 rounded-md border bg-emerald-100 text-emerald-700 border-emerald-200">
+              {q._packIcon} {lang === 'ja' ? q._packLabelJa : q._packLabelEn}
+            </span>
+          )}
           {q.topic && (
             <span className="text-xs text-slate-500 truncate">{q.topic}</span>
           )}
           <span className="text-xs text-slate-400 ml-2">
             {index + 1} / {questions.length}
           </span>
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-2">
+            {isAll && (
+              <button
+                type="button"
+                onClick={reshuffleAll}
+                className="px-3 py-1.5 text-xs rounded-lg bg-white border border-slate-200 text-slate-500 hover:border-slate-400"
+              >
+                🔀 {t('topicVocab.reshuffle')}
+              </button>
+            )}
             <AudioPlayer text={q.passage} apiKey={apiKey} label={t('card.playAudio')} />
           </div>
         </div>
