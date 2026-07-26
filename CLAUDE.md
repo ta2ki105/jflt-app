@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 Context for Claude Code sessions working on this repository.
-Last updated: 2026-05-17.
+Last updated: 2026-07-26.
 
 ## What this is
 
@@ -255,6 +255,33 @@ of any warnings → commit. The full version is in `QUESTION_FLOW.md`.
   research material the user shared (a STANAG-internal Word file) has
   been deleted and that pattern protects against future accidents.
 
+## STANAG 6001 reference documents
+
+Official, publicly downloadable sources — found and verified 2026-07-26 via
+BILC (Bureau for International Language Co-ordination), the NATO body that
+owns STANAG 6001 testing:
+
+- **STANAG 6001 Edition 5** (the promulgation agreement itself, NATO
+  non-classified): <https://natobilc.org/wp-content/uploads/2024/11/6001EFed05.pdf>
+- **ATrainP-5, Edition A** (the actual level-descriptor tables — Listening/
+  Speaking/Reading/Writing, Levels 0-5 including "+" levels — referenced
+  *as* the standard by STANAG 6001 itself): <https://natobilc.org/wp-content/uploads/2024/11/ATrainP-5-EDA-V2-E.pdf>
+- Overview & plain-language explainer: [STANAG 6001 Overview, Feb 2019](https://natobilc.org/wp-content/uploads/2024/11/STANAG-6001-Overview-Feb-2019.pdf),
+  [STANAG 6001 for Non-Specialists](https://natobilc.org/wp-content/uploads/2024/11/STANAG-for-Non-Specialists_Modified_June2013-doc-3.pdf)
+- Testing procedure guidance: [BILC Best Practices in STANAG 6001 Testing, July 2024](https://natobilc.org/wp-content/uploads/2024/11/Best-Practices-in-STANAG-6001-Testing-July-2024.pdf)
+- Landing page with the full document list: <https://natobilc.org/stanag-6001/>
+
+**Confirmed by reading ATrainP-5 directly:** the document defines skill-level
+*descriptors* (what a Level 3 listener/reader/speaker/writer can do) but
+contains **no numeric word-count or test-duration specifications** for any
+level. So the L1≈50/L2≈150/L3≤150/L4≤200-word passage-length convention
+and the 120-minute Reading duration used in this repo are **not derived
+from STANAG 6001/ATrainP-5** — they come from the user's own training
+material, as already noted below. If word-count/duration sourcing is ever
+needed, look to national testing-body specs (e.g. BILC's Best Practices
+document above, or a specific nation's published STANAG 6001 test
+specification) rather than the STANAG itself.
+
 ## Things to avoid
 
 - **Don't store full question objects in `grading_history_v1`** —
@@ -273,10 +300,12 @@ of any warnings → commit. The full version is in `QUESTION_FLOW.md`.
   test pacing, not data deletion.
 - **Don't push to `master` while a test is being run by a teammate** —
   Vercel redeploys instantly and may interrupt their session.
-- **Don't reference STANAG word-count specifics as fact** — the user
-  has explicitly asked for sourced evidence; we have none beyond what
-  the original data file's comments claimed. The 120-min Reading
-  duration comes from the user's own training material.
+- **Don't reference STANAG word-count specifics as fact** — confirmed
+  by reading the official ATrainP-5 descriptor document (see "STANAG
+  6001 reference documents" above) that STANAG 6001 specifies *no*
+  word counts or durations at all, only skill descriptors. The
+  L1/L2/L3/L4 length convention and the 120-min Reading duration used
+  in this repo come from the user's own training material, not STANAG.
 
 ## Recent major decisions (for context)
 
