@@ -80,6 +80,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        flashcard_overlap_fix_2026_07: {
+          title: 'Fixed flashcard button overlap',
+          desc:
+            'On some screen sizes the word text on the topic-vocab flip cards overlapped the audio-playback and flag buttons. The controls now sit in their own row above the card text so they never collide, on any device.',
+        },
         topic_vocab_2026_07: {
           title: 'Specialized vocabulary trainer (90 words)',
           desc:
@@ -736,6 +741,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        flashcard_overlap_fix_2026_07: {
+          title: 'フリップカードのボタン重なりを修正',
+          desc:
+            '端末によっては単語カードの単語テキストが音声再生ボタンやフラグボタンと重なって表示される問題がありました。ボタン類をカード上部の専用行に配置し、どの端末でも重ならないようにしました。',
+        },
         topic_vocab_2026_07: {
           title: '専門語彙トレーナーを追加（90語）',
           desc:
