@@ -11,6 +11,8 @@ import TopicVocabFlashcards from './TopicVocabFlashcards.jsx';
  * practice screen; manages its own topic → mode → practice flow internally
  * so it doesn't interfere with the regular flattenByLevel() question stream.
  */
+const ALL_TOPICS_ID = '__all__';
+
 export default function TopicVocabHub({ onExit, apiKey }) {
   const { t, lang } = useI18n();
   const [topicId, setTopicId] = useState(null);
@@ -29,7 +31,29 @@ export default function TopicVocabHub({ onExit, apiKey }) {
     });
   };
 
-  const topic = TOPIC_VOCAB.find((x) => x.id === topicId) || null;
+  // Pseudo-topic that pools every pack's words into one shuffled set, so a
+  // round can span all topics instead of being locked to a single one. Each
+  // word keeps a `_topicId` pointer back to its real pack so marks and the
+  // "marked only" filter still key off the pack the word actually belongs to.
+  const allTopicsPack = useMemo(
+    () => ({
+      id: ALL_TOPICS_ID,
+      icon: '🔀',
+      labelEn: 'All Topics (Shuffle)',
+      labelJa: '全トピック（シャッフル）',
+      words: TOPIC_VOCAB.flatMap((tp) =>
+        tp.words.map((w) => ({ ...w, _topicId: tp.id }))
+      ),
+    }),
+    []
+  );
+
+  const topic =
+    topicId === ALL_TOPICS_ID
+      ? allTopicsPack
+      : TOPIC_VOCAB.find((x) => x.id === topicId) || null;
+
+  const wordTopicId = (word) => word._topicId || topic.id;
 
   // Keep the same object reference when not filtering, so the quiz/
   // flashcard round doesn't reshuffle just because `marks` changed
@@ -38,7 +62,7 @@ export default function TopicVocabHub({ onExit, apiKey }) {
     if (!topic || !markedOnly) return topic;
     return {
       ...topic,
-      words: topic.words.filter((w) => marks[markKey(topic.id, w.term)]),
+      words: topic.words.filter((w) => marks[markKey(wordTopicId(w), w.term)]),
     };
   }, [topic, markedOnly, marks]);
 
@@ -47,6 +71,21 @@ export default function TopicVocabHub({ onExit, apiKey }) {
       <div className="space-y-4 fade-in">
         <HeaderBar t={t} onExit={onExit} title={t('topicVocab.hub_title')} />
         <p className="text-sm text-slate-600">{t('topicVocab.hub_body')}</p>
+        <button
+          type="button"
+          onClick={() => {
+            setTopicId(ALL_TOPICS_ID);
+            setMarkedOnly(false);
+          }}
+          className="w-full text-left bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 rounded-2xl shadow-sm p-4 hover:shadow-md transition-all text-white"
+        >
+          <div className="text-2xl mb-2">🔀</div>
+          <div className="font-semibold">{t('topicVocab.all_topics_title')}</div>
+          <div className="text-xs text-indigo-100 mt-0.5">{t('topicVocab.all_topics_subtitle')}</div>
+          <div className="text-xs text-indigo-100 mt-2 font-medium">
+            {t('topicVocab.word_count', { count: allTopicsPack.words.length })}
+          </div>
+        </button>
         <div className="grid gap-3 sm:grid-cols-3">
           {TOPIC_VOCAB.map((tp) => {
             const markedCount = countMarkedForTopic(marks, tp.id);
@@ -84,7 +123,10 @@ export default function TopicVocabHub({ onExit, apiKey }) {
   }
 
   if (!mode) {
-    const markedCount = countMarkedForTopic(marks, topic.id);
+    const markedCount =
+      topic.id === ALL_TOPICS_ID
+        ? TOPIC_VOCAB.reduce((sum, tp) => sum + countMarkedForTopic(marks, tp.id), 0)
+        : countMarkedForTopic(marks, topic.id);
     return (
       <div className="space-y-4 fade-in">
         <HeaderBar
@@ -160,14 +202,18 @@ export default function TopicVocabHub({ onExit, apiKey }) {
           topic={effectiveTopic}
           apiKey={apiKey}
           marks={marks}
-          onToggleMark={(term) => toggleMark(topic.id, term)}
+          onToggleMark={(term, wordTopicIdOverride) =>
+            toggleMark(wordTopicIdOverride || topic.id, term)
+          }
         />
       ) : (
         <TopicVocabFlashcards
           topic={effectiveTopic}
           apiKey={apiKey}
           marks={marks}
-          onToggleMark={(term) => toggleMark(topic.id, term)}
+          onToggleMark={(term, wordTopicIdOverride) =>
+            toggleMark(wordTopicIdOverride || topic.id, term)
+          }
         />
       )}
     </div>

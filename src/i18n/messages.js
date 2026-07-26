@@ -80,6 +80,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        topic_vocab_shuffle_all_2026_07: {
+          title: 'Shuffle across every exam-prep topic at once',
+          desc:
+            'Added an "All Topics (Shuffle)" option to the exam-prep vocabulary trainer, for both the quiz and flashcards. Instead of practicing one topic pack at a time, you can now go through all 195 words pooled together in one shuffled round.',
+        },
         flashcard_overlap_fix_2026_07: {
           title: 'Fixed flashcard button overlap',
           desc:
@@ -561,6 +566,8 @@ export const MESSAGES = {
       hub_title: 'Specialized Vocabulary — L3 Listening Focus',
       hub_body:
         'Topics that come up often in JFLT L3 listening: treaty conclusion, NATO force deployment, extradition, and a broader mixed pack.',
+      all_topics_title: 'All Topics (Shuffle)',
+      all_topics_subtitle: 'Practice every pack combined, in one shuffled round',
       word_count: '{count} words',
       mode_quiz_title: 'Quiz (EN → JA)',
       mode_quiz_body: 'See the English word, choose the correct Japanese meaning from 4 options.',
@@ -741,6 +748,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        topic_vocab_shuffle_all_2026_07: {
+          title: '直前対策の全トピックをまとめてシャッフル練習',
+          desc:
+            '直前対策の専門語彙トレーナーに「全トピック（シャッフル）」を追加しました。クイズ・フリップカードどちらも、トピックごとではなく195語全部をまとめてシャッフルした状態で練習できます。',
+        },
         flashcard_overlap_fix_2026_07: {
           title: 'フリップカードのボタン重なりを修正',
           desc:
@@ -1223,6 +1235,8 @@ export const MESSAGES = {
       hub_title: '専門語彙 — L3リスニング頻出',
       hub_body:
         'JFLTレベル3のリスニングでよく出る分野：条約の締結、NATO軍の展開、国際犯罪人引渡し、そして幅広い重要単語パック。',
+      all_topics_title: '全トピック（シャッフル）',
+      all_topics_subtitle: 'すべてのパックを合わせて1つのシャッフル練習にできます',
       word_count: '{count}語',
       mode_quiz_title: 'クイズ（英→日）',
       mode_quiz_body: '英単語を見て、正しい日本語の意味を4択から選びます。',
