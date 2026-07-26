@@ -160,6 +160,36 @@ export const TOPIC_VOCAB_QUESTIONS = {
       answer: 2,
       ex: "'citing the absence of any bilateral extradition treaty and concerns about dual criminality' が理由として述べられている。亡命の成功や外交特権、レッドノーティス未発行への言及はない。",
     },
+    {
+      level: 3,
+      topic: 'Fugitive arrested — relative accused of harboring him',
+      passage:
+        "A well-known fugitive who had fled justice more than a decade ago was arrested this week after investigators discovered he had been living under a false identity in a small coastal town. Local prosecutors say the man, wanted on charges of large-scale corruption, had received help from at least one relative accused of knowingly harboring him for several years, providing housing and financial support despite being aware of his fugitive status. That relative now faces separate charges for harboring a criminal, which carries its own custodial penalty under local law. Investigators say the case was cracked after a tip from a neighbour who noticed the man rarely left the property and appeared to avoid contact with local officials. Prosecutors have confirmed that extradition proceedings, if eventually required, would depend on where formal charges are ultimately filed, since the man holds citizenship in a third country not directly involved in the original case. For now, he remains in custody while authorities determine the appropriate jurisdiction for his trial. The relative accused of harboring him is expected to appear in court separately next month.",
+      question: 'What is the relative accused of, according to the report?',
+      options: [
+        'Fleeing justice alongside the fugitive.',
+        'Harboring the fugitive by providing housing and financial support.',
+        "Filing false extradition paperwork on the fugitive's behalf.",
+        "Bribing a neighbour to stay silent about the fugitive's location.",
+      ],
+      answer: 1,
+      ex: "'accused of knowingly harboring him for several years, providing housing and financial support' と説明されている。逃亡そのものへの関与や虚偽の引渡し書類作成、近隣住民への口止めへの言及はない。",
+    },
+    {
+      level: 3,
+      topic: 'Diplomatic immunity vs. political offense exception',
+      passage:
+        "M1: There's an interesting extradition case in the news today. Apparently the requested state is refusing to hand over the suspect.\nF1: On what grounds?\nM1: Two, actually. First, the man claims diplomatic immunity, arguing he was acting in an official capacity at the time of the alleged offense.\nF1: And the second?\nM1: His lawyers are also invoking the political offense exception, saying the charges relate entirely to his political activities rather than any ordinary crime.\nF1: That's a strong combination of defences. Which one do you think is more likely to succeed?\nM1: Honestly, the diplomatic immunity claim seems weaker here, since his official position ended before the alleged offense actually took place. The political offense argument may carry more weight, especially if the courts agree the charges are politically motivated rather than criminal in nature.\nF1: So the case could still go either way.\nM1: Exactly. Legal experts say a final ruling could take months, given how rarely both defences are argued together in the same case.\nF1: I'll be curious to see which argument the appeals court ultimately finds more persuasive.\nM1: Same here — this could set an interesting precedent either way.",
+      question: 'According to the man, why does the diplomatic immunity claim seem weaker?',
+      options: [
+        'Because he never held an official position at all.',
+        'Because the political offense exception makes it unnecessary.',
+        'Because his official position had ended before the alleged offense occurred.',
+        'Because the requested state does not recognize diplomatic immunity.',
+      ],
+      answer: 2,
+      ex: "'his official position ended before the alleged offense actually took place' が理由。公的地位自体がなかったわけではなく、政治犯不引渡しの主張とは別問題。相手国が外交特権を認めていないという記述もない。",
+    },
   ],
 
   jesus_extra: [
@@ -207,6 +237,141 @@ export const TOPIC_VOCAB_QUESTIONS = {
       ],
       answer: 1,
       ex: "'the runway is currently occupied by foreign object debris removal after an earlier taxiing incident' が理由。バードストライクは着陸機側の問題であり滑走路占有の理由ではない。視界不良は 'visibility is still within limits' と否定されており、他機のゴーアラウンドへの言及もない。",
+    },
+    {
+      level: 3,
+      topic: 'Armed forces briefing — NATO fundamentals and an alleged incident',
+      passage:
+        "Today I want to address several questions about how our armed forces prepare for multinational operations. First, on conscription: our country abolished compulsory conscription two decades ago, so all current deployment relies entirely on volunteer personnel. Before any deployment abroad, every unit receives a full briefing on the rules of engagement, since operating under NATO's collective defence framework, particularly the commitments set out in Article 5, requires absolute clarity about when force may be used. An alliance is only as credible as its deterrence, and deterrence depends heavily on interoperability — the ability of different national forces to operate together smoothly, sharing equipment standards, communications, and procedures. I should mention that recent media reports of an alleged incident involving one of our contingents abroad are still under investigation, and no conclusions have been reached. Officials have stressed that speculation at this stage would be premature and unhelpful to the ongoing inquiry. In the meantime, planning continues for the alliance's next major exercise, which will test interoperability across several member states' armed forces under simulated wartime conditions. Attendance at pre-deployment briefings remains mandatory for every soldier involved, regardless of rank or specialty.",
+      question: 'According to the speaker, what is true about the alleged incident?',
+      options: [
+        'It has already been confirmed by officials.',
+        'It occurred during a NATO Article 5 deployment.',
+        'It was caused by a lack of interoperability.',
+        'It remains under investigation, with no conclusions reached.',
+      ],
+      answer: 3,
+      ex: "'reports of an alleged incident... are still under investigation, and no conclusions have been reached' と述べられている。確定済みや第5条発動時の出来事、相互運用性不足が原因という記述はない。",
+    },
+    {
+      level: 3,
+      topic: 'Week in review — peacekeeping, extradition, and a referendum',
+      passage:
+        "F1: It's been a busy week for international news. Let's start with the peacekeeping mission — any update?\nM1: Yes, the peacekeeping force reported a marked drop in violence since the ceasefire, and officials say the broader peacekeeping effort in the region is finally showing results after years of little progress.\nF1: Good to hear. What about the extradition case we discussed last week?\nM1: That's moving forward. The treaty covering that extradition request was actually signed only two years ago, as part of a wider push toward the conclusion of treaties between the two governments on judicial cooperation.\nF1: And the referendum on constitutional reform?\nM1: It passed narrowly, though there were reports of a riot outside the main counting center after early results suggested the vote might fail. Police eventually restored order without serious injuries.\nF1: A lot happening all at once.\nM1: Definitely. I think the referendum result will get more attention next week once the final numbers are certified.\nF1: Agreed. Let's revisit all three stories once there's more confirmed information.",
+      question: 'What does the man say about the peacekeeping mission?',
+      options: [
+        'Violence has dropped and the broader effort is finally showing results.',
+        'The mission has made little progress after years of effort.',
+        'The mission ended after the referendum passed.',
+        'The mission was suspended due to the riot.',
+      ],
+      answer: 0,
+      ex: "'a marked drop in violence... the broader peacekeeping effort... is finally showing results' と述べている。進展がない、住民投票後に終了、暴動により停止という記述はない。",
+    },
+    {
+      level: 3,
+      topic: 'Scramble and intercept — radio exchange',
+      passage:
+        "M1: Ops, this is Viper Flight, we've just been scrambled from quick reaction alert to intercept an unidentified contact approaching the air policing zone.\nM2: Copy, Viper Flight. AWACS has the contact on radar and will guide you in. Expect a tanker to be available for refuelling if your sortie runs long.\nM1: Understood. Are we flying this as a standard combat air patrol, or do you want us to escort the contact out of the area once identified?\nM2: Escort, once identified. Deconfliction with the tanker's own patrol track is already coordinated, so you shouldn't have any conflict on approach.\nM1: Copy that. How many sorties has the squadron flown today already?\nM2: This will be your third sortie of the day. Command wants continuous air policing coverage until the exercise concludes tonight.\nM1: Understood, Viper Flight proceeding to intercept.\nM2: One more thing — if fuel runs low before the intercept is complete, divert to the tanker immediately rather than pressing on.\nM1: Copy, safety first.\nM2: Also, be advised that a second QRA pair is being scrambled as backup in case this turns into a longer engagement.\nM1: Roger, appreciate the heads up. Viper Flight, out.",
+      question: 'What will Viper Flight do once the contact is identified?',
+      options: [
+        'Return immediately to base without further action.',
+        'Refuel from the tanker before continuing the sortie.',
+        'Escort the contact out of the area.',
+        'Hand the intercept over to the second QRA pair.',
+      ],
+      answer: 2,
+      ex: "'Escort, once identified' と指示されている。即時帰投や給油優先、2番目のQRAへの引き継ぎへの言及はない。",
+    },
+    {
+      level: 3,
+      topic: 'Pre-mission briefing — FOB, airspace, and de-icing',
+      passage:
+        "This morning's briefing covers several items relevant to tomorrow's mission. First, the forward operating base has confirmed that all support facilities are ready to receive additional personnel. Second, an unmanned aircraft conducted a reconnaissance flight over the objective area overnight and reported no unusual activity, though it did note that a portion of the local airspace remains subject to civilian air traffic restrictions. Third, ground commanders have requested confirmation that air superiority over the objective area will be established before any troops move forward; fighter squadrons are expected to achieve that within the first hour of operations. Pilots have been reminded to check the latest NOTAM before departure, since one has been issued overnight regarding a temporary restriction near the FOB itself. Finally, weather officers report freezing conditions at higher altitudes, so de-icing procedures will be mandatory for all aircraft before take-off tomorrow morning. Any questions on these points should be directed to the operations staff before end of day. Command has also asked that all aircrew confirm receipt of this briefing in writing, given the number of time-sensitive items involved.",
+      question: 'What must ground commanders confirm before troops move forward?',
+      options: [
+        'That air superiority over the objective area has been established.',
+        'That the unmanned aircraft has landed safely.',
+        'That the NOTAM restriction has been lifted.',
+        'That de-icing has been completed at the FOB.',
+      ],
+      answer: 0,
+      ex: "'ground commanders have requested confirmation that air superiority over the objective area will be established before any troops move forward' と述べられている。無人機の着陸やNOTAM解除、前進基地での除氷完了は前進の条件として挙げられていない。",
+    },
+    {
+      level: 3,
+      topic: 'Airport disruption — runway incursion and diverted traffic',
+      passage:
+        "Passengers waiting for the connecting service should note that boarding has been delayed by approximately forty minutes due to a runway incursion earlier this afternoon, which required the airport to briefly suspend all departures. Officials say conditions are now considered suitable for normal operations to resume, though controllers are still working through a backlog of diverted traffic from flights that were unable to land during the closure. One incoming flight was forced into a diversion to a nearby airport when it became clear that landing here within its fuel reserves was simply out of the question. Airport management has apologised for the disruption and confirmed that ground staff are working to clear the backed-up traffic on the taxiways as quickly as possible. Passengers are advised that conditions may remain unsuitable for smooth connections throughout the evening, and additional delays should be expected until the schedule fully recovers. Staff have also confirmed that all affected passengers will be automatically rebooked onto the next available service at no extra charge. The airport has asked for patience as controllers work to restore a normal flow of departures and arrivals.",
+      question: 'Why was the connecting flight delayed?',
+      options: [
+        'Because weather conditions were unsuitable for landing.',
+        'Because the flight was diverted to a nearby airport.',
+        'Because passengers had not finished boarding.',
+        'Because a runway incursion suspended departures earlier.',
+      ],
+      answer: 3,
+      ex: "'boarding has been delayed... due to a runway incursion earlier this afternoon, which required the airport to briefly suspend all departures' が理由。天候不良ではなく、便自体のダイバートや搭乗未完了が理由でもない。",
+    },
+    {
+      level: 3,
+      topic: 'City council — obesity guidelines and a new leisure facility',
+      passage:
+        "The city council published new guidelines this week aimed at reducing childhood obesity, following a report showing rates have risen sharply over the past decade. As part of the plan, the council will fund a new leisure facility in the eastern district, offering free access to sports programs for local families. Officials say the facility will be paid for partly through a small increase in local taxation, though they were careful to stress that the overall tax rate for most residents will remain unchanged, since the additional funding comes primarily from a levy on new commercial developments rather than existing households. Temporary accommodation has also been arranged for construction workers during the building phase, most of whom are travelling from other regions for the project. The council expects the facility to open within eighteen months, and has promised regular updates on both the construction timeline and the broader public health guidelines it hopes will accompany the new investment. Community groups have generally welcomed the announcement, though some have asked for more detail on how the guidelines will actually be enforced in local schools. A public consultation on the guidelines will run for the next six weeks, and residents are encouraged to submit feedback online.",
+      question: 'How will the new leisure facility mainly be funded, according to the report?',
+      options: [
+        'Through an increase in the overall tax rate for all residents.',
+        'Through a levy on new commercial developments.',
+        'Through temporary accommodation fees charged to construction workers.',
+        'Through a reduction in existing public health guidelines spending.',
+      ],
+      answer: 1,
+      ex: "'the additional funding comes primarily from a levy on new commercial developments rather than existing households' と説明されている。全住民の税率引き上げではなく、建設労働者の宿泊費や既存予算の削減への言及もない。",
+    },
+    {
+      level: 3,
+      topic: 'Documentary unveiled — strategic autonomy debate',
+      passage:
+        "A new documentary series was unveiled this week, examining Europe's growing debate over strategic autonomy and its relationship with traditional alliance structures. The programme, which includes an English voice-over for international audiences, features interviews with defence officials discussing how burden sharing among allies has evolved over the past decade. One episode follows preparations for a major multinational exercise involving forces from a dozen countries, showing how planners balance national priorities with the demands of working together under a single command. The producers say the series deliberately avoids taking a position on whether greater strategic autonomy would strengthen or weaken existing alliances, instead presenting arguments from officials on both sides of the debate. Early reviews have praised the documentary's access to normally closed planning meetings, though some critics argue the voice-over occasionally oversimplifies complex policy disagreements for a general audience. The full series will be broadcast over the coming month, with an accompanying online discussion forum for viewers to submit questions to the officials interviewed. Producers have confirmed that a follow-up episode focusing specifically on burden sharing negotiations is already in production for next year.",
+      question: 'What does the documentary series deliberately avoid doing, according to the producers?',
+      options: [
+        'Including an English voice-over for international audiences.',
+        'Featuring interviews with defence officials.',
+        'Taking a position on whether strategic autonomy would help or harm alliances.',
+        'Showing footage from the multinational exercise.',
+      ],
+      answer: 2,
+      ex: "'deliberately avoids taking a position on whether greater strategic autonomy would strengthen or weaken existing alliances' と説明されている。ナレーション収録やインタビュー実施、演習映像は実際に行っている内容。",
+    },
+    {
+      level: 3,
+      topic: 'Economic outlook — inflation, supply chains, and a disinformation warning',
+      passage:
+        "This quarter's economic outlook remains mixed. Inflation has eased slightly from its peak last year, though prices for basic goods are still well above pre-pandemic levels, and some analysts warn that the country could yet slip into a mild recession if consumer spending continues to weaken. On a more positive note, investment in renewable energy has surged, partly driven by government incentives, and officials hope this will offset some of the long-term economic pressure created by demographic decline in the workforce. Migration policy remains a contentious topic in parliament, with some lawmakers arguing that controlled migration could help address labour shortages linked to the aging population. Meanwhile, the technology sector continues to grapple with supply chain disruptions affecting semiconductor production, which has delayed several major manufacturing projects. Separately, the cybersecurity agency issued a warning this week about a coordinated disinformation campaign targeting public trust in the upcoming budget announcement, urging citizens to verify information through official government channels rather than social media. Officials say a full response to these combined challenges will be outlined in next month's budget statement. Business groups have called for urgent clarity on tax policy in the meantime, saying uncertainty is already affecting investment decisions.",
+      question: 'What warning did the cybersecurity agency issue this week?',
+      options: [
+        'A coordinated disinformation campaign is targeting trust in the budget announcement.',
+        'Semiconductor supply chains have been targeted by cyberattacks.',
+        'Migration data has been leaked to foreign governments.',
+        'Renewable energy infrastructure is vulnerable to sabotage.',
+      ],
+      answer: 0,
+      ex: "'a coordinated disinformation campaign targeting public trust in the upcoming budget announcement' と説明されている。半導体サプライチェーンへのサイバー攻撃、移民データ流出、再生可能エネルギー施設への妨害への言及はない。",
+    },
+    {
+      level: 3,
+      topic: 'Tsunami warning and volcanic eruption — unrelated events',
+      passage:
+        "Authorities issued a tsunami warning for coastal areas late last night following a powerful undersea earthquake, though the alert was lifted this morning after wave heights remained lower than initially feared. Separately, scientists continue to monitor a volcanic eruption that began three days ago on a remote island further north, which has so far caused no reported casualties but has disrupted several regional flight routes due to ash in the atmosphere. Officials say the two events are unrelated, despite occurring within days of each other, and emphasised that the tsunami warning system performed exactly as designed, giving coastal residents enough time to move to higher ground before the alert was lifted. Volcanologists studying the eruption say activity may continue for several more weeks, and have asked airlines operating in the region to maintain heightened caution around ash advisories until further notice. Local governments near both affected areas have activated their standard emergency coordination procedures as a precaution, even though neither event is currently considered to pose an ongoing threat to human life. Residents in the coastal zone have been thanked for following evacuation guidance promptly during the tsunami alert.",
+      question: 'According to the report, what do officials say about the two events?',
+      options: [
+        'They were caused by the same underlying seismic activity.',
+        'The volcanic eruption caused the tsunami warning to be issued.',
+        'Both events currently pose an ongoing threat to human life.',
+        'They are unrelated, despite occurring within days of each other.',
+      ],
+      answer: 3,
+      ex: "'the two events are unrelated, despite occurring within days of each other' と明言されている。同一の地震活動や噴火が津波警報の原因、現在も人命への脅威が継続という記述はない。",
     },
   ],
 

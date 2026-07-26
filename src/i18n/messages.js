@@ -80,6 +80,11 @@ export const MESSAGES = {
         style: 'Design',
       },
       entries: {
+        topic_vocab_listening_coverage_2026_07: {
+          title: 'More listening questions for wider vocabulary coverage',
+          desc:
+            "The Jesús pack (92 words) only had 3 listening questions covering about a quarter of its vocabulary, so we added 9 more (12 total). The Extradition pack got 2 more (5 total) to close its remaining gaps. Combined pool is now 26 questions across all 5 topics.",
+        },
         topic_vocab_listening_2026_07: {
           title: 'Listening practice for topic vocabulary (15 questions)',
           desc:
@@ -756,6 +761,11 @@ export const MESSAGES = {
         style: 'デザイン',
       },
       entries: {
+        topic_vocab_listening_coverage_2026_07: {
+          title: 'リスニング問題を追加してカバー範囲を拡大',
+          desc:
+            '重要単語 by Jesúsパック（92語）は3問だけでは全体の約4分の1しかカバーできていなかったため、9問追加（計12問）しました。国際犯罪人引渡しパックにも2問追加（計5問）し、残っていた未収録語を補いました。全5トピック合計で26問になりました。',
+        },
         topic_vocab_listening_2026_07: {
           title: '専門語彙リスニング問題を追加（全15問）',
           desc:
