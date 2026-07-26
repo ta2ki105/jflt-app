@@ -574,6 +574,16 @@ export const MESSAGES = {
       marked_empty: "You haven't marked any words in this topic yet.",
     },
 
+    topicListening: {
+      entry_button: 'Listening Practice — Topic Vocabulary (15 questions)',
+      entry_subtitle: '3 questions per topic, ~90-second L3 passages using these exact words',
+      hub_title: 'Topic Vocabulary — Listening Practice',
+      hub_body:
+        'Pick a topic to practice 3 JFLT L3-level listening questions built from its vocabulary.',
+      question_count: '{count} questions',
+      empty: 'No questions available for this topic yet.',
+    },
+
     writing: {
       header_title: '✍️ Writing Practice — AI Coach Script',
       header_body:
@@ -1229,6 +1239,15 @@ export const MESSAGES = {
       marked_count: '{count}語マーク済み',
       marked_only_toggle: 'マークした単語だけで練習する（{count}語）',
       marked_empty: 'このトピックにはまだマークした単語がありません。',
+    },
+
+    topicListening: {
+      entry_button: '語彙リスニング問題（全15問）',
+      entry_subtitle: '各分野3問、その単語を使った約90秒のレベル3リスニング',
+      hub_title: '専門語彙リスニング問題',
+      hub_body: '分野を選んで、その語彙を使ったJFLTレベル3のリスニング問題を3問練習できます。',
+      question_count: '{count}問',
+      empty: 'このトピックの問題はまだありません。',
     },
 
     writing: {

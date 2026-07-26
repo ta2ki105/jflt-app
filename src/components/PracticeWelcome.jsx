@@ -14,6 +14,7 @@ export default function PracticeWelcome({
   onStart,
   goToGradingTab,
   onOpenTopicVocab,
+  onOpenTopicListening,
 }) {
   const { t } = useI18n();
 
@@ -55,6 +56,25 @@ export default function PracticeWelcome({
             </span>
           </span>
           <span className="text-2xl flex-none">→</span>
+        </button>
+      )}
+
+      {onOpenTopicListening && (
+        <button
+          type="button"
+          onClick={onOpenTopicListening}
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 hover:bg-emerald-100 transition-colors"
+        >
+          <span className="text-2xl flex-none">🎧</span>
+          <span className="text-left flex-1 min-w-0">
+            <span className="block font-semibold text-sm truncate">
+              {t('topicListening.entry_button')}
+            </span>
+            <span className="block text-xs text-emerald-700 mt-0.5">
+              {t('topicListening.entry_subtitle')}
+            </span>
+          </span>
+          <span className="text-lg flex-none text-emerald-400">→</span>
         </button>
       )}
 
