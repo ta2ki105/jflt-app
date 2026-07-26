@@ -85,6 +85,21 @@ export const MESSAGES = {
           desc:
             'Added an "All Topics (Shuffle)" option to the exam-prep vocabulary trainer, for both the quiz and flashcards. Instead of practicing one topic pack at a time, you can now go through all 195 words pooled together in one shuffled round.',
         },
+        topic_vocab_listening_shuffle_all_2026_07: {
+          title: 'Shuffle All Topics for listening practice',
+          desc:
+            'Added a button to mix every topic-vocab listening question (all 26) into one randomized run, tagged with which pack each question came from. Sits above the per-topic list.',
+        },
+        topic_vocab_listening_coverage_2026_07: {
+          title: 'More listening questions for wider vocabulary coverage',
+          desc:
+            "The Jesús pack (92 words) only had 3 listening questions covering about a quarter of its vocabulary, so we added 9 more (12 total). The Extradition pack got 2 more (5 total) to close its remaining gaps. Combined pool is now 26 questions across all 5 topics.",
+        },
+        topic_vocab_listening_2026_07: {
+          title: 'Listening practice for topic vocabulary (15 questions)',
+          desc:
+            "Added 3 JFLT L3-level listening questions per topic-vocab pack (treaties, NATO deployment, extradition, Jesús pack, NATO acronyms), each built from that pack's own words. Reachable via a new button below the vocabulary banner on the Practice welcome screen.",
+        },
         flashcard_overlap_fix_2026_07: {
           title: 'Fixed flashcard button overlap',
           desc:
@@ -586,6 +601,18 @@ export const MESSAGES = {
       marked_empty: "You haven't marked any words in this topic yet.",
     },
 
+    topicListening: {
+      entry_button: 'Listening Practice — Topic Vocabulary (26 questions)',
+      entry_subtitle: "~90-second L3 passages built from each pack's own words",
+      hub_title: 'Topic Vocabulary — Listening Practice',
+      hub_body:
+        'Pick a topic to practice its JFLT L3-level listening questions, or shuffle every topic together.',
+      question_count: '{count} questions',
+      empty: 'No questions available for this topic yet.',
+      shuffle_all_button: 'Shuffle All Topics',
+      shuffle_all_subtitle: 'All {count} questions mixed together, in random order',
+    },
+
     writing: {
       header_title: '✍️ Writing Practice — AI Coach Script',
       header_body:
@@ -752,6 +779,21 @@ export const MESSAGES = {
           title: '直前対策の全トピックをまとめてシャッフル練習',
           desc:
             '直前対策の専門語彙トレーナーに「全トピック（シャッフル）」を追加しました。クイズ・フリップカードどちらも、トピックごとではなく195語全部をまとめてシャッフルした状態で練習できます。',
+        },
+        topic_vocab_listening_shuffle_all_2026_07: {
+          title: '全トピックシャッフルを追加',
+          desc:
+            '全26問すべてのリスニング問題を一つにまとめてランダムな順番で出題するボタンを追加しました。どのパックの問題かバッジで表示されます。分野一覧の上に配置されています。',
+        },
+        topic_vocab_listening_coverage_2026_07: {
+          title: 'リスニング問題を追加してカバー範囲を拡大',
+          desc:
+            '重要単語 by Jesúsパック（92語）は3問だけでは全体の約4分の1しかカバーできていなかったため、9問追加（計12問）しました。国際犯罪人引渡しパックにも2問追加（計5問）し、残っていた未収録語を補いました。全5トピック合計で26問になりました。',
+        },
+        topic_vocab_listening_2026_07: {
+          title: '専門語彙リスニング問題を追加（全15問）',
+          desc:
+            '各語彙パック（条約の締結、NATO軍の展開、国際犯罪人引渡し、重要単語 by Jesús、NATO・軍事略語）ごとに、その単語を使ったJFLTレベル3のリスニング問題を3問ずつ追加しました。練習タブの語彙バナー下にあるボタンから利用できます。',
         },
         flashcard_overlap_fix_2026_07: {
           title: 'フリップカードのボタン重なりを修正',
@@ -1253,6 +1295,17 @@ export const MESSAGES = {
       marked_count: '{count}語マーク済み',
       marked_only_toggle: 'マークした単語だけで練習する（{count}語）',
       marked_empty: 'このトピックにはまだマークした単語がありません。',
+    },
+
+    topicListening: {
+      entry_button: '語彙リスニング問題（全26問）',
+      entry_subtitle: 'その単語を使った約90秒のレベル3リスニング',
+      hub_title: '専門語彙リスニング問題',
+      hub_body: '分野を選んでリスニング問題を練習するか、全分野をまとめてシャッフルできます。',
+      question_count: '{count}問',
+      empty: 'このトピックの問題はまだありません。',
+      shuffle_all_button: '全トピックシャッフル',
+      shuffle_all_subtitle: '全{count}問をランダムな順番でまとめて出題',
     },
 
     writing: {

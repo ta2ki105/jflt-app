@@ -18,6 +18,7 @@ import UpdatesPanel from './components/UpdatesPanel.jsx';
 import PastExamGate from './components/PastExamGate.jsx';
 import PastExamPanel from './components/PastExamPanel.jsx';
 import TopicVocabHub from './components/TopicVocabHub.jsx';
+import TopicVocabListeningHub from './components/TopicVocabListeningHub.jsx';
 import { isUnlocked as isPastExamUnlocked, setUnlocked as setPastExamUnlocked, TRIGGER_CLICKS } from './pastExamAuth.js';
 import './App.css';
 
@@ -76,6 +77,10 @@ export default function App() {
   // entered from either the Practice welcome screen or the Vocab practice
   // screen; swaps out the regular question flow.
   const [showTopicVocab, setShowTopicVocab] = useState(false);
+  // Listening-practice zone built from the same topic-vocab packs (3
+  // questions per topic), entered from a separate button on the welcome
+  // screen, just below the topic-vocab banner.
+  const [showTopicListening, setShowTopicListening] = useState(false);
   // Past-exam hidden access (footer-click gated).
   const [pastExamReady, setPastExamReady] = useState(() => isPastExamUnlocked());
   const [showPastExamGate, setShowPastExamGate] = useState(false);
@@ -145,6 +150,7 @@ export default function App() {
     setAnswered(false);
     setShuffleSeed(Date.now());
     setShowTopicVocab(false);
+    setShowTopicListening(false);
   }, [category, level]);
 
   const questions = useMemo(
@@ -345,28 +351,42 @@ export default function App() {
       </header>
 
       <main className="max-w-3xl mx-auto px-4 py-6">
-        {currentTab === 'questions' && !practiceStarted && !showTopicVocab && (
-          <PracticeWelcome
-            datasets={DATASETS}
-            category={category}
-            setCategory={setCategory}
-            level={level}
-            setLevel={setLevel}
-            onStart={() => {
-              setShuffleSeed(Date.now());
-              setCurrentIndex(0);
-              setPracticeStarted(true);
-            }}
-            goToGradingTab={() => setCurrentTab('grading')}
-            onOpenTopicVocab={() => setShowTopicVocab(true)}
-          />
-        )}
+        {currentTab === 'questions' &&
+          !practiceStarted &&
+          !showTopicVocab &&
+          !showTopicListening && (
+            <PracticeWelcome
+              datasets={DATASETS}
+              category={category}
+              setCategory={setCategory}
+              level={level}
+              setLevel={setLevel}
+              onStart={() => {
+                setShuffleSeed(Date.now());
+                setCurrentIndex(0);
+                setPracticeStarted(true);
+              }}
+              goToGradingTab={() => setCurrentTab('grading')}
+              onOpenTopicVocab={() => setShowTopicVocab(true)}
+              onOpenTopicListening={() => setShowTopicListening(true)}
+            />
+          )}
 
         {currentTab === 'questions' && showTopicVocab && (
           <TopicVocabHub onExit={() => setShowTopicVocab(false)} apiKey={apiKey} />
         )}
 
-        {currentTab === 'questions' && practiceStarted && !showTopicVocab && (
+        {currentTab === 'questions' && showTopicListening && (
+          <TopicVocabListeningHub
+            onExit={() => setShowTopicListening(false)}
+            apiKey={apiKey}
+          />
+        )}
+
+        {currentTab === 'questions' &&
+          practiceStarted &&
+          !showTopicVocab &&
+          !showTopicListening && (
           <div className="space-y-4 fade-in">
             {/* Compact selectors + change button */}
             <div className="flex flex-wrap gap-2 items-center">
@@ -382,6 +402,7 @@ export default function App() {
                 onClick={() => {
                   setPracticeStarted(false);
                   setShowTopicVocab(false);
+                  setShowTopicListening(false);
                 }}
                 className="ml-auto px-3 py-1 text-xs rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-50"
               >
