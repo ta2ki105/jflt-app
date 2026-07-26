@@ -61,10 +61,10 @@ export default function TopicVocabFlashcards({ topic, apiKey, marks, onToggleMar
             setFlipped((f) => !f);
           }
         }}
-        className="relative w-full min-h-[220px] bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center gap-3 px-6 py-8 text-center hover:border-indigo-300 transition-colors fade-in cursor-pointer"
+        className="relative w-full min-h-[220px] bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center px-6 py-8 text-center hover:border-indigo-300 transition-colors fade-in cursor-pointer"
       >
         <div
-          className="absolute top-3 right-3 flex items-center gap-2"
+          className="w-full flex items-center justify-end gap-2 mb-2"
           onClick={(e) => e.stopPropagation()}
         >
           <AudioPlayer text={card.term} apiKey={apiKey} label={t('card.hearWord')} />
@@ -83,6 +83,7 @@ export default function TopicVocabFlashcards({ topic, apiKey, marks, onToggleMar
           </button>
         </div>
 
+        <div className="flex flex-col items-center justify-center gap-3 flex-1">
         {!flipped ? (
           <>
             <span className="text-xs text-slate-400">{t('topicVocab.flash_front_hint')}</span>
@@ -104,6 +105,7 @@ export default function TopicVocabFlashcards({ topic, apiKey, marks, onToggleMar
             <span className="text-xs text-slate-400">{t('topicVocab.flash_back_hint')}</span>
           </>
         )}
+        </div>
       </div>
 
       <div className="flex items-center justify-between">
