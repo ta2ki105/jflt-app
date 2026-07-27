@@ -85,6 +85,11 @@ export const MESSAGES = {
           desc:
             'Added an "All Topics (Shuffle)" option to the exam-prep vocabulary trainer, for both the quiz and flashcards. Instead of practicing one topic pack at a time, you can now go through all 195 words pooled together in one shuffled round.',
         },
+        topic_vocab_reading_23_2026_07: {
+          title: 'Two more reading-vocabulary packs (40 words)',
+          desc:
+            'Added packs II (30 more advanced words) and III (10 idioms/phrases like "lay waste to", "at the expense of") covering the rest of the vocabulary from the same reading passages as the first reading pack.',
+        },
         topic_vocab_reading_2026_07: {
           title: 'New pack: Reading vocabulary (30 words)',
           desc:
@@ -584,7 +589,7 @@ export const MESSAGES = {
 
     topicVocab: {
       entry_badge: 'Exam Prep',
-      entry_button: 'Diplomacy / NATO / Extradition + More (225 words)',
+      entry_button: 'Diplomacy / NATO / Extradition + More (265 words)',
       entry_subtitle: 'Specialized words worth reviewing right before the real exam',
       hub_title: 'Specialized Vocabulary — L3 Listening Focus',
       hub_body:
@@ -787,6 +792,11 @@ export const MESSAGES = {
           title: '直前対策の全トピックをまとめてシャッフル練習',
           desc:
             '直前対策の専門語彙トレーナーに「全トピック（シャッフル）」を追加しました。クイズ・フリップカードどちらも、トピックごとではなく195語全部をまとめてシャッフルした状態で練習できます。',
+        },
+        topic_vocab_reading_23_2026_07: {
+          title: 'リーディング語彙パックをさらに2つ追加（40語）',
+          desc:
+            'パック②（さらに高難度語彙30語）とパック③（"lay waste to"、"at the expense of" などの熟語・イディオム10個）を追加しました。パック①と同じ過去問リーディング問題群から残りの語彙をまとめています。',
         },
         topic_vocab_reading_2026_07: {
           title: '新パック：リーディング語彙（30語）',
@@ -1288,7 +1298,7 @@ export const MESSAGES = {
 
     topicVocab: {
       entry_badge: '直前対策',
-      entry_button: '外交・NATO・引渡し語彙＋もっと（225語）',
+      entry_button: '外交・NATO・引渡し語彙＋もっと（265語）',
       entry_subtitle: '本番前にチェックしておきたい専門語彙',
       hub_title: '専門語彙 — L3リスニング頻出',
       hub_body:

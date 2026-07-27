@@ -3,11 +3,14 @@
 // extradition, a broader mixed pack ("Essential Vocabulary by Jesús")
 // covering military/security, NATO & UN, Italian Air Force, aviation,
 // politics, economy, current affairs, and natural disasters, a set of
-// NATO/US military acronyms (USAF, CENTCOM, DoD, HQ, etc.), and a
-// reading-vocabulary pack drawn from the past-exam reading batch in
-// past-exam-data.js (advanced/low-frequency words like "exorbitant",
-// "rudimentary", "cumulative" — same register the user confirmed they
-// didn't already know via a 10-word check before this pack was built).
+// NATO/US military acronyms (USAF, CENTCOM, DoD, HQ, etc.), and three
+// reading-vocabulary packs (I/II/III) drawn from the past-exam reading
+// batch in past-exam-data.js — advanced/low-frequency words and idioms
+// (e.g. "exorbitant", "rudimentary", "cumulative", "lay waste to")
+// at the difficulty tier the user confirmed via a 10-word check before
+// pack I was built. Packs II and III cover the remaining vocabulary
+// from those same 27 reading passages that pack I didn't get to:
+// II is single/compound words, III is idioms and multi-word phrases.
 //
 // Unlike vocab-data.js (VOCAB), these are NOT part of the scored
 // Reading/Listening/Vocab/Grammar corpus and don't feed grading-mode or
@@ -292,6 +295,62 @@ export const TOPIC_VOCAB = [
       { term: 'contaminate', jp: '汚染する', example: 'The naturally occurring arsenic that contaminated the subterranean sources was ignored.', exampleJa: '地下水源を汚染していた自然由来のヒ素は見過ごされていた。' },
       { term: 'cumulative', jp: '累積的な、積み重なる', example: 'There is no treatment for poisoning, and it is the cumulative dose that kills.', exampleJa: '中毒に治療法はなく、命を奪うのは累積した摂取量である。' },
       { term: 'negligent', jp: '怠慢な、注意義務を欠いた', example: 'Some experts say Unicef may have been negligent in conducting preliminary testing.', exampleJa: '一部の専門家は、ユニセフが予備調査において注意義務を欠いていた可能性があると指摘している。' },
+    ],
+  },
+  {
+    id: 'reading_vocab_2',
+    icon: '🗞️',
+    labelEn: 'Past-Exam Reading Vocabulary II',
+    labelJa: '過去問リーディング頻出語彙②',
+    words: [
+      { term: 'booming', jp: '好景気の、急成長している', example: "According to recent figures, loan sharking has become one of Italy's booming businesses.", exampleJa: '最近の統計によると、闇金融はイタリアで急成長している業種の一つになっている。' },
+      { term: 'deeply rooted', jp: '深く根付いた', example: "Although the number of filed complaints has dropped considerably, loan sharking remains deeply rooted in the nation's social and economic fabric.", exampleJa: '苦情件数はかなり減少したものの、闇金融は依然として国の社会・経済構造に深く根付いている。' },
+      { term: 'convicted', jp: '有罪判決を受けた', example: 'The legislation allows for the immediate confiscation of assets of convicted loan sharks.', exampleJa: 'この法律は有罪判決を受けた闇金融業者の資産の即時没収を認めている。' },
+      { term: 'sponsored', jp: '資金提供を受けた、後援された', example: 'Mr. Arched also distributed propaganda sponsored by Osama bin Laden.', exampleJa: 'アーシェド容疑者はオサマ・ビンラディンの資金提供による宣伝工作物も配布していた。' },
+      { term: 'resist', jp: '抵抗する、屈しない', example: 'Italy would resist political pressure from Turkey to extradite a top Kurdish rebel leader.', exampleJa: 'イタリアはクルド人反政府勢力指導者の引渡しを求めるトルコからの政治的圧力に屈しないとした。' },
+      { term: 'barrister', jp: '法廷弁護士', example: 'In a letter sent to judges and senior barristers, Lord Irvine said he wants to promote the new law.', exampleJa: 'アーヴィン卿は裁判官と上級法廷弁護士に宛てた書簡の中で、この新法を推進したいと述べた。' },
+      { term: 'ruling', jp: '判決、裁定', example: "Irvine's plans follow a Lords' ruling issued last year.", exampleJa: 'アーヴィン卿の計画は、昨年出された貴族院の判決を受けたものである。' },
+      { term: 'legal aid', jp: '法的扶助', example: 'A worker in Namibia was allowed to sue his employer in a British court due to the lack of legal aid in Namibia.', exampleJa: 'ナミビアの労働者は、同国に法的扶助が不足していたため、英国の裁判所で雇用主を訴えることを認められた。' },
+      { term: 'statute', jp: '法令、制定法', example: 'The new statute would put the burden of proof on the accused.', exampleJa: '新しい法令は立証責任を被告人側に課すことになる。' },
+      { term: 'hostage', jp: '人質', example: 'An organization returned its hostage to his family inside a refrigerator after being paid millions of dollars for his release.', exampleJa: 'ある組織は数百万ドルの身代金を受け取った後、人質を冷蔵庫に入れた状態で家族の元へ返した。' },
+      { term: 'ambitious', jp: '野心的な', example: 'Hong Kong threatens to become a favourite playground for ambitious criminals.', exampleJa: '香港は野心的な犯罪者たちの格好の遊び場になりつつある。' },
+      { term: 'inconspicuously', jp: '目立たないように', example: 'Hundreds of nuclear scientists, FBI and CIA agents, dressed as inconspicuously as possible, had fanned out through the French Quarters.', exampleJa: '何百人もの核科学者、FBI、CIAの捜査官たちが、できるだけ目立たない服装でフレンチクォーター中に展開した。' },
+      { term: 'persuaded', jp: '説得した', example: 'The government together with Unicef persuaded villagers not to drink the disease-carrying pond water.', exampleJa: '政府はユニセフとともに、病気を媒介する池の水を飲まないよう住民を説得した。' },
+      { term: 'exhaustive', jp: '徹底的な、網羅的な', example: 'Some experts say Unicef failed to do exhaustive testing when it helped build the tube well program.', exampleJa: '一部の専門家は、ユニセフが井戸建設事業を支援した際に徹底的な調査を怠ったと指摘している。' },
+      { term: 'ulcers', jp: '潰瘍', example: 'Today, the ulcers on the hands and feet of the people are signs of advanced arsenic poisoning.', exampleJa: '今日、人々の手足に見られる潰瘍は、進行したヒ素中毒の兆候である。' },
+      { term: 'subterranean', jp: '地下の', example: 'The naturally occurring arsenic that contaminated the subterranean sources was ignored.', exampleJa: '地下水源を汚染していた自然由来のヒ素は見過ごされていた。' },
+      { term: 'authorized', jp: '許可した、承認した', example: "A German court accused Iran's leaders of having authorized a terrorist attack in a Berlin bar.", exampleJa: 'ドイツの裁判所はイラン指導部がベルリンのバーでのテロ攻撃を許可したと断じた。' },
+      { term: 'demonstrators', jp: 'デモ参加者', example: 'The ruling has brought anti-German demonstrators onto the streets of Teheran.', exampleJa: 'この判決はテヘランの街頭にドイツに反対するデモ参加者を繰り出させた。' },
+      { term: 'decisive', jp: '決定的な', example: 'The wave of immigration in Italy represents a decisive moment for Italian society.', exampleJa: 'イタリアにおける移民の波は、イタリア社会にとって決定的な瞬間を意味している。' },
+      { term: 'emigration', jp: '（国外への）移住、出国', example: 'Italy, previously known as a country with a high proportion of births and heavy emigration, has reduced that proportion.', exampleJa: 'かつて出生率が高く国外への移住も多いことで知られていたイタリアは、その比率を減少させてきた。' },
+      { term: 'absorbed', jp: '吸収した、受け入れた', example: 'Italy has absorbed more than a million legal and illegal immigrants.', exampleJa: 'イタリアは100万人を超える合法・不法移民を受け入れてきた。' },
+      { term: 'multiracial', jp: '多人種の', example: 'The changes taking place in Italian culture due to this extensive multiracial and multicultural mix will probably be both radical and permanent.', exampleJa: 'この広範な多人種・多文化の混合によってイタリア文化に起きている変化は、おそらく根本的かつ恒久的なものとなるだろう。' },
+      { term: 'multicultural', jp: '多文化の', example: 'The changes taking place in Italian culture due to this extensive multiracial and multicultural mix will probably be both radical and permanent.', exampleJa: 'この広範な多人種・多文化の混合によってイタリア文化に起きている変化は、おそらく根本的かつ恒久的なものとなるだろう。' },
+      { term: 'radical', jp: '根本的な、急進的な', example: 'The changes taking place in Italian culture due to this extensive multiracial and multicultural mix will probably be both radical and permanent.', exampleJa: 'この広範な多人種・多文化の混合によってイタリア文化に起きている変化は、おそらく根本的かつ恒久的なものとなるだろう。' },
+      { term: 'laboratory', jp: '実験の場、研究の場', example: 'Italy can therefore serve as a laboratory for studying how to accommodate and promote racial ethnic diversity.', exampleJa: 'したがってイタリアは、人種的・民族的多様性をいかに受け入れ促進するかを研究するための実験の場となり得る。' },
+      { term: 'accommodate', jp: '受け入れる、対応する', example: 'Italy can therefore serve as a laboratory for studying how to accommodate and promote racial ethnic diversity.', exampleJa: 'したがってイタリアは、人種的・民族的多様性をいかに受け入れ促進するかを研究するための実験の場となり得る。' },
+      { term: 'onlookers', jp: '見物人、野次馬', example: 'Shortly after the blast, shocked onlookers had filled the streets.', exampleJa: '爆発の直後、衝撃を受けた見物人たちが通りを埋め尽くした。' },
+      { term: 'radioactive', jp: '放射性の', example: 'All anyone would need is 25 kg of enriched uranium and the heart of the city would turn into radioactive dust.', exampleJa: '誰であれ濃縮ウラン25キログラムさえあれば、街の中心部は放射性の粉塵と化してしまう。' },
+      { term: 'frantically', jp: '必死に、大慌てで', example: 'Agents at the downtown headquarters had been working frantically all morning since the phone call had come in.', exampleJa: '電話がかかってきて以来、ダウンタウンの本部にいた捜査官たちは午前中ずっと必死に作業を続けていた。' },
+      { term: 'nonchalantly', jp: 'さりげなく、平然と', example: 'At the end of the corridor, they looked back nonchalantly, then ducked into the stairwell.', exampleJa: '廊下の端で、彼らはさりげなく後ろを振り返り、それから階段室へと身を隠した。' },
+    ],
+  },
+  {
+    id: 'reading_vocab_3',
+    icon: '📄',
+    labelEn: 'Past-Exam Reading Vocabulary III (Idioms & Phrases)',
+    labelJa: '過去問リーディング頻出語彙③（熟語・イディオム）',
+    words: [
+      { term: 'at the expense of', jp: '～を犠牲にして', example: 'If the British Government is so keen on protecting its own national interests at the expense of the rights of the Third World, then something has gone badly wrong.', exampleJa: '英国政府が第三世界の権利を犠牲にしてまで自国の経済的利益の保護に熱心であるとすれば、何かが大きく間違っている。' },
+      { term: 'a flood of', jp: '大量の、殺到する～', example: "A change in the law would prevent multinationals from moving their headquarters out of Britain and \"protect\" them from a flood of expensive claims.", exampleJa: 'この法改正は多国籍企業が英国から本社を移転するのを防ぎ、大量の高額な訴訟から企業を「保護」することになる。' },
+      { term: 'favourite playground', jp: '格好の遊び場', example: 'Hong Kong threatens to become a favourite playground for ambitious criminals.', exampleJa: '香港は野心的な犯罪者たちの格好の遊び場になりつつある。' },
+      { term: 'lay waste to', jp: '～を壊滅させる、荒廃させる', example: 'All anyone would need to lay waste to a medium-size city like New Orleans is 25 kg. of enriched uranium.', exampleJa: 'ニューオーリンズのような中規模都市を壊滅させるのに必要なのは、濃縮ウラン25キログラムだけである。' },
+      { term: 'fanned out', jp: '展開した、散開した', example: 'Hundreds of nuclear scientists, FBI and CIA agents had fanned out through the French Quarters carrying hidden radiation detectors.', exampleJa: '何百人もの核科学者やFBI、CIAの捜査官が、隠し持った放射線検知器を携えてフレンチクォーター中に展開した。' },
+      { term: 'ripped off', jp: '引きちぎった、剥ぎ取った', example: 'The bomb, containing two and a half tons of explosives, had ripped off the front half of an eight-story apartment building.', exampleJa: '2.5トンの爆薬を含むその爆弾は、8階建てのアパートの前半分を吹き飛ばしていた。' },
+      { term: 'enriched uranium', jp: '濃縮ウラン', example: 'All anyone would need to lay waste to a medium-size city like New Orleans is 25 kg. of enriched uranium.', exampleJa: 'ニューオーリンズのような中規模都市を壊滅させるのに必要なのは、濃縮ウラン25キログラムだけである。' },
+      { term: 'maximum security', jp: '最高警備の、厳重警備の', example: 'A nuclear device would be made to explode unless two inmates detained in the Dallas maximum security prison were released.', exampleJa: 'ダラスの厳重警備刑務所に収監されている2人の受刑者が釈放されない限り、核装置は爆発させられることになっていた。' },
+      { term: 'swooped overhead', jp: '上空を旋回した', example: 'Helicopters equipped with spy cameras swooped overhead and rental vans packed with high-tech electronics roamed the streets.', exampleJa: 'スパイカメラを搭載したヘリコプターが上空を旋回し、最新電子機器を積んだレンタルバンが街中を巡回した。' },
+      { term: 'cross the border', jp: '国境を越える', example: 'Investigations are made even more difficult by the fact that it is now extremely easy to cross the border from China.', exampleJa: '中国から国境を越えることが今や非常に容易になっているという事実が、捜査をさらに困難にしている。' },
     ],
   },
 ];
