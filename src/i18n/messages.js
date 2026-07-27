@@ -567,6 +567,8 @@ export const MESSAGES = {
       level_label: 'Level',
       starred_badge: '★ Confirmed on exam',
       level_empty: 'No questions at this level yet.',
+      type_reading: 'Reading',
+      type_listening: 'Listening',
     },
 
     topicVocab: {
@@ -1256,6 +1258,8 @@ export const MESSAGES = {
       level_label: 'レベル',
       starred_badge: '★ 本番頻出',
       level_empty: 'このレベルの問題はまだありません。',
+      type_reading: 'リーディング',
+      type_listening: 'リスニング',
     },
 
     topicVocab: {

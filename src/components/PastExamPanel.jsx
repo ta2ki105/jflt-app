@@ -103,6 +103,7 @@ export default function PastExamPanel({ apiKey, onLock }) {
 
   const safeIndex = index % filtered.length;
   const q = filtered[safeIndex];
+  const isReading = q.category === 'reading';
   const correctIndex = q.answer;
   const isCorrect = answered && selected === correctIndex;
   const optionLabels = ['A', 'B', 'C', 'D'];
@@ -128,6 +129,9 @@ export default function PastExamPanel({ apiKey, onLock }) {
           <span className="text-xs font-semibold px-2 py-0.5 rounded-md border bg-rose-100 text-rose-700 border-rose-200">
             🔒 {t('pastExam.badge')} · {t('pastExam.level_label')} {q.level}
           </span>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded-md border bg-slate-100 text-slate-600 border-slate-200">
+            {isReading ? `📖 ${t('pastExam.type_reading')}` : `🎧 ${t('pastExam.type_listening')}`}
+          </span>
           {q.starred && (
             <span
               className="text-xs font-semibold px-2 py-0.5 rounded-md border bg-amber-100 text-amber-800 border-amber-300"
@@ -147,7 +151,7 @@ export default function PastExamPanel({ apiKey, onLock }) {
               <AudioPlayer
                 text={q.passage}
                 apiKey={apiKey}
-                label={t('card.playAudio')}
+                label={isReading ? t('card.readAloud') : t('card.playAudio')}
               />
             </div>
           )}
@@ -155,7 +159,7 @@ export default function PastExamPanel({ apiKey, onLock }) {
 
         <div className="px-5 pb-3">
           <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-[15px] leading-relaxed text-slate-800 whitespace-pre-wrap">
-            {!answered ? (
+            {!isReading && !answered ? (
               <span className="text-slate-400 italic">
                 {t('card.listenInstruction')}
               </span>

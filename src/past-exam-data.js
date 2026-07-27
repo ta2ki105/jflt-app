@@ -22,11 +22,16 @@
 // Each entry shape matches listening-complete.js:
 //   { level, topic, passage, question, options[4], answer (0-3), ex }
 //
-// This file mixes two real-exam batches:
-//   • L2 — single-narrator recorded messages/news (answers 0-3 preserved)
-//   • L3 — interviews, briefings and two-person phone dialogues
-//          (M1/M2/F1 markers). Two questions can share one dialogue
-//          (police-prostitution No.33/34, traffic-accident No.31/32).
+// This file mixes real-exam batches:
+//   • L2 listening — single-narrator recorded messages/news
+//   • L3 listening — interviews, briefings and two-person phone
+//     dialogues (M1/M2/F1 markers). Two questions can share one
+//     dialogue (police-prostitution No.33/34, traffic-accident No.31/32).
+//   • L2 + L3 reading — short memos/ads/news passages, `category:
+//     'reading'` (see below). Read silently, not TTS scripts; several
+//     questions share one passage (Ocalan extradition, multinationals
+//     lawsuit-shield law, Bangladesh arsenic, Hong Kong kidnapping,
+//     Master Sgt Miles bombing, NEST nuclear device).
 //
 // ---------------------------------------------------------------------
 // PENDING / MISSING (L2 batch):
@@ -433,5 +438,455 @@ export const PAST_EXAM = [
     ],
     answer: 0,
     ex: "【正答】the situation is difficult to control（状況をコントロールするのは難しい）。 'a large humanitarian problem ... extremely difficult to check the identity ... Is there any way to stem the flow of this steady stream?' = 制御困難な状況を憂慮している。流れが終わりつつある (D) とは逆。",
+  },
+
+  // -------------------------------------------------------------------
+  // READING batch (L2 + L3) — short memos/ads/news passages read
+  // silently, not TTS scripts. `category: 'reading'` tells
+  // PastExamPanel to show the passage immediately instead of hiding it
+  // behind a "listen first" prompt, and to label the audio button
+  // "read aloud" rather than "play" (see card.readAloud).
+  //
+  // Correct answers were not marked in the source screenshots and were
+  // inferred here from the passage text; flag any that look off.
+  //
+  // PENDING: L2 "cassette advertisement" question below has only 2
+  // answer options in the source material (should normally be 4) —
+  // kept as-is rather than fabricating 2 more distractors. Replace
+  // with the full 4-option version if/when available.
+  // -------------------------------------------------------------------
+  {
+    level: 2,
+    category: 'reading',
+    topic: 'Memo — Major Forrest and target practice',
+    passage:
+      "Captain Miller,\nMajor Forrest called me to his office. Wants me to check the schedule for tomorrow's target practice. I'll try to finish the photocopying you wanted when I get back.\nW.O. Anderson",
+    question: 'Major Forrest ...',
+    options: [
+      'requested the presence of W.O. Anderson.',
+      'called his office for the schedule.',
+      'needs to speak to Captain Miller.',
+      'needs photocopies when he gets back.',
+    ],
+    answer: 0,
+    ex: "【正答】requested the presence of W.O. Anderson。 'Major Forrest called me [Anderson] to his office' = フォレスト少佐がアンダーソンを自室に呼んだ。スケジュール確認は呼び出された後の指示内容であって電話でのやり取りではない (B)。ミラー大尉と話したいのはフォレスト少佐ではなくこのメモの受取人 (C)。コピーが必要なのはミラー大尉であってフォレスト少佐ではない (D)。",
+  },
+  {
+    level: 2,
+    category: 'reading',
+    topic: 'News — loan sharking in Italy',
+    passage:
+      "According to recent figures, loan sharking has become one of Italy's booming businesses, employing more than 25,000 people. Loan sharks take in a third of their profits from about 120,000 retailers charging exorbitant interest rates. And although the number of filed complaints has dropped considerably in the last four years, loan sharking remains deeply rooted in the nation's social and economic fabric. The national retailers' association is therefore urging stringent enforcement of the current legislation which allows for the immediate confiscation of assets of convicted loan sharks. But, perhaps the best way to deter retailers from seeking illegal financing, experts say, is to make more funds available to businesses in difficulty.",
+    question: 'According to this article ...',
+    options: [
+      'store merchants are the largest number of tax evaders.',
+      'business people have recently increased their complaints.',
+      'store merchants often become victims of illegal financiers.',
+      'loan sharks attack waterfront businesses exclusively.',
+    ],
+    answer: 2,
+    ex: '【正答】store merchants often become victims of illegal financiers。 小売業者は闇金融業者から法外な金利を取られる被害者。苦情件数はここ4年で「減少」しており増加ではない (B は逆)。脱税への言及はなく (A)、業種を港湾関連に限定する記述もない (D)。',
+  },
+  {
+    level: 2,
+    category: 'reading',
+    topic: 'Advertisement — audio cassettes',
+    passage:
+      'FUGI AUDIO CASSETTE (Tape 90 minutes) 4.49 each. BUY 5 GET 1 FREE',
+    question: 'This advertisement shows us that...',
+    options: [
+      'the cassettes cost less than five dollars.',
+      'five cassettes last ninety minutes.',
+    ],
+    answer: 0,
+    ex: "【正答】the cassettes cost less than five dollars。 1本4.49ドル＝5ドル未満。90分は1本あたりのテープ長であり『5本で90分』ではない (B)。",
+  },
+  {
+    level: 2,
+    category: 'reading',
+    topic: 'News — Algiers bombing suspect arrested',
+    passage:
+      'ANTI-TERRORIST police units in Bologna have arrested an Algerian suspected of providing refuge, money and false documents to Algeria\'s Armed Islamic Group (AIG). Fetter Arched, 29, had "some kind of link" to the bombing of a market in Algiers last August 31, which killed 17 people. Investigators believe Mr. Arched gave assistance to members of the AIG claiming he also distributed propaganda sponsored by Osama bin Laden, the Saudi millionaire believed to have ordered the bombings of the U.S. Embassies in Tanzania and Kenya.',
+    question: 'According to this news item, Arched ...',
+    options: [
+      'received help from the AIG to carry out his work.',
+      'was partly responsible for a bombing in Algiers.',
+      'is an outlawed member of the AIG.',
+      'sponsored Osama bin Laden in his embassy attacks.',
+    ],
+    answer: 1,
+    ex: "【正答】was partly responsible for a bombing in Algiers。 'had \"some kind of link\" to the bombing ... which killed 17 people' = 爆破事件への部分的な関与。援助はアーシェドがAIGに『与えた』側であり『受けた』のではない (A は逆)。AIGの構成員であるとまでは明言されていない (C)。ビンラディンから宣伝工作を委託された側であり、逆に彼を『後援』したわけではない (D)。",
+  },
+  {
+    level: 2,
+    category: 'reading',
+    topic: 'Memo — informer transport route changed',
+    passage:
+      "Col. Stewart,\nFor security reasons, tomorrow's itinerary to transport our key police informer from the jailhouse to the courthouse has been changed. All units have been put on stand-by.\nWill stop by your office again before 14:00 to leave you a copy of the new route.\nMaj. Williams",
+    question: 'This message states that ...',
+    options: [
+      'police informers are hazardous to transport at all times.',
+      'the courthouse has been relocated along the new route.',
+      'Maj. Williams will notify Col. Stewart of the revised itinerary.',
+      'Col. Stewart needs a security clearance before 14:00.',
+    ],
+    answer: 2,
+    ex: "【正答】Maj. Williams will notify Col. Stewart of the revised itinerary。 'Will stop by your office ... to leave you a copy of the new route' = ウィリアムズ少佐がスチュワート大佐に新ルートを伝える。変更されたのは移送ルートであり裁判所自体が移転したわけではない (B)。『常に』危険という一般化 (A) やセキュリティクリアランスへの言及 (D) は本文にない。",
+  },
+  {
+    level: 2,
+    category: 'reading',
+    topic: 'Memo — report on extradition enforcement',
+    passage:
+      "Dear Don,\nPlease phone me regarding the report you'll be giving in Rome next week on the enforcement of international extradition requests. There are some points I'd like to clarify.\nGeneral Kyle",
+    question: 'Don ...',
+    options: [
+      'is requesting the extradition of a notorious criminal.',
+      'will be reporting on political asylum problems.',
+      'wishes to enforce cooperation among Italian police.',
+      "must explain some details of his report to his commander.",
+    ],
+    answer: 3,
+    ex: "【正答】must explain some details of his report to his commander。 'There are some points I'd like to clarify' = 上官（カイル将軍）が報告内容の説明を求めている。報告テーマは国際引渡し請求の『取締り』であって政治亡命問題ではない (B)。ドン自身が誰かの引渡しを求めているわけではない (A)。",
+  },
+  {
+    level: 2,
+    category: 'reading',
+    topic: 'Ticket — Merryland Amusement Park parking',
+    passage:
+      'WELCOME TO MERRYLAND AMUSEMENT PARK\nPARKING 6.00 $\nPLEASE LOCK THE VEHICLE AND MARK PARKING LOCATION BELOW\nSECTION: A-B-C-D-E-F-G-H- AISLE: 1-2-3-4-5-6-7-8-9-10-11-12-13-14',
+    question: 'This is...',
+    options: [
+      'an entrance ticket to Merryland.',
+      'a ticket for a car-park.',
+      'a ticket for a fun-park.',
+      'a ticket for a Merryland performance.',
+    ],
+    answer: 1,
+    ex: '【正答】a ticket for a car-park。 駐車料金・施錠・駐車位置の記入指示という内容から車の駐車券。入園券 (A) や公演のチケット (D) ではない。遊園地自体のチケット (C) と紛らわしいが、これはあくまで『駐車』のための券。',
+  },
+  {
+    level: 2,
+    category: 'reading',
+    topic: 'Notice — loss, theft or destruction of passport',
+    passage:
+      'LOSS, THEFT OR DESTRUCTION OF PASSPORT should be reported immediately to the local police authorities and to the Passport Services, Washington, D.C. 20520, or, if overseas, to the nearest American embassy or consulate. Your passport is a valuable citizenship and identity document. It should be carefully safeguarded.',
+    question: 'You must go to the authorities if you...',
+    options: [
+      "haven't safeguarded your personal assets.",
+      'are working in Washington D.C. or overseas.',
+      'cannot keep your personal documents with you.',
+      'misplace your passport or it is stolen or mutilated.',
+    ],
+    answer: 3,
+    ex: "【正答】misplace your passport or it is stolen or mutilated。 'LOSS, THEFT OR DESTRUCTION' の言い換え。勤務地がワシントンD.C.か海外か (B) は届出条件ではなく届出先の違いにすぎない。",
+  },
+  {
+    level: 2,
+    category: 'reading',
+    topic: 'News — Italy and the Ocalan extradition request',
+    passage:
+      'PRIME Minister promised on Monday that Italy would resist political pressure from Turkey to extradite a top Kurdish rebel leader, and would leave the decision to the Italian courts. Prime Minister said Italy would not be pressured or threatened. This is a democratic country that cannot be blackmailed by anyone, he added. Turkey has announced that it will soon present a formal extradition request for Abdullah Ocalan, the leader of the Kurdistan Workers\' Party, saying that Italy should not grant political asylum to a man whom it considers a murderer. Mr. Ocalan is the leader of an organization that has taken part in a 14 year old war in which more than 35,000 people have died. He is Turkey\'s most wanted man and also faces criminal charges in Germany.',
+    question: 'Italy will ...',
+    options: [
+      'extradite Ocalan to Turkey.',
+      "wait for the court's decision on Ocalan's status.",
+      'grant political asylum to Ocalan.',
+      'try Ocalan in an Italian court.',
+    ],
+    answer: 1,
+    ex: "【正答】wait for the court's decision on Ocalan's status。 'would leave the decision to the Italian courts' がそのまま該当。トルコへの引渡し (A) や亡命の許可 (C) はまだ決定していない。",
+  },
+  {
+    level: 2,
+    category: 'reading',
+    topic: 'Note — Hannah postpones a doctor appointment',
+    passage:
+      "Ian,\nOffice called - urgent problem\nNeed to represent client in court this morning.\nCan you please postpone my appointment with Dr. Eliot? I'll be back early this afternoon so we can do that shopping we talked about.\nSorry about lunch.\nHannah.",
+    question: 'Hannah ...',
+    options: [
+      'has an appointment to represent the doctor.',
+      'will go shopping after she sees the doctor.',
+      'needs to change her appointment with Dr. Eliot.',
+      'will meet Ian for lunch this afternoon.',
+    ],
+    answer: 2,
+    ex: "【正答】needs to change her appointment with Dr. Eliot。 'Can you please postpone my appointment with Dr. Eliot?' がそのまま該当。ハンナは医師『を代理する』のではなく法廷でクライアントを代理する (A)。ランチは『ごめんなさい』と断っており、午後に会うのは買い物のためであってランチではない (D)。",
+  },
+  {
+    level: 2,
+    category: 'reading',
+    topic: 'News — US-Mexico fast-track extradition program',
+    passage:
+      'Mexico and the United States have recently activated a bilateral program aimed at eliminating protracted extradition procedures and establishing a "fast-track" system of deportation and expulsion of criminals wanted on the other side of the border. Both governments have also announced the implementation of a monitoring program designed to avoid infiltration by narcotics dealers into anti-drug organizations. Finally, the police and military institutions of both countries will be able to share sensitive information directly.',
+    question: 'According to this news item ...',
+    options: [
+      'the U.S. and Mexico have put into operation a plan that will allow them to speed up the processing of criminal matters.',
+      'the Mexican and U.S. police have been exchanging sensitive information secretly for years.',
+      'the new program could turn out to be an example of a "revolving door" system of justice.',
+      'neither government is willing to monitor the infiltration of drug dealers into their country.',
+    ],
+    answer: 0,
+    ex: "【正答】the U.S. and Mexico have put into operation a plan that will allow them to speed up the processing of criminal matters。 'eliminating protracted extradition procedures ... \"fast-track\" system' = 手続きの迅速化。情報共有は『直接』行うと新たに合意した話であり『何年も秘密裏に』行ってきたわけではない (B)。麻薬密売人の浸透を防ぐ監視プログラムを『導入した』のであり監視に消極的なのではない (D は逆)。",
+  },
+  {
+    level: 2,
+    category: 'reading',
+    topic: "News — why Turkey wants Ocalan's extradition",
+    passage:
+      'PRIME Minister promised on Monday that Italy would resist political pressure from Turkey to extradite a top Kurdish rebel leader, and would leave the decision to the Italian courts. Prime Minister said Italy would not be pressured or threatened. This is a democratic country that cannot be blackmailed by anyone, he added. Turkey has announced that it will soon present a formal extradition request for Abdullah Ocalan, the leader of the Kurdistan Workers\' Party, saying that Italy should not grant political asylum to a man whom it considers a murderer. Mr. Ocalan is the leader of an organization that has taken part in a 14 year old war in which more than 35,000 people have died. He is Turkey\'s most wanted man and also faces criminal charges in Germany.',
+    question: "Turkey wants Ocalan's extradition because ...",
+    options: [
+      'he is a suspected war criminal guilty of murder.',
+      'he also faces charges in Germany.',
+      'the Kurdistan Workers\' Party needs him.',
+      "it disagrees with Italy's asylum rules.",
+    ],
+    answer: 0,
+    ex: "【正答】he is a suspected war criminal guilty of murder。 'a man whom it considers a murderer' + 35,000人が死亡した紛争の指導者、という記述から。ドイツでの訴追 (B) は補足事実であって引渡しを求める直接の理由ではない。",
+  },
+
+  // -------------------------------------------------------------------
+  // READING batch — Level 3
+  // -------------------------------------------------------------------
+  {
+    level: 3,
+    category: 'reading',
+    topic: 'News — Maori-based restorative justice scheme',
+    passage:
+      'A POLICE force is working on a scheme to confront young offenders with their victims in a project based on a Maori concept of justice which requires offenders, in front of their own friends and family, to explain to the victim why they have committed the crime.',
+    question: 'According to this news item, the plan ...',
+    options: [
+      'will be applied to all law breakers.',
+      'foresees a public confession.',
+      'is being designed for Maoris.',
+      'illustrates the Maori legal system.',
+    ],
+    answer: 1,
+    ex: "【正答】foresees a public confession。 'in front of their own friends and family, to explain ... why they have committed the crime' = 公衆の面前での告白に相当。対象は『若年犯罪者』でありすべての犯罪者ではない (A)。マオリの『概念』を応用した制度であって、マオリ人向け (C) やマオリの司法制度そのもの (D) を指すのではない。",
+  },
+  {
+    level: 3,
+    category: 'reading',
+    topic: 'News — UK law shielding multinationals from lawsuits',
+    passage:
+      'Multinationals are to be given protection from legal action taken in Britain by Third World workers. In a letter sent to judges and senior barristers, Lord Irvine, the Lord Chancellor, said he wants to promote the new law because it would shield all English corporations from legal action in British courts brought by Third World workers who claim exploitation and irreversible damages. A change in the law is desirable in that it would prevent multinationals from moving their headquarters out of Britain and "protect" them from a flood of expensive claims. The move, however, is being attacked. Trade unions and opposition politicians feel such an action goes against the trend of global economic and social rights. If the British Government is so keen on protecting its own national interests at the expense of the rights of the Third World, then something has gone badly wrong. The decision seriously undermine Britain\'s ethnical foreign policy which most say has not been drawn up only for the benefit of its Foreign Office. Foreign policy must lie at the heart of all thinking in government departments, including the Department of Labor. Irvine\'s plans follow a Lords\' ruling issued last year which stated that a worker in Namibia was allowed to sue his employer, an English mining corporation, in a British court due to the lack of legal aid in Namibia. Nonetheless, the Government argues that if multinationals based in England are exposed to such actions in the English courts, these companies may no longer wish to operate in England. Lawyers acting for third world workers on the other hand point out that several British multinationals operate in Third World countries which lack even a rudimentary legal system, making it impossible for workers in poverty to seek justice in their own country. If multinationals exploit less stringent standards and injure people in the process, then they should be held accountable.',
+    question: 'This article implies that the British Government ...',
+    options: [
+      'is ready to take legislative steps that protect its economic interests.',
+      'is unwilling to protect its corporations from foreign legal action.',
+      'is happy to sacrifice some of its corporations in the interest of benevolence.',
+      'supports lawyers who argue cases in British courts in the name of justice.',
+    ],
+    answer: 0,
+    ex: "【正答】is ready to take legislative steps that protect its economic interests。 多国籍企業を訴訟から守る新法を推進しようとしている＝経済的利益を守るための立法措置。企業を『守ろうとしない』(B) は逆。第三世界の労働者側で訴訟を起こす弁護士を『支持』しているわけではない (D)。",
+  },
+  {
+    level: 3,
+    category: 'reading',
+    topic: 'News — Morocco toughens drug trafficking penalties',
+    passage:
+      'The Moroccan government will soon present parliament with a package of "very harsh" proposals aimed at punishing convicted drug traffickers. According to the bill, a trafficker could be sentenced to up to 30 years in jail instead of the 10 years currently in force and be fined the equivalent of nearly U.S. $100,000. The legislation, drawn up by the Drug Fight Coordination Unit would inflict the same punishment for money laundering. The new statute would put the burden of proof on the accused who would have to provide evidence to show that his assets were legally acquired.',
+    question: 'This article tells us that ...',
+    options: [
+      'a person accused of a crime is innocent until proven guilty.',
+      'the new legislation will apply more stringent measures.',
+      'drug traffickers will have to pay an equivalent amount.',
+      'drug traffickers can stay out of jail if they bribe the right people.',
+    ],
+    answer: 1,
+    ex: '【正答】the new legislation will apply more stringent measures。 禁固刑を10年から30年に引き上げ、罰金約10万ドル、立証責任を被告側に転換、という内容全体を要約している。立証責任が被告側にある新制度は『推定無罪』の原則 (A) とはむしろ逆の方向。賄賂への言及はない (D)。',
+  },
+  {
+    level: 3,
+    category: 'reading',
+    topic: 'News — kidnapping business in Hong Kong',
+    passage:
+      'KIDNAPPING has become a lucrative business in Hong Kong and the former British colony threatens to become a favourite playground for ambitious criminals. One criminal organization is believed to have been responsible for as many as four of the biggest kidnappings in the past two years. On one occasion, an organization returned its hostage to his family inside a refrigerator after being paid millions of dollars for his release. Police officers complain that the rich and famous who are targets of these criminals are seldom cooperative - sometimes they do not even report the crime for fear of getting killed. In addition, investigations are made even more difficult by the fact that it is now extremely easy to cross the border from China and a new wave of criminal immigrants has, in recent months, succeeded in entering Hong Kong. Some even succeeded in robbing the offices of the U.S. Consul!',
+    question: 'Investigations are difficult because ...',
+    options: [
+      'hostages are often hidden on the Chinese mainland.',
+      'the police are afraid of retaliation against themselves and their families.',
+      'it is now very easy to travel to China.',
+      'victims rarely want the police to be involved.',
+    ],
+    answer: 3,
+    ex: "【正答】victims rarely want the police to be involved。 'seldom cooperative ... do not even report the crime for fear of getting killed' = 被害者自身が報復を恐れて非協力的。恐れているのは『警察』ではなく『被害者』(B は取り違え)。国境を越えやすいのは中国『から』であって中国『へ』ではない (C は方向が逆)。",
+  },
+  {
+    level: 3,
+    category: 'reading',
+    topic: 'News — arsenic contamination in Bangladesh',
+    passage:
+      "Bangladesh is, according to some experts, in the middle of possibly the biggest mass poisoning in history. Dangerous levels of arsenic have been found in the ground water affecting millions of people as they drink from a vast system of tube wells. Most of these hand-operated pumps are 10 to 20 years old, which is about the time it takes the arsenic to do its lethal work, killing with one of several cancers. Approximately twenty-five years ago, the government together with Unicef and other aid groups persuaded villagers not to drink the disease-carrying pond water and instead helped them put pipes into underground springs. The naturally occurring arsenic that contaminated the subterranean sources was ignored. Today, the ulcers on the hands and feet of the people are signs of advanced arsenic poisoning and this poses the highest cancer risk ever, experts claim. Every day that people continue to drink the poisoned water will result in more deaths in the years to come. Unfortunately, there is no treatment for poisoning, and it is the cumulative dose that kills. Only if a person stops drinking the arsenic at an early enough stage can physical deterioration be arrested. While some experts say Unicef failed to do exhaustive testing when it helped build the tube well program in the 1970's, the fact remains that millions of lives were saved. Now, water is tested for arsenic content both before and after any new pump is installed.",
+    question: 'According to this article ...',
+    options: [
+      'well pipes have a 25-year life span.',
+      'arsenic kills the minute it enters your body.',
+      'arsenic poisoning can be treated with antibiotics.',
+      'arsenic kills over a long period of time.',
+    ],
+    answer: 3,
+    ex: "【正答】arsenic kills over a long period of time。 'about the time it takes the arsenic to do its lethal work' + 'it is the cumulative dose that kills' = 蓄積して長期間かけて死に至らしめる。井戸の耐用年数が25年 (A) という記述はなく、25年は別の出来事（政府とユニセフの取り組み開始時期）の話。治療法は『存在しない』と明記 (C)。",
+  },
+  {
+    level: 3,
+    category: 'reading',
+    topic: "News — Germany's foreign policy priorities",
+    passage:
+      "A ruling by a German court accusing Iran's leaders of having authorized a terrorist attack in a Berlin bar has brought anti-German demonstrators onto the streets of Teheran. At the same time, Turks are accusing Germany of suggesting that Turkey cannot join the EU because most of its people are Muslims. Neither Iran nor Turkey is as important to Germany as things like European integration, staying close to America and doing profitable trade with the world. But, just when Germany is trying to expand its foreign policy, it is not pleased to discover that its links with two large Muslim countries have been damaged.",
+    question: 'Germany is most interested in ...',
+    options: [
+      'maintaining foreign relations and economic ties with other countries.',
+      'promoting an aggressive free-trade policy.',
+      'ensuring ties with other religions and social integration.',
+      'keeping Turkey out of the EU.',
+    ],
+    answer: 0,
+    ex: "【正答】maintaining foreign relations and economic ties with other countries。 'European integration, staying close to America and doing profitable trade with the world' がそのまま該当。トルコをEUから排除したい (D) というのはトルコ側の非難であってドイツ自身の関心事ではない。",
+  },
+  {
+    level: 3,
+    category: 'reading',
+    topic: "News — Unicef's role in the Bangladesh arsenic crisis",
+    passage:
+      "Bangladesh is, according to some experts, in the middle of possibly the biggest mass poisoning in history. Dangerous levels of arsenic have been found in the ground water affecting millions of people as they drink from a vast system of tube wells. Most of these hand-operated pumps are 10 to 20 years old, which is about the time it takes the arsenic to do its lethal work, killing with one of several cancers. Approximately twenty-five years ago, the government together with Unicef and other aid groups persuaded villagers not to drink the disease-carrying pond water and instead helped them put pipes into underground springs. The naturally occurring arsenic that contaminated the subterranean sources was ignored. Today, the ulcers on the hands and feet of the people are signs of advanced arsenic poisoning and this poses the highest cancer risk ever, experts claim. Every day that people continue to drink the poisoned water will result in more deaths in the years to come. Unfortunately, there is no treatment for poisoning, and it is the cumulative dose that kills. Only if a person stops drinking the arsenic at an early enough stage can physical deterioration be arrested. While some experts say Unicef failed to do exhaustive testing when it helped build the tube well program in the 1970's, the fact remains that millions of lives were saved. Now, water is tested for arsenic content both before and after any new pump is installed.",
+    question: 'This article states that Unicef ...',
+    options: [
+      'contaminated the water accidentally during testing.',
+      'ignored warnings from local government authorities.',
+      'may have been negligent in conducting preliminary testing.',
+      'used underground sources to prevent treatment.',
+    ],
+    answer: 2,
+    ex: "【正答】may have been negligent in conducting preliminary testing。 'Unicef failed to do exhaustive testing when it helped build the tube well program' がそのまま該当。ユニセフ自身が水を汚染したわけではなく、ヒ素は自然由来 (A)。地方自治体からの警告を無視した、という記述はない (B)。",
+  },
+  {
+    level: 3,
+    category: 'reading',
+    topic: 'News — kidnapping trend in Hong Kong',
+    passage:
+      'KIDNAPPING has become a lucrative business in Hong Kong and the former British colony threatens to become a favourite playground for ambitious criminals. One criminal organization is believed to have been responsible for as many as four of the biggest kidnappings in the past two years. On one occasion, an organization returned its hostage to his family inside a refrigerator after being paid millions of dollars for his release. Police officers complain that the rich and famous who are targets of these criminals are seldom cooperative - sometimes they do not even report the crime for fear of getting killed. In addition, investigations are made even more difficult by the fact that it is now extremely easy to cross the border from China and a new wave of criminal immigrants has, in recent months, succeeded in entering Hong Kong. Some even succeeded in robbing the offices of the U.S. Consul!',
+    question: 'In Hong Kong ...',
+    options: [
+      'Britain has threatened to close down big businesses.',
+      'there have been four kidnappings in the last two years.',
+      'kidnapping is now unfortunately on the rise.',
+      'the Chinese Mafia has overtaken the consulate.',
+    ],
+    answer: 2,
+    ex: "【正答】kidnapping is now unfortunately on the rise。 'KIDNAPPING has become a lucrative business ... threatens to become a favourite playground for ambitious criminals' から誘拐が増加傾向にあることが分かる。『4件』は一つの犯罪組織が関与したとされる件数であり (B)、香港全体の総数ではない。",
+  },
+  {
+    level: 3,
+    category: 'reading',
+    topic: 'News — immigration reshaping Italian society',
+    passage:
+      'THE wave of immigration in Italy represents a decisive moment for Italian society as it approaches the new millennium and creates a new identity for itself. Over the past two decades Italy, previously known as a country with a high proportion of births and heavy emigration, has reduced that proportion and has absorbed more than a million legal and illegal immigrants who are giving a new face to Italian society and adding new dimensions to its future. The changes that are taking place in Italian culture due to this extensive multiracial and multicultural mix will probably be both radical and permanent. Years from now, these decades may be seen as the period when a new Italy was created. Italy can therefore serve as a laboratory for studying how to accommodate and promote racial ethnic diversity under new conditions.',
+    question: 'The new immigrants ...',
+    options: [
+      'have some radical elements to sort out.',
+      'have reduced the Italian birthrate considerably.',
+      'are changing the contours of Italian society.',
+      'are downgrading racial and ethnic diversity.',
+    ],
+    answer: 2,
+    ex: "【正答】are changing the contours of Italian society。 'giving a new face to Italian society ... changes ... will probably be both radical and permanent' がそのまま該当。出生率低下 (B) はイタリア自身の従来からの傾向であり移民が引き起こしたものではない。移民は多様性を『高めて』おり『損なって』はいない (D は逆)。",
+  },
+  {
+    level: 3,
+    category: 'reading',
+    topic: 'News — Italy as a model of social integration',
+    passage:
+      'THE wave of immigration in Italy represents a decisive moment for Italian society as it approaches the new millennium and creates a new identity for itself. Over the past two decades Italy, previously known as a country with a high proportion of births and heavy emigration, has reduced that proportion and has absorbed more than a million legal and illegal immigrants who are giving a new face to Italian society and adding new dimensions to its future. The changes that are taking place in Italian culture due to this extensive multiracial and multicultural mix will probably be both radical and permanent. Years from now, these decades may be seen as the period when a new Italy was created. Italy can therefore serve as a laboratory for studying how to accommodate and promote racial ethnic diversity under new conditions.',
+    question: 'According to this article Italy ...',
+    options: [
+      'is safeguarding its ethnic purity at all costs.',
+      'is a country filled with babies and lots of new faces.',
+      'can be seen as an example of social integration.',
+      'is remaining the same in spite of its ethnic diversity.',
+    ],
+    answer: 2,
+    ex: "【正答】can be seen as an example of social integration。 'Italy can therefore serve as a laboratory for studying how to accommodate and promote racial ethnic diversity' がそのまま該当。『民族的純粋性を守っている』(A) とは正反対の内容。出生率は『低下』しており赤ちゃんで溢れているわけではない (B)。",
+  },
+  {
+    level: 3,
+    category: 'reading',
+    topic: 'Narrative — bombing at a soldiers\' apartment building',
+    passage:
+      "Master Sergeant William Miles had just walked out of his room and was heading for the elevator when the bomb exploded. It nearly knocked him off the ground. The lights had gone off just when he noticed the whole side of the building was falling. He looked around and as he tried to care for the other victims, he realized in that very moment that some people were already dead. He could feel a lot of blood on his hands and he knew it couldn't be sweat because it was too thick. He had been badly cut on the thigh, face and arms and as he lay in his hospital bed that night all he could recall were the flying pieces of glass and wall. Shortly after the blast, shocked onlookers had filled the streets. One survivor thought it had been the end of the world as he watched the others cry and sit down, cupping their hands to their ears. Later that night, two short-haired men wearing jeans and T-shirts, apparently forensic experts, closely examined the ground in search of clues. The bomb, containing two and a half tons of explosives, had ripped off the front half of an eight-story apartment building that housed the American soldiers at the foreign air base. By daybreak the following morning, the streets surrounding the blast had been cordoned off by military security forces as the search for more bodies and survivors continued ...",
+    question: 'According to this passage, Master Sergeant Miles ...',
+    options: [
+      'was cared for by the other victims.',
+      'fell out of the side of the building.',
+      'suffered facial and body injuries.',
+      'had thick, sweaty palms.',
+    ],
+    answer: 2,
+    ex: "【正答】suffered facial and body injuries。 'badly cut on the thigh, face and arms' がそのまま該当。彼自身が他の被害者を助けようとした側であり、助けられた側ではない (A は逆)。血は『汗にしては濃すぎる』と明記されており汗ではない (D)。",
+  },
+  {
+    level: 3,
+    category: 'reading',
+    topic: 'Narrative — NEST team searches for a nuclear device',
+    passage:
+      'All anyone would need to lay waste to a medium-size city like New Orleans is 25 kg. of enriched uranium and the heart of the city would turn into radioactive dust. That is what the NEST team had to make sure would not happen. Agents at the downtown headquarters had been working frantically all morning since the phone call had come in. A man with a deep foreign accent had warned that a nuclear device had been planted in the downtown Hilton. It would be made to explode by remote control by noon unless two inmates detained in the Dallas maximum security prison were released. The Hilton had thirty-two floors and two thousand rooms. The agents had to get to work immediately. Nothing could be left to chance. At 9:30 a.m., hundreds of normally lab-bound nuclear scientists, FBI and CIA agents, dressed as inconspicuously as possible, had fanned out through the French Quarters carrying hidden radiation detectors in their briefcases. Helicopters equipped with spy cameras swooped overhead and rental vans packed with high-tech electronics roamed the streets. Halfway down a corridor, Agent Becky suddenly heard "the voice", an irritating robotic message transmitted from the suitcase to a wireless, button-sized beige receiver in her ear. "Gamma alarm four", the voice droned. That was a strong radiation signal. She glanced left at the room number on the next door and subtracted three from it. The detector\'s microcomputer took several seconds to analyze the radiation and calculate the strength, so the room door behind her must have been the one actually giving off the gamma rays. Becky and her partner never turned around or slowed their pace, lest they would attract attention from other guests. At the end of the corridor, they looked back nonchalantly, then ducked into the stairwell. Becky pulled out a small radio from her purse. "We have a hit", she whispered, and relayed the room number. The searchers had found the nuclear device, which had been emitting a harmless amount of radiation, in less than two hours.',
+    question: 'Which of the following statements is TRUE?',
+    options: [
+      'The portable detector took some seconds to calculate radiation intensity.',
+      'Becky had a hit on the radio and consequently relayed the room number.',
+      'The searchers had been emitting very low amount of radiation.',
+      'The nuclear device had been buried in a plant in the hotel corridor.',
+    ],
+    answer: 0,
+    ex: "【正答】The portable detector took some seconds to calculate radiation intensity。 'The detector's microcomputer took several seconds to analyze the radiation and calculate the strength' がそのまま該当。放射線を発していたのは『核爆弾』であって『捜索隊』ではない (C は取り違え)。爆弾はホテルの一室にあったのであり『廊下に埋められていた』わけではない (D)。",
+  },
+  {
+    level: 3,
+    category: 'reading',
+    topic: 'News — the multinationals lawsuit-shield law (true statement)',
+    passage:
+      'Multinationals are to be given protection from legal action taken in Britain by Third World workers. In a letter sent to judges and senior barristers, Lord Irvine, the Lord Chancellor, said he wants to promote the new law because it would shield all English corporations from legal action in British courts brought by Third World workers who claim exploitation and irreversible damages. A change in the law is desirable in that it would prevent multinationals from moving their headquarters out of Britain and "protect" them from a flood of expensive claims. The move, however, is being attacked. Trade unions and opposition politicians feel such an action goes against the trend of global economic and social rights. If the British Government is so keen on protecting its own national interests at the expense of the rights of the Third World, then something has gone badly wrong. The decision seriously undermine Britain\'s ethnical foreign policy which most say has not been drawn up only for the benefit of its Foreign Office. Foreign policy must lie at the heart of all thinking in government departments, including the Department of Labor. Irvine\'s plans follow a Lords\' ruling issued last year which stated that a worker in Namibia was allowed to sue his employer, an English mining corporation, in a British court due to the lack of legal aid in Namibia. Nonetheless, the Government argues that if multinationals based in England are exposed to such actions in the English courts, these companies may no longer wish to operate in England. Lawyers acting for third world workers on the other hand point out that several British multinationals operate in Third World countries which lack even a rudimentary legal system, making it impossible for workers in poverty to seek justice in their own country. If multinationals exploit less stringent standards and injure people in the process, then they should be held accountable.',
+    question: 'Which one of the following statements is TRUE?',
+    options: [
+      'Lord Irvine welcomes the presence of British corporations so that they can be sued.',
+      'Third World workers are forcing British multinationals out of their countries.',
+      "Britain is willing to safeguard its national interests along with the rights of poor populations.",
+      "The new law is being criticized because it greatly weakens British foreign policy.",
+    ],
+    answer: 3,
+    ex: "【正答】The new law is being criticized because it greatly weakens British foreign policy。 'The decision seriously undermine Britain's ethnical foreign policy' がそのまま該当。アーヴィン卿は企業が『訴えられるよう』望んでいるのではなく逆に訴訟から『守ろう』としている (A は逆)。多国籍企業がイギリスから出て行きかねないという話であり、第三世界の国から追い出されているわけではない (B)。",
+  },
+  {
+    level: 3,
+    category: 'reading',
+    topic: 'Narrative — the forensic experts at the bombing site',
+    passage:
+      "Master Sergeant William Miles had just walked out of his room and was heading for the elevator when the bomb exploded. It nearly knocked him off the ground. The lights had gone off just when he noticed the whole side of the building was falling. He looked around and as he tried to care for the other victims, he realized in that very moment that some people were already dead. He could feel a lot of blood on his hands and he knew it couldn't be sweat because it was too thick. He had been badly cut on the thigh, face and arms and as he lay in his hospital bed that night all he could recall were the flying pieces of glass and wall. Shortly after the blast, shocked onlookers had filled the streets. One survivor thought it had been the end of the world as he watched the others cry and sit down, cupping their hands to their ears. Later that night, two short-haired men wearing jeans and T-shirts, apparently forensic experts, closely examined the ground in search of clues. The bomb, containing two and a half tons of explosives, had ripped off the front half of an eight-story apartment building that housed the American soldiers at the foreign air base. By daybreak the following morning, the streets surrounding the blast had been cordoned off by military security forces as the search for more bodies and survivors continued ...",
+    question: 'The forensic experts ...',
+    options: [
+      'dressed casually because they were off duty.',
+      'thoroughly examined the explosion area for evidence.',
+      'closely surrounded the streets of the blast.',
+      'were housed at the air base along with the soldiers.',
+    ],
+    answer: 1,
+    ex: "【正答】thoroughly examined the explosion area for evidence。 'closely examined the ground in search of clues' がそのまま該当。現場周辺の道路を封鎖したのは『軍の警備部隊』であり鑑識官ではない (C は取り違え)。私服だった理由が『非番だったから』とは明記されていない (A)。",
+  },
+  {
+    level: 3,
+    category: 'reading',
+    topic: 'Narrative — locating the nuclear device (true statement)',
+    passage:
+      'All anyone would need to lay waste to a medium-size city like New Orleans is 25 kg. of enriched uranium and the heart of the city would turn into radioactive dust. That is what the NEST team had to make sure would not happen. Agents at the downtown headquarters had been working frantically all morning since the phone call had come in. A man with a deep foreign accent had warned that a nuclear device had been planted in the downtown Hilton. It would be made to explode by remote control by noon unless two inmates detained in the Dallas maximum security prison were released. The Hilton had thirty-two floors and two thousand rooms. The agents had to get to work immediately. Nothing could be left to chance. At 9:30 a.m., hundreds of normally lab-bound nuclear scientists, FBI and CIA agents, dressed as inconspicuously as possible, had fanned out through the French Quarters carrying hidden radiation detectors in their briefcases. Helicopters equipped with spy cameras swooped overhead and rental vans packed with high-tech electronics roamed the streets. Halfway down a corridor, Agent Becky suddenly heard "the voice", an irritating robotic message transmitted from the suitcase to a wireless, button-sized beige receiver in her ear. "Gamma alarm four", the voice droned. That was a strong radiation signal. She glanced left at the room number on the next door and subtracted three from it. The detector\'s microcomputer took several seconds to analyze the radiation and calculate the strength, so the room door behind her must have been the one actually giving off the gamma rays. Becky and her partner never turned around or slowed their pace, lest they would attract attention from other guests. At the end of the corridor, they looked back nonchalantly, then ducked into the stairwell. Becky pulled out a small radio from her purse. "We have a hit", she whispered, and relayed the room number. The searchers had found the nuclear device, which had been emitting a harmless amount of radiation, in less than two hours.',
+    question: 'According to this extract ...',
+    options: [
+      'special agents swirled through the city with spy cameras and poison gas.',
+      'nuclear scientists swarmed the streets in special anti-radiation outfits.',
+      'the nuclear device had been subtracted from the room three floors down.',
+      'only one agent got close enough to the nuclear device to identify it.',
+    ],
+    answer: 3,
+    ex: "【正答】only one agent got close enough to the nuclear device to identify it。 放射線検知器を身につけ実際に信号を感知して現場を特定したのはベッキー一人であった。毒ガス (A) やアンチ放射線用の特殊装備 (B) への言及はなく、隊員たちは『できるだけ目立たない服装』をしていたとある。『部屋番号から3を引く』のはベッキーが行った計算手順であり、爆弾自体が『3階下の部屋から引き算された』という記述ではない (C)。",
   },
 ];
