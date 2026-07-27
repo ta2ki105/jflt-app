@@ -13,6 +13,9 @@ export default function PastExamPanel({ apiKey, onLock }) {
   // Level filter: 'all' | 2 | 3. Lets the user practise each level
   // separately.
   const [level, setLevel] = useState('all');
+  // Type filter: 'all' | 'reading' | 'listening'. Lets the user
+  // practise reading and listening items separately.
+  const [type, setType] = useState('all');
 
   useEffect(() => {
     let cancelled = false;
@@ -61,14 +64,23 @@ export default function PastExamPanel({ apiKey, onLock }) {
     );
   }
 
+  const typeOf = (x) => (x.category === 'reading' ? 'reading' : 'listening');
+
   const levels = Array.from(new Set(questions.map((x) => x.level))).sort(
     (a, b) => a - b
   );
-  const filtered =
-    level === 'all' ? questions : questions.filter((x) => x.level === level);
+  const matchesLevel = (x) => level === 'all' || x.level === level;
+  const matchesType = (x) => type === 'all' || typeOf(x) === type;
+  const filtered = questions.filter((x) => matchesLevel(x) && matchesType(x));
 
   const changeLevel = (v) => {
     setLevel(v);
+    setIndex(0);
+    setAnswered(false);
+    setSelected(null);
+  };
+  const changeType = (v) => {
+    setType(v);
     setIndex(0);
     setAnswered(false);
     setSelected(null);
@@ -80,12 +92,28 @@ export default function PastExamPanel({ apiKey, onLock }) {
       levels={levels}
       current={level}
       counts={{
-        all: questions.length,
+        all: questions.filter(matchesType).length,
         ...Object.fromEntries(
-          levels.map((lv) => [lv, questions.filter((x) => x.level === lv).length])
+          levels.map((lv) => [
+            lv,
+            questions.filter((x) => x.level === lv && matchesType(x)).length,
+          ])
         ),
       }}
       onChange={changeLevel}
+    />
+  );
+
+  const typeFilter = (
+    <TypeFilter
+      t={t}
+      current={type}
+      counts={{
+        all: questions.filter(matchesLevel).length,
+        reading: questions.filter((x) => matchesLevel(x) && typeOf(x) === 'reading').length,
+        listening: questions.filter((x) => matchesLevel(x) && typeOf(x) === 'listening').length,
+      }}
+      onChange={changeType}
     />
   );
 
@@ -93,9 +121,10 @@ export default function PastExamPanel({ apiKey, onLock }) {
     return (
       <div className="space-y-4 fade-in">
         <PanelHeader t={t} onLock={handleLock} />
+        {typeFilter}
         {levelFilter}
         <div className="bg-white rounded-2xl border border-slate-200 p-5 text-sm text-slate-600">
-          📭 {t('pastExam.level_empty')}
+          📭 {t('pastExam.filtered_empty')}
         </div>
       </div>
     );
@@ -122,6 +151,7 @@ export default function PastExamPanel({ apiKey, onLock }) {
   return (
     <div className="space-y-4 fade-in">
       <PanelHeader t={t} onLock={handleLock} />
+      {typeFilter}
       {levelFilter}
 
       <article className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
@@ -300,6 +330,42 @@ function LevelFilter({ t, levels, current, counts, onChange }) {
             <span
               className={`ml-1.5 text-xs ${
                 active ? 'text-rose-100' : 'text-slate-400'
+              }`}
+            >
+              {opt.count}
+            </span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function TypeFilter({ t, current, counts, onChange }) {
+  const options = [
+    { value: 'all', label: t('pastExam.filter_all'), count: counts.all },
+    { value: 'reading', label: `📖 ${t('pastExam.type_reading')}`, count: counts.reading },
+    { value: 'listening', label: `🎧 ${t('pastExam.type_listening')}`, count: counts.listening },
+  ];
+  return (
+    <div className="flex flex-wrap gap-2">
+      {options.map((opt) => {
+        const active = current === opt.value;
+        return (
+          <button
+            key={opt.value}
+            type="button"
+            onClick={() => onChange(opt.value)}
+            className={`px-3 py-1.5 text-sm rounded-lg border transition-colors ${
+              active
+                ? 'bg-slate-900 text-white border-slate-900'
+                : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
+            }`}
+          >
+            {opt.label}
+            <span
+              className={`ml-1.5 text-xs ${
+                active ? 'text-slate-300' : 'text-slate-400'
               }`}
             >
               {opt.count}
