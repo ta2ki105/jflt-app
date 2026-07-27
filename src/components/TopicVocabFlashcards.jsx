@@ -20,7 +20,8 @@ export default function TopicVocabFlashcards({ topic, apiKey, marks, onToggleMar
   const [flipped, setFlipped] = useState(false);
 
   const card = deck[index];
-  const isMarked = !!(marks && marks[markKey(topic.id, card.term)]);
+  const wordTopicId = card._topicId || topic.id;
+  const isMarked = !!(marks && marks[markKey(wordTopicId, card.term)]);
 
   const goNext = () => {
     setFlipped(false);
@@ -70,7 +71,7 @@ export default function TopicVocabFlashcards({ topic, apiKey, marks, onToggleMar
           <AudioPlayer text={card.term} apiKey={apiKey} label={t('card.hearWord')} />
           <button
             type="button"
-            onClick={() => onToggleMark && onToggleMark(card.term)}
+            onClick={() => onToggleMark && onToggleMark(card.term, wordTopicId)}
             title={isMarked ? t('topicVocab.unmark_button') : t('topicVocab.mark_button')}
             aria-pressed={isMarked}
             className={`w-9 h-9 rounded-lg border flex items-center justify-center text-base transition-colors ${

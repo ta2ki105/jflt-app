@@ -40,7 +40,8 @@ export default function TopicVocabQuiz({ topic, apiKey, marks, onToggleMark }) {
   const q = round[index];
   const optionLabels = ['A', 'B', 'C', 'D'];
   const isCorrect = answered && selected === q.answerIndex;
-  const isMarked = !!(marks && marks[markKey(topic.id, q.word.term)]);
+  const wordTopicId = q.word._topicId || topic.id;
+  const isMarked = !!(marks && marks[markKey(wordTopicId, q.word.term)]);
 
   const handleSelect = (idx) => {
     if (answered) return;
@@ -89,7 +90,7 @@ export default function TopicVocabQuiz({ topic, apiKey, marks, onToggleMark }) {
             <AudioPlayer text={q.word.term} apiKey={apiKey} label={t('card.hearWord')} />
             <button
               type="button"
-              onClick={() => onToggleMark && onToggleMark(q.word.term)}
+              onClick={() => onToggleMark && onToggleMark(q.word.term, wordTopicId)}
               title={isMarked ? t('topicVocab.unmark_button') : t('topicVocab.mark_button')}
               aria-pressed={isMarked}
               className={`w-9 h-9 rounded-lg border flex items-center justify-center text-base transition-colors ${
