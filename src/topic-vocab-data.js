@@ -2,8 +2,12 @@
 // often in that section: treaty conclusion, NATO force deployment,
 // extradition, a broader mixed pack ("Essential Vocabulary by Jesús")
 // covering military/security, NATO & UN, Italian Air Force, aviation,
-// politics, economy, current affairs, and natural disasters, and a set of
-// NATO/US military acronyms (USAF, CENTCOM, DoD, HQ, etc.).
+// politics, economy, current affairs, and natural disasters, a set of
+// NATO/US military acronyms (USAF, CENTCOM, DoD, HQ, etc.), and a
+// reading-vocabulary pack drawn from the past-exam reading batch in
+// past-exam-data.js (advanced/low-frequency words like "exorbitant",
+// "rudimentary", "cumulative" — same register the user confirmed they
+// didn't already know via a 10-word check before this pack was built).
 //
 // Unlike vocab-data.js (VOCAB), these are NOT part of the scored
 // Reading/Listening/Vocab/Grammar corpus and don't feed grading-mode or
@@ -250,6 +254,44 @@ export const TOPIC_VOCAB = [
       { term: 'CP', jp: '指揮所（Command Post）', example: 'Commanders directed the operation from the CP.', exampleJa: '指揮官たちは指揮所から作戦を指揮した。' },
       { term: 'OPS', jp: '作戦（Operations）', example: "The OPS officer briefed the team on tomorrow's mission.", exampleJa: '作戦担当将校は明日の任務についてチームに説明した。' },
       { term: 'POC', jp: '連絡窓口（Point of Contact）', example: 'Please contact the POC for further information.', exampleJa: '詳細については連絡窓口までお問い合わせください。' },
+    ],
+  },
+  {
+    id: 'reading_vocab',
+    icon: '📰',
+    labelEn: 'Past-Exam Reading Vocabulary',
+    labelJa: '過去問リーディング頻出語彙',
+    words: [
+      { term: 'exorbitant', jp: '法外な、途方もない', example: 'Loan sharks take in a third of their profits from about 120,000 retailers charging exorbitant interest rates.', exampleJa: '闇金融業者は、法外な金利を課す約12万の小売業者から利益の3分の1を得ている。' },
+      { term: 'deter', jp: '思いとどまらせる、抑止する', example: 'Perhaps the best way to deter retailers from seeking illegal financing is to make more funds available to businesses in difficulty.', exampleJa: '違法な融資を求めないよう小売業者を思いとどまらせる最善の方法は、経営難の企業により多くの資金を提供することかもしれない。' },
+      { term: 'stringent', jp: '厳格な', example: "The national retailers' association is urging stringent enforcement of the current legislation.", exampleJa: '全国小売業者協会は現行法の厳格な執行を求めている。' },
+      { term: 'confiscation', jp: '没収', example: 'The legislation allows for the immediate confiscation of assets of convicted loan sharks.', exampleJa: 'この法律は有罪判決を受けた闇金融業者の資産の即時没収を認めている。' },
+      { term: 'deterioration', jp: '悪化、劣化', example: 'Only if a person stops drinking the arsenic at an early enough stage can physical deterioration be arrested.', exampleJa: '十分早い段階でヒ素を含む水を飲むのをやめない限り、身体の悪化を食い止めることはできない。' },
+      { term: 'propaganda', jp: '宣伝工作、プロパガンダ', example: 'Investigators believe Mr. Arched also distributed propaganda sponsored by Osama bin Laden.', exampleJa: '捜査当局はアーシェド容疑者がオサマ・ビンラディンの資金提供による宣伝工作物も配布していたとみている。' },
+      { term: 'refuge', jp: '避難、隠れ家', example: "An Algerian was arrested for providing refuge, money and false documents to Algeria's Armed Islamic Group.", exampleJa: 'あるアルジェリア人が、アルジェリア武装イスラム集団に隠れ家、資金、偽造文書を提供したとして逮捕された。' },
+      { term: 'itinerary', jp: '行程表、旅程', example: "Tomorrow's itinerary to transport our key police informer from the jailhouse to the courthouse has been changed.", exampleJa: '重要な情報提供者を留置所から裁判所へ移送する明日の行程が変更された。' },
+      { term: 'blackmail', jp: '脅迫する、ゆすり', example: 'Italy would not be pressured or threatened. This is a democratic country that cannot be blackmailed by anyone.', exampleJa: 'イタリアは圧力にも脅しにも屈しない。この国は誰からも脅迫されるいわれのない民主国家である。' },
+      { term: 'protracted', jp: '長引く、長期化した', example: 'Mexico and the United States have activated a bilateral program aimed at eliminating protracted extradition procedures.', exampleJa: 'メキシコとアメリカは、長期化する犯罪人引渡し手続きを解消するための二国間プログラムを開始した。' },
+      { term: 'infiltration', jp: '浸透、潜入', example: 'A monitoring program is designed to avoid infiltration by narcotics dealers into anti-drug organizations.', exampleJa: 'この監視プログラムは麻薬密売人が麻薬取締組織に浸透するのを防ぐために設計されている。' },
+      { term: 'narcotics', jp: '麻薬', example: 'A monitoring program is designed to avoid infiltration by narcotics dealers into anti-drug organizations.', exampleJa: 'この監視プログラムは麻薬密売人が麻薬取締組織に浸透するのを防ぐために設計されている。' },
+      { term: 'expulsion', jp: '追放、国外退去', example: "The bilateral program establishes a 'fast-track' system of deportation and expulsion of criminals wanted on the other side of the border.", exampleJa: 'この二国間プログラムは、国境の向こう側で指名手配されている犯罪者の国外送還・追放を迅速化する仕組みを確立する。' },
+      { term: 'mutilated', jp: '損傷した、破損した', example: 'You must go to the authorities if you misplace your passport or it is stolen or mutilated.', exampleJa: 'パスポートを紛失した場合、盗難に遭った場合、または損傷した場合は当局に届け出なければならない。' },
+      { term: 'safeguard', jp: '保護する、守る', example: 'Your passport is a valuable citizenship and identity document. It should be carefully safeguarded.', exampleJa: 'パスポートは重要な国籍・身分証明書類であり、大切に保護されなければならない。' },
+      { term: 'forensic', jp: '鑑識の、法医学の', example: 'Two short-haired men wearing jeans and T-shirts, apparently forensic experts, closely examined the ground in search of clues.', exampleJa: 'ジーンズとTシャツ姿の短髪の男性2人、おそらく鑑識の専門家が、手がかりを求めて地面を入念に調べていた。' },
+      { term: 'cordoned off', jp: '封鎖された', example: 'By daybreak the following morning, the streets surrounding the blast had been cordoned off by military security forces.', exampleJa: '翌朝の夜明けまでに、爆発現場周辺の道路は軍の警備部隊によって封鎖されていた。' },
+      { term: 'shield', jp: '守る、盾となって保護する', example: 'The new law would shield all English corporations from legal action in British courts brought by Third World workers.', exampleJa: 'この新法は、第三世界の労働者が英国の裁判所で起こす訴訟からすべての英国企業を守ることになる。' },
+      { term: 'exploitation', jp: '搾取', example: 'Third World workers claim exploitation and irreversible damages.', exampleJa: '第三世界の労働者たちは搾取と回復不能な損害を訴えている。' },
+      { term: 'irreversible', jp: '取り返しのつかない、不可逆の', example: 'Third World workers claim exploitation and irreversible damages.', exampleJa: '第三世界の労働者たちは搾取と回復不能な損害を訴えている。' },
+      { term: 'undermine', jp: '弱体化させる、損なう', example: "The decision seriously undermines Britain's ethical foreign policy.", exampleJa: 'この決定は英国の倫理的な外交政策を著しく損なう。' },
+      { term: 'rudimentary', jp: '初歩的な、未発達の', example: 'Several British multinationals operate in Third World countries which lack even a rudimentary legal system.', exampleJa: '複数の英国多国籍企業は、初歩的な法制度すら整っていない第三世界の国々で事業を行っている。' },
+      { term: 'accountable', jp: '責任を負うべき', example: 'If multinationals exploit less stringent standards and injure people in the process, then they should be held accountable.', exampleJa: '多国籍企業が緩い基準を利用して人々に被害を与えるなら、その責任を問われるべきである。' },
+      { term: 'traffickers', jp: '密売人、密輸業者', example: 'The Moroccan government will present proposals aimed at punishing convicted drug traffickers.', exampleJa: 'モロッコ政府は有罪判決を受けた麻薬密売人を処罰するための法案を提出する予定だ。' },
+      { term: 'burden of proof', jp: '立証責任', example: 'The new statute would put the burden of proof on the accused.', exampleJa: '新しい法律は立証責任を被告人側に課すことになる。' },
+      { term: 'lucrative', jp: '儲かる、利益の大きい', example: 'Kidnapping has become a lucrative business in Hong Kong.', exampleJa: '香港では誘拐が儲かるビジネスになっている。' },
+      { term: 'retaliation', jp: '報復', example: 'Victims do not even report the crime for fear of retaliation.', exampleJa: '被害者たちは報復を恐れて犯罪を届け出ることすらしない。' },
+      { term: 'contaminate', jp: '汚染する', example: 'The naturally occurring arsenic that contaminated the subterranean sources was ignored.', exampleJa: '地下水源を汚染していた自然由来のヒ素は見過ごされていた。' },
+      { term: 'cumulative', jp: '累積的な、積み重なる', example: 'There is no treatment for poisoning, and it is the cumulative dose that kills.', exampleJa: '中毒に治療法はなく、命を奪うのは累積した摂取量である。' },
+      { term: 'negligent', jp: '怠慢な、注意義務を欠いた', example: 'Some experts say Unicef may have been negligent in conducting preliminary testing.', exampleJa: '一部の専門家は、ユニセフが予備調査において注意義務を欠いていた可能性があると指摘している。' },
     ],
   },
 ];

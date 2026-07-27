@@ -85,6 +85,11 @@ export const MESSAGES = {
           desc:
             'Added an "All Topics (Shuffle)" option to the exam-prep vocabulary trainer, for both the quiz and flashcards. Instead of practicing one topic pack at a time, you can now go through all 195 words pooled together in one shuffled round.',
         },
+        topic_vocab_reading_2026_07: {
+          title: 'New pack: Reading vocabulary (30 words)',
+          desc:
+            'Added a 6th topic-vocab pack focused on advanced words that show up in JFLT reading passages (e.g. exorbitant, rudimentary, cumulative), with real-sentence examples and Japanese translations. Same quiz/flashcard modes as the other packs.',
+        },
         topic_vocab_listening_shuffle_all_2026_07: {
           title: 'Shuffle All Topics for listening practice',
           desc:
@@ -579,7 +584,7 @@ export const MESSAGES = {
 
     topicVocab: {
       entry_badge: 'Exam Prep',
-      entry_button: 'Diplomacy / NATO / Extradition + More (195 words)',
+      entry_button: 'Diplomacy / NATO / Extradition + More (225 words)',
       entry_subtitle: 'Specialized words worth reviewing right before the real exam',
       hub_title: 'Specialized Vocabulary — L3 Listening Focus',
       hub_body:
@@ -782,6 +787,11 @@ export const MESSAGES = {
           title: '直前対策の全トピックをまとめてシャッフル練習',
           desc:
             '直前対策の専門語彙トレーナーに「全トピック（シャッフル）」を追加しました。クイズ・フリップカードどちらも、トピックごとではなく195語全部をまとめてシャッフルした状態で練習できます。',
+        },
+        topic_vocab_reading_2026_07: {
+          title: '新パック：リーディング語彙（30語）',
+          desc:
+            'JFLTのリーディング問題に出てくる高難度語彙（exorbitant、rudimentary、cumulative など）に特化した6つ目の語彙パックを追加しました。実際の文からの例文と日本語訳つき。他のパックと同じくクイズ・フリップカード両モードで練習できます。',
         },
         topic_vocab_listening_shuffle_all_2026_07: {
           title: '全トピックシャッフルを追加',
@@ -1278,7 +1288,7 @@ export const MESSAGES = {
 
     topicVocab: {
       entry_badge: '直前対策',
-      entry_button: '外交・NATO・引渡し語彙＋もっと（195語）',
+      entry_button: '外交・NATO・引渡し語彙＋もっと（225語）',
       entry_subtitle: '本番前にチェックしておきたい専門語彙',
       hub_title: '専門語彙 — L3リスニング頻出',
       hub_body:
