@@ -19,6 +19,7 @@ import PastExamGate from './components/PastExamGate.jsx';
 import PastExamPanel from './components/PastExamPanel.jsx';
 import TopicVocabHub from './components/TopicVocabHub.jsx';
 import TopicVocabListeningHub from './components/TopicVocabListeningHub.jsx';
+import EnginePanel from './components/EnginePanel.jsx';
 import { isUnlocked as isPastExamUnlocked, setUnlocked as setPastExamUnlocked, TRIGGER_CLICKS } from './pastExamAuth.js';
 import './App.css';
 
@@ -250,6 +251,7 @@ export default function App() {
     { id: 'review', label: t('tabs.review'), icon: '📚' },
     { id: 'grading', label: t('tabs.grading'), icon: '🎖️' },
     { id: 'writing', label: t('tabs.writing'), icon: '✍️' },
+    { id: 'engine', label: t('tabs.engine'), icon: '✈️' },
     { id: 'stats', label: t('tabs.stats'), icon: '📊' },
     { id: 'updates', label: t('tabs.updates'), icon: '📰' },
     { id: 'settings', label: t('tabs.settings'), icon: '⚙️' },
@@ -483,6 +485,8 @@ export default function App() {
         )}
 
         {currentTab === 'writing' && <WritingPanel />}
+
+        {currentTab === 'engine' && <EnginePanel />}
 
         {currentTab === 'stats' && (
           <Statistics

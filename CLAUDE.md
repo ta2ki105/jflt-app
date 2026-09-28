@@ -49,6 +49,7 @@ jflt-app/
     ├── gradingMode.js             test-runner logic, history, progress save
     ├── writingScript.js           verbatim AI-coach prompt for Writing tab
     ├── changelog.js               entries + tag styles for Updates tab
+    ├── engine-data.js             M-346 / F124-GA-200 engine explorer content (EN+JA)
     ├── i18n/
     │   ├── messages.js            EN + JA dictionary (~200 keys)
     │   ├── LanguageContext.jsx    React Context + Provider
@@ -63,6 +64,8 @@ jflt-app/
         ├── Statistics.jsx         lifetime stats
         ├── SettingsPanel.jsx      API key, test playback, setup guide
         ├── WritingPanel.jsx       AI-coach prompt + usage steps
+        ├── EnginePanel.jsx        M-346 engine explorer (detail, tree, gas path, quiz, glossary)
+        ├── EngineDiagram.jsx      SVG half-section cutaway with explode / colour modes
         ├── UpdatesPanel.jsx       changelog
         └── AudioPlayer.jsx        Google TTS wrapper + standalone widget
 ```
@@ -75,6 +78,7 @@ jflt-app/
 | 📚 | `review` | ReviewPanel | Re-attempt previously-answered questions |
 | 🎖️ | `grading` | GradingMode | JFLT-format 15Q×4-section adaptive test |
 | ✍️ | `writing` | WritingPanel | Copy AI-coach prompt for external Gemini/Claude/ChatGPT |
+| ✈️ | `engine` | EnginePanel | M-346 engine (F124-GA-200) interactive exploded cutaway + technical vocab |
 | 📊 | `stats` | Statistics | Lifetime per-category/per-level stats + JFLT score |
 | 📰 | `updates` | UpdatesPanel | Changelog |
 | ⚙️ | `settings` | SettingsPanel | TTS API key + setup guide |
@@ -281,6 +285,19 @@ material, as already noted below. If word-count/duration sourcing is ever
 needed, look to national testing-body specs (e.g. BILC's Best Practices
 document above, or a specific nation's published STANAG 6001 test
 specification) rather than the STANAG itself.
+
+## M-346 engine explorer (`engine` tab)
+
+- Content (module descriptions, structure tree, gas-path steps, vocab) lives
+  in `src/engine-data.js` as `{ en, ja }` objects; UI chrome in
+  `messages.js` under `engine.*`.
+- Geometry in `EngineDiagram.jsx` is a simplified schematic in `[x, r]`
+  (radius-from-centreline) coordinates; the upper half is mirrored for the
+  lower half. Shafts, gearbox and FADEC are drawn un-mirrored.
+- Only public-source figures are stated as fact (3-stage fan, 4 axial + 1
+  centrifugal HP stages, annular combustor, 1+1 turbine stages, BPR ≈ 0.47,
+  fan PR ≈ 2.5, OPR ≈ 19.4, ≈ 27.8 kN). Other gas-path values are labelled
+  illustrative — keep it that way.
 
 ## Things to avoid
 
